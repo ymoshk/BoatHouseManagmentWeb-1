@@ -11,26 +11,27 @@
 </head>
 <body>
 <div class="wrapper fadeInDown">
-    <h1>Welcome To BoatHouse Management</h1>
+    <div><h1>Welcome To BoatHouse Management</h1></div>
     <br>
-    <div id="loginForm">
 
+    <div style="width: 40%">
         <div class="center-item fadeIn first">
             <img class="center-item" style="width: 40%;" src="/public/images/logo.png" id="icon"
-                 alt="Application Logo"/>
+                 alt="server.BHMServer Logo"/>
         </div>
         <br>
         <br>
 
-        <form>
-            <input type="text" id="username" class="fadeIn second" name="username" placeholder="user name">
-            <h5 id="usernameError" style="display:none; margin-left: 5px; color: #c80d0d"></h5>
-            <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
-            <h5 id="passwordError" style="display: none; margin-left: 5px; color: #c80d0d"></h5>
-            <input type="submit" class="fadeIn fourth" value="Log In">
+        <form id="loginForm" method="post" action="/login">
+            <input type="text" id="email" class="loginFormInput fadeIn second" name="email" placeholder="email address">
+            <div><h5 id="emailError" style="display:none; margin-left: 5px; color: #c80d0d"></h5></div>
+            <input type="password" id="password" class="loginFormInput fadeIn third" name="password" placeholder="password">
+            <div><h5 id="passwordError" style="display: none; margin-left: 5px; color: #c80d0d"></h5></div>
+            <input id="loginBtn" type="submit" class="fadeIn fourth" value="Log In">
         </form>
 
     </div>
 </div>
 </body>
+<script src="/public/scripts/login.js"></script>
 </html>

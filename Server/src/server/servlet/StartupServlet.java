@@ -1,4 +1,4 @@
-package servlet;
+package server.servlet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,19 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(name = "startup", urlPatterns = "/index")
+public class StartupServlet extends HttpServlet {
 
-@WebServlet(name = "login", urlPatterns = "/login")
-public class LoginServlet extends HttpServlet {
+    //TODO check if the user is already logged in
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        RequestDispatcher view = req.getRequestDispatcher("/public/html/login.html");
+        RequestDispatcher view = req.getRequestDispatcher("/login");
         view.forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
     }
 }
