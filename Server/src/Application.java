@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebListener;
 public class Application implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        servletContextEvent.getServletContext().setAttribute(Constants.engineAtt, EngineContext.getInstance());
+        //servletContextEvent.getServletContext().setAttribute(Constants.engineAtt, EngineContext.getInstance());
         log("server is up");
     }
 
