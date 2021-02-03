@@ -1,3 +1,6 @@
+package servlet;
+
+import constant.Constants;
 import engine.api.EngineContext;
 
 import javax.servlet.ServletException;
@@ -8,15 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+@WebServlet(name = "index", urlPatterns = "/app")
+public class IndexServlet extends HttpServlet {
 
-@WebServlet(name = "login", urlPatterns = "/login")
-public class servlet extends HttpServlet {
+    //TODO check if the user is already logged in
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try(PrintWriter out = resp.getWriter()){
+        EngineContext engine = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
 
-            out.println("login");
+        try (PrintWriter out = resp.getWriter()) {
+            out.println(engine.getRowersCollectionManager().get(0).getName());
         }
+
+
     }
 }

@@ -42,7 +42,7 @@ public class EngineContext implements EngineInterface, Serializable {
     private final Map<Rower, Pair<LocalDateTime, String>> usersRecentActivity = new HashMap<>();
     private String modifyCallback;
 
-    private EngineContext() throws Exception {
+    private EngineContext() {
         this.rowers = new RowersCollectionManager(this);
         createAdminUser();
         this.boats = new BoatsCollectionManager(this);
@@ -99,14 +99,14 @@ public class EngineContext implements EngineInterface, Serializable {
         new Thread(() -> autoLogoutHandler(this::removeInactiveRowers)).start();
     }
 
-    public static EngineContext getInstance() throws Exception {
+    public static EngineContext getInstance() {
         if (instance == null) {
             instance = loadOrCreateInstance();
         }
         return instance;
     }
 
-    private static EngineContext loadOrCreateInstance() throws Exception {
+    private static EngineContext loadOrCreateInstance() {
         try {
             AdaptedEngineContext adaptedEngineContext = XmlConverter.parseEngineFromXML(SAVE_FILE_PATH);
             if (adaptedEngineContext != null) {
@@ -635,12 +635,12 @@ public class EngineContext implements EngineInterface, Serializable {
         return false;
     }
 
-    private void createAdminUser() throws Exception {
+    private void createAdminUser() {
         try {
             this.rowers.shallowAdd(new Rower("AdminUserID", "Admin", (short) 25,
                     Rower.eRowerRank.PRO, "123456", true, "admin@gmail.com", "054-0000000"));
         } catch (Exception ex) {
-            throw new Exception("Admin user creation has failed.", ex);
+            //throw new Exception("Admin user creation has failed.", ex);
         }
     }
 
