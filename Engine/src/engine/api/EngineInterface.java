@@ -200,5 +200,7 @@ public interface EngineInterface {
 
     List<Rower> getCurrentLoggedInUsers();
 
+    Rower getRowerBySessionId(String sessionId);
+
     boolean isUseAlreadyLoggedIn(String sessionId);
 }

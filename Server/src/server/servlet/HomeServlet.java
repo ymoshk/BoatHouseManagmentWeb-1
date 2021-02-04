@@ -1,5 +1,6 @@
 package server.servlet;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,9 +14,8 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try (PrintWriter out = resp.getWriter()){
-            out.println("TEST");
-        }
+        RequestDispatcher view = req.getRequestDispatcher("/public/html/layout.html");
+        view.forward(req, resp);
     }
 
 }

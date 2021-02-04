@@ -364,6 +364,11 @@ public class EngineContext implements EngineInterface, Serializable {
     }
 
     @Override
+    public Rower getRowerBySessionId(String sessionId) {
+        return this.rowers.findRowerBySerialNumber(this.sessionsUsersMap.get(sessionId));
+    }
+
+    @Override
     public boolean isUseAlreadyLoggedIn(String sessionId) {
         return this.sessionsUsersMap.containsKey(sessionId);
     }
