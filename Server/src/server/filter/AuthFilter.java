@@ -1,9 +1,6 @@
 package server.filter;
 
-import engine.api.EngineContext;
-import server.constant.Constants;
 import server.utils.Utils;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
