@@ -15323,12 +15323,22 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar .nav li .dropdown-menu a {
     margin: 10px 15px 0;
     border-radius: 3px;
-    color: #3C4858;
+    color: #000000;
     padding-left: 10px;
     padding-right: 10px;
     text-transform: capitalize;
     font-size: 13px;
     padding: 10px 15px;
+    background-color: #e3dfdf;
+}
+
+.sidebar .nav li a:hover,
+.sidebar .nav li:hover .dropdown-menu a:hover{
+    background-color: #cdcaca;
+}
+
+.sidebar .nav i {
+    color: black;
 }
 
 .sidebar .sidebar-background {
