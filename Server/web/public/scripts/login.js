@@ -23,6 +23,8 @@ import ("./utils/helpers.js").then((helpers) => {
             if (json.result === false) {
                 passwordErrorEl.innerText = json.error;
                 passwordErrorEl.style.display = 'block';
+                passwordInputEl.value = '';
+                emailInputEl.value = '';
             } else {
                 passwordErrorEl.innerText = '';
                 passwordErrorEl.style.display = 'none';
