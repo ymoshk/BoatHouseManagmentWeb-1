@@ -17,6 +17,9 @@ import engine.utils.data.structure.Triple;
 import javafx.util.Pair;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public interface EngineInterface {
@@ -31,7 +34,12 @@ public interface EngineInterface {
      * @param email    user email address (string)
      * @param password user password (string)
      */
-    String login(String email, String password);
+    String login(String email, String password, String SessionId);
+
+    /**
+     * @param sessionId user serial number (string)
+     */
+    void logout(String sessionId);
 
 
     String importCollectionFromXml(String xmlAsString, Boolean cleanAll, Model.eImportExportModelType type);
@@ -41,7 +49,7 @@ public interface EngineInterface {
     /**
      * @return the current logged in user.
      */
-    Rower getLoggedInUser(String serialNumber);
+    Rower getLoggedInUser(String sessionId);
 
 
     /**
@@ -184,11 +192,13 @@ public interface EngineInterface {
      */
     void saveRequestsCollection();
 
-    void logout(String serialNumber);
-
     Object find(Object objectToFind);
 
     Triple<String, Object, Object> updateObject(Object arg, Object objectToUpdate); // For client side use only
 
     Triple<String, Object, Object> updateObject(String methodName, Object arg, Object objectToUpdate);
+
+    List<Rower> getCurrentLoggedInUsers();
+
+    boolean isUseAlreadyLoggedIn(String sessionId);
 }

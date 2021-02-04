@@ -13,7 +13,6 @@ import engine.model.boat.Boat;
 import engine.model.boat.BoatModifier;
 import engine.model.rower.Rower;
 import engine.model.rower.RowerModifier;
-import engine.utils.OutStream;
 import engine.utils.crypto.RC4;
 import engine.utils.data.structure.Triple;
 import engine.xml.XmlConverter;
@@ -24,10 +23,8 @@ import javax.xml.bind.JAXBException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class EngineContext implements EngineInterface, Serializable {
 
@@ -38,9 +35,8 @@ public class EngineContext implements EngineInterface, Serializable {
     private final WeeklyActivityCollectionManager weeklyActivities;
     private final RequestsCollectionManager requests;
     private final RowingActivitiesCollectionManager rowingActivities;
-    private final List<Rower> currentLoggedInUsers = new ArrayList<>();
-    private final Map<Rower, Pair<LocalDateTime, String>> usersRecentActivity = new HashMap<>();
     private String modifyCallback;
+    private final Map <String, String> sessionsUsersMap = new HashMap<>();
 
     private EngineContext() {
         this.rowers = new RowersCollectionManager(this);
@@ -49,7 +45,6 @@ public class EngineContext implements EngineInterface, Serializable {
         this.requests = new RequestsCollectionManager(this);
         this.weeklyActivities = new WeeklyActivityCollectionManager(this);
         this.rowingActivities = new RowingActivitiesCollectionManager(this);
-        new Thread(() -> autoLogoutHandler(this::removeInactiveRowers)).start();
     }
 
     // Constructor to convert a AdaptedEngineContext (XML object) into a EngineContext.
@@ -94,9 +89,6 @@ public class EngineContext implements EngineInterface, Serializable {
         this.requests = new RequestsCollectionManager(this, requests);
         fixRowingActivityList(rowingActivities, this.requests, this.boats);
         this.rowingActivities = new RowingActivitiesCollectionManager(this, rowingActivities);
-
-
-        new Thread(() -> autoLogoutHandler(this::removeInactiveRowers)).start();
     }
 
     public static EngineContext getInstance() {
@@ -167,22 +159,9 @@ public class EngineContext implements EngineInterface, Serializable {
         return "Error exporting data";
     }
 
-    /**
-     * Debugging methods
-     */
-    public Map<Rower, Pair<LocalDateTime, String>> getUsersRecentActivity() {
-        return this.usersRecentActivity;
-    }
-
-    public List<Rower> getLoggedInUsersList() {
-        return Collections.unmodifiableList(this.currentLoggedInUsers);
-    }
-
     @Override
-    public Rower getLoggedInUser(String serialNumber) {
-        return this.currentLoggedInUsers.stream()
-                .filter(rower -> rower.getSerialNumber().equals(serialNumber))
-                .findFirst().orElse(null);
+    public Rower getLoggedInUser(String sessionId) {
+        return this.rowers.findRowerBySerialNumber(this.sessionsUsersMap.get(sessionId));
     }
 
     /**
@@ -373,6 +352,22 @@ public class EngineContext implements EngineInterface, Serializable {
         return new Triple<>(this.modifyCallback, result, afterChange);
     }
 
+    @Override
+    public List<Rower> getCurrentLoggedInUsers() {
+        Set<Rower> res = new HashSet<>();
+
+        for (String serialNumber : this.sessionsUsersMap.values()) {
+            res.add(this.rowers.findRowerBySerialNumber(serialNumber));
+        }
+
+        return new ArrayList<>(res);
+    }
+
+    @Override
+    public boolean isUseAlreadyLoggedIn(String sessionId) {
+        return this.sessionsUsersMap.containsKey(sessionId);
+    }
+
     private Object updateBoat(Boat originalObject, String methodName, Object arg) {
         BoatModifier boatModifier = getBoatModifier(originalObject, this::modifyCallbackHelper);
         return invokeModifierMethod(boatModifier, methodName, arg);
@@ -491,86 +486,28 @@ public class EngineContext implements EngineInterface, Serializable {
      * Login functions
      */
 
-    private void removeRowerFromOnlineLists(String rowerId) {
-        this.currentLoggedInUsers.remove(null);
-        this.usersRecentActivity.remove(null);
-
-        List<Rower> objectToRemove = this.currentLoggedInUsers.stream()
-                .filter(rower -> rower.getSerialNumber().equals(rowerId))
-                .collect(Collectors.toList());
-
-        Rower rowerToRemove = getRowersCollectionManager().findRowerBySerialNumber(rowerId);
-        objectToRemove.forEach(rower -> this.usersRecentActivity.remove(rowerToRemove));
-        this.currentLoggedInUsers.removeAll(objectToRemove);
-    }
-
-    public void purgeLoggedInAndActivitiesLists() {
-        this.usersRecentActivity.clear();
-        this.currentLoggedInUsers.clear();
-    }
-
-    public void updateActivationTime(Rower rower, String name) {
-        if (rower != null) {
-            this.usersRecentActivity.put(rower, new Pair<>(LocalDateTime.now(), name));
-
-            if (!this.currentLoggedInUsers.contains(rower)) {
-                this.currentLoggedInUsers.add(rower);
-            }
-        }
-    }
-
-    private void autoLogoutHandler(Runnable toInvoke) {
-        long delay = 30 * 1000;
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                toInvoke.run();
-            }
-        }, delay, delay);
-    }
-
-    private void removeInactiveRowers() {
-        List<Rower> rowersToRemove = new ArrayList<>();
-        this.usersRecentActivity.forEach((rower, pair) -> {
-            if (pair.getKey().plusMinutes(2).isBefore(LocalDateTime.now())) {
-                rowersToRemove.add(rower);
-            }
-        });
-        rowersToRemove.forEach(rower -> {
-            removeRowerFromOnlineLists(rower.getSerialNumber());
-            OutStream.log(rower.getName() + " has been disconnected due to inactivity");
-        });
-    }
 
     @Override
     public Pair<Boolean, String> verifyLoginDetails(String email, String password) {
         Rower rower = this.rowers.findRower(email, password);
         if (rower == null) {
             return new Pair<>(false, "Login failed because the user doesn't exist");
-        } else if (this.currentLoggedInUsers.contains(rower)) {
-            return new Pair<>(false, "Login failed because the user already logged in");
         }
 
         return new Pair<>(true, null);
     }
 
     @Override
-    public String login(String email, String password) {
-        Rower rower = rowers.findRower(email, password);
-        this.currentLoggedInUsers.add(rower);
-        this.usersRecentActivity.put(rower, new Pair<>(LocalDateTime.now(), "login"));
+    public String login(String email, String password, String sessionId) {
+        Rower rower = this.rowers.findRower(email, password);
+        this.sessionsUsersMap.put(sessionId, rower.getSerialNumber());
 
         return rower.getSerialNumber();
     }
 
     @Override
-    public void logout(String serialNumber) {
-        removeRowerFromOnlineLists(serialNumber);
-    }
-
-    public List<Rower> getCurrentLoggedInUsers() {
-        return Collections.unmodifiableList(this.currentLoggedInUsers);
+    public void logout(String sessionId){
+        this.sessionsUsersMap.remove(sessionId);
     }
 
     /**************************************************************************************************************/
@@ -640,7 +577,7 @@ public class EngineContext implements EngineInterface, Serializable {
             this.rowers.shallowAdd(new Rower("AdminUserID", "Admin", (short) 25,
                     Rower.eRowerRank.PRO, "123456", true, "admin@gmail.com", "054-0000000"));
         } catch (Exception ex) {
-            //throw new Exception("Admin user creation has failed.", ex);
+
         }
     }
 
