@@ -3,7 +3,12 @@ package server.utils;
 import engine.api.EngineContext;
 import server.constant.Constants;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -51,5 +56,14 @@ public class Utils {
 
     public static void updateSession(HttpSession session) {
         getSessionExpMap(session).put(session.getId(), Constants.getNewSessionExpiredDate());
+    }
+
+    public static void renderLayout(HttpServletRequest req, HttpServletResponse resp, String htmlToInject) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/public/html/layoutHeader.html");
+        dispatcher.include(req, resp);
+        dispatcher = req.getRequestDispatcher(htmlToInject);
+        dispatcher.include(req, resp);
+        dispatcher = req.getRequestDispatcher("/public/html/layoutFooter.html");
+        dispatcher.include(req, resp);
     }
 }

@@ -2,6 +2,8 @@ package server.servlet.general;
 
 import com.google.gson.Gson;
 import engine.api.EngineContext;
+import server.constant.Constants;
+import server.constant.ePages;
 import server.servlet.json.template.MenuItem;
 
 import javax.servlet.ServletException;
@@ -17,12 +19,17 @@ import java.util.List;
 @WebServlet(name = "layout", urlPatterns = "/layout")
 public class LayoutServlet extends HttpServlet {
 
+    private ePages currentPage;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.currentPage = (ePages) req.getServletContext().getAttribute(Constants.currentActivePage);
+
         boolean isAdmin = EngineContext.getInstance().getRowerBySessionId(req.getRequestedSessionId()).isAdmin();
         List<MenuItem> menuItems = createNavMenuItemsList(isAdmin);
         Map<String, Object> res = new HashMap<>();
         res.put("menu", menuItems);
+        res.put("active", req.getServletContext().getAttribute(Constants.currentActivePage));
 
         try (PrintWriter out = resp.getWriter()) {
             Gson gson = new Gson();
@@ -32,29 +39,39 @@ public class LayoutServlet extends HttpServlet {
 
     private List<MenuItem> createNavMenuItemsList(boolean isAdmin) {
         List<MenuItem> res = new ArrayList<>();
-        res.add(new MenuItem(true, "navHome", "fa fa-home", "Home", "/home"));
+        res.add(new MenuItem(false, "navHome", "fa fa-home", ePages.HOME.getTitle(), "/home"));
         res.add(new MenuItem(false, "navPersonalDetails", "fa fa-user-o"
-                , "Personal Details", "/personal-details"));
+                , ePages.PERSONAL_DETAILS.getTitle(), "/personal-details"));
 
         if (isAdmin) {
             res.add(new MenuItem(false, "navRowers"
-                    , "fa fa-users", "Rowers", "/rowers"));
+                    , "fa fa-users", ePages.ROWERS.getTitle(), "/rowers/index"));
             res.add(new MenuItem(false, "navBoats"
-                    , "fa fa-anchor", "Boats", "/boats"));
+                    , "fa fa-anchor", ePages.BOATS.getTitle(), "/boats"));
             res.add(new MenuItem(false, "navWeeklyActivities"
-                    , "fa fa-clock-o", "Weekly Activities", "/weekly-activities"));
+                    , "fa fa-clock-o", ePages.WEEKLY_ACTIVITIES.getTitle(), "/weekly-activities"));
             res.add(new MenuItem(false, "navRowingActivities"
-                    , "fa fa-ship", "Rowing Activities", "/rowing-activities"));
+                    , "fa fa-ship", ePages.ROWING_ACTIVITY.getTitle(), "/rowing-activities"));
         }
 
         res.add(new MenuItem(false, "navRequest"
-                , "fa fa-calendar", "Requests", "/requests"));
+                , "fa fa-calendar", ePages.REQUESTS.getTitle(), "/requests"));
         res.add(new MenuItem(false, "navData"
-                , "fa fa-info-circle", "Manage Data", "/manage-data"));
+                , "fa fa-info-circle", ePages.MANAGE_DATA.getTitle(), "/manage-data"));
         res.add(new MenuItem(false, "navLogout"
                 , "fa fa-sign-out", "Logout", "/logout"));
 
+        setActive(res);
+
         return res;
+    }
+
+    private void setActive(List<MenuItem> menuItems) {
+        for (MenuItem item : menuItems) {
+            if(item.text.equals(this.currentPage.getTitle())){
+                item.isActive = true;
+            }
+        }
     }
 
 

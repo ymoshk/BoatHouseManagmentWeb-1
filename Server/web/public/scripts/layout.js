@@ -28,9 +28,6 @@ function buildMenuItem(itemObject) {
 function buildMenu(menuItemsList) {
     let html = "";
     menuItemsList.forEach((menuItem) => {
-        if (menuItem.isActive) {
-            titleEl.innerText = menuItem.text;
-        }
 
         html += buildMenuItem(menuItem) + "\n"
     });
@@ -42,6 +39,7 @@ function getNavMenuItems() {
         method: 'get'
     }).then((response) => {
         response.json().then((value) => {
+            titleEl.innerText = value.active;
             buildMenu(value.menu);
         });
     });
