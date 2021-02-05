@@ -2,6 +2,7 @@ package server.utils;
 
 import engine.api.EngineContext;
 import server.constant.Constants;
+import server.constant.ePages;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -58,7 +59,8 @@ public class Utils {
         getSessionExpMap(session).put(session.getId(), Constants.getNewSessionExpiredDate());
     }
 
-    public static void renderLayout(HttpServletRequest req, HttpServletResponse resp, String htmlToInject) throws ServletException, IOException {
+    public static void renderLayout(HttpServletRequest req, HttpServletResponse resp, String htmlToInject, ePages activePage) throws ServletException, IOException {
+        req.getServletContext().setAttribute(Constants.currentActivePagAttr, activePage);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/public/html/layoutHeader.html");
         dispatcher.include(req, resp);
         dispatcher = req.getRequestDispatcher(htmlToInject);

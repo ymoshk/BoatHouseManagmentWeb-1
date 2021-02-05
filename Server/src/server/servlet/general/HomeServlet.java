@@ -19,8 +19,7 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().setAttribute(Constants.currentActivePage, ePages.HOME);
-        Utils.renderLayout(req, resp,"/public/html/views/home.html");
+        Utils.renderLayout(req, resp,"/public/html/views/home.html", ePages.HOME);
     }
 
 }

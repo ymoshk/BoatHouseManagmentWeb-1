@@ -1,6 +1,5 @@
 package server.servlet.views.rowers;
 
-import server.constant.Constants;
 import server.constant.ePages;
 import server.utils.Utils;
 
@@ -16,7 +15,6 @@ public class RowersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().setAttribute(Constants.currentActivePage, ePages.ROWERS);
-        Utils.renderLayout(req,resp, "/public/html/views/rowers/index.html");
+        Utils.renderLayout(req,resp, "/public/html/views/rowers/index.html", ePages.ROWERS);
     }
 }

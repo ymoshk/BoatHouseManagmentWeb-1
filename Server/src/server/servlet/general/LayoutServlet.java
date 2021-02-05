@@ -23,13 +23,13 @@ public class LayoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.currentPage = (ePages) req.getServletContext().getAttribute(Constants.currentActivePage);
+        this.currentPage = (ePages) req.getServletContext().getAttribute(Constants.currentActivePagAttr);
 
         boolean isAdmin = EngineContext.getInstance().getRowerBySessionId(req.getRequestedSessionId()).isAdmin();
         List<MenuItem> menuItems = createNavMenuItemsList(isAdmin);
         Map<String, Object> res = new HashMap<>();
         res.put("menu", menuItems);
-        res.put("active", req.getServletContext().getAttribute(Constants.currentActivePage));
+        res.put("active", req.getServletContext().getAttribute(Constants.currentActivePagAttr));
 
         try (PrintWriter out = resp.getWriter()) {
             Gson gson = new Gson();
