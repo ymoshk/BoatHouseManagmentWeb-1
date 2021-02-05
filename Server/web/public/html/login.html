@@ -10,26 +10,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="wrapper fadeInDown">
-    <div><h1>Welcome To BoatHouse Management</h1></div>
-    <br>
+<div class="col-12">
+    <div class="wrapper fadeInDown">
+        <div><h2>BoatHouse Management</h2></div>
+        <br>
 
-    <div style="width: 40%">
-        <div class="center-item fadeIn first">
-            <img class="center-item" style="width: 40%;" src="/public/images/logo.png" id="icon"
-                 alt="server.BHMServer Logo"/>
+        <div>
+            <div class="center-item fadeIn first">
+                <img class="center-item" style="width: 40%;" src="/public/images/logo.png" id="icon"
+                     alt="server.BHMServer Logo"/>
+            </div>
+            <br>
+            <br>
+
+            <form class="col-sm-12 col-md-12" id="loginForm" method="post" action="/login">
+                <input type="text" id="email" class="loginFormInput fadeIn second" name="email"
+                       placeholder="email address" autocomplete="username">
+                <div><h6 id="emailError" style="display:none; margin-left: 5px; color: #c80d0d"></h6></div>
+                <input type="password" id="password" class="loginFormInput fadeIn third" name="password"
+                       placeholder="password" autocomplete="current-password">
+                <div><h6 id="passwordError" style="display: none; margin-left: 5px; color: #c80d0d"></h6></div>
+                 <div class="col-12">
+                    <input id="loginBtn" type="submit" class="center-item btn-block btn-lg fadeIn fourth" value="Log In">
+                </div>
+            </form>
+
         </div>
-        <br>
-        <br>
-
-        <form id="loginForm" method="post" action="/login">
-            <input type="text" id="email" class="loginFormInput fadeIn second" name="email" placeholder="email address">
-            <div><h5 id="emailError" style="display:none; margin-left: 5px; color: #c80d0d"></h5></div>
-            <input type="password" id="password" class="loginFormInput fadeIn third" name="password" placeholder="password">
-            <div><h5 id="passwordError" style="display: none; margin-left: 5px; color: #c80d0d"></h5></div>
-            <input id="loginBtn" type="submit" class="fadeIn fourth" value="Log In">
-        </form>
-
     </div>
 </div>
 </body>

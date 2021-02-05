@@ -1,19 +1,27 @@
+const menuItemsListEl = document.getElementById("mainMenu")
+const currentYearElements = document.getElementsByClassName("currentYear");
+
 document.addEventListener("DOMContentLoaded", function () {
     getNavMenuItems();
+    setCurrentYear();
 });
 
-const menuItemsListEl = document.getElementById("mainMenu")
 
+function setCurrentYear() {
+    let year = new Date().getFullYear();
+    for (let i = 0; i < currentYearElements.length; i++) {
+        currentYearElements.item(i).textContent = year;
+    }
+
+}
 
 function buildMenuItem(itemObject) {
     let active = itemObject.isActive ? " active" : "";
-    let html = '<li class = "nav-item' + active + '">' +
+    return '<li class = "nav-item' + active + '">' +
         '<a href="#" class="nav-link" id="' + itemObject.id + '">' +
         '   <p class="simple-text">' + '<i class="' + itemObject.iconName + '"></i>' + itemObject.text + '</p>' +
         '</a>' +
         '</li>';
-
-    return html;
 }
 
 function buildMenu(menuItemsList) {

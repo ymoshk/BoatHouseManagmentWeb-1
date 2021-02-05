@@ -33,31 +33,39 @@ import ("./utils/helpers.js").then((helpers) => {
         });
     }
 
+    function showError(element, error) {
+        element.innerText = error;
+        element.style.display = 'block';
+        setTimeout(function () {
+            element.innerText = '';
+            element.style.display = 'none';
+        }, 2000);
+    }
+
+    function hideError(element) {
+        element.innerText = '';
+        element.style.display = 'none';
+    }
+
 
     function validateEmail() {
-
         if (emailInputEl.value.length === 0) {
-            emailErrorEl.innerText = "Email can't be empty.";
-            emailErrorEl.style.display = 'block';
+            showError(emailErrorEl, "Email can't be empty.");
             return false;
         } else if (!helpers.validateEmailAddress(emailInputEl.value)) {
-            emailErrorEl.innerText = "Email isn't valid.";
-            emailErrorEl.style.display = 'block';
+            showError(emailErrorEl, "Email isn't valid.")
         } else {
-            emailErrorEl.innerText = '';
-            emailErrorEl.style.display = 'none';
+            hideError(emailErrorEl);
             return true;
         }
     }
 
     function validatePassword() {
         if (passwordInputEl.value.length === 0) {
-            passwordErrorEl.innerText = "Password can't be empty.";
-            passwordErrorEl.style.display = 'block';
+            showError(passwordErrorEl, "Password can't be empty.");
             return false;
         } else {
-            passwordErrorEl.innerText = '';
-            passwordErrorEl.style.display = 'none';
+            hideError(passwordErrorEl);
             return true;
         }
     }

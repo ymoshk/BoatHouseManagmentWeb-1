@@ -2,6 +2,7 @@
 body {
     font-family: "Poppins", sans-serif;
     height: 100vh;
+    margin-top: 40px;
 }
 
 a {
@@ -13,12 +14,16 @@ a {
 
 h2 {
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     text-transform: uppercase;
     display: inline-block;
-    margin: 40px 8px 10px 8px;
-    color: #cccccc;
+    color: #706f6f;
+}
+
+h6 {
+    font-size: 15px;
+    font-weight: 300;
 }
 
 
@@ -30,28 +35,6 @@ h2 {
     width: 100%;
     min-height: 100%;
     padding: 20px;
-}
-
-#formContent {
-    -webkit-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
-    background: #fff;
-    padding: 30px;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-
-#formFooter {
-    background-color: #f6f6f6;
-    border-top: 1px solid #dce8f1;
-    padding: 25px;
-    text-align: center;
-    -webkit-border-radius: 0 0 10px 10px;
-    border-radius: 0 0 10px 10px;
 }
 
 
@@ -69,21 +52,20 @@ h2.active {
 
 /* FORM TYPOGRAPHY*/
 
-input[type=button], input[type=submit], input[type=reset] {
+#loginBtn {
     background-color: #56baed;
     border: none;
     color: white;
-    padding: 15px 80px;
+    margin-top: 15px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     text-transform: uppercase;
     font-size: 15px;
+    width: 80%;
     -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
     box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
-    margin: 15px 20px 40px 5px;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
@@ -92,7 +74,7 @@ input[type=button], input[type=submit], input[type=reset] {
 }
 
 input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
-    background-color: #39ace7;
+    background-color: #2ca6e5;
 }
 
 input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
@@ -104,16 +86,16 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
 }
 
 .loginFormInput {
-    background-color: #f6f6f6;
+    background-color: #e7e7e7;
     color: #0d0d0d;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 22px;
-    margin: 5px;
     width: 100%;
     border: 2px solid #f6f6f6;
+    margin-top: 10px;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -134,9 +116,6 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
 }
 
 
-/* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
 .fadeInDown {
     -webkit-animation-name: fadeInDown;
     animation-name: fadeInDown;
@@ -172,7 +151,6 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
     }
 }
 
-/* Simple CSS3 Fade-in Animation */
 @-webkit-keyframes fadeIn {
     from {
         opacity: 0;
