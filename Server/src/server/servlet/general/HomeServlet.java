@@ -1,4 +1,4 @@
-package server.servlet;
+package server.servlet.general;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

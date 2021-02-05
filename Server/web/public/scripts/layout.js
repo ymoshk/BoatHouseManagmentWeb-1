@@ -18,7 +18,7 @@ function setCurrentYear() {
 function buildMenuItem(itemObject) {
     let active = itemObject.isActive ? " active" : "";
     return '<li class = "nav-item' + active + '">' +
-        '<a href="#" class="nav-link" id="' + itemObject.id + '">' +
+        '<a href="' + itemObject.href + '" class="nav-link" id="' + itemObject.id + '">' +
         '   <p class="simple-text">' + '<i class="' + itemObject.iconName + '"></i>' + itemObject.text + '</p>' +
         '</a>' +
         '</li>';

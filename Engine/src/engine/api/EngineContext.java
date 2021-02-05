@@ -581,6 +581,9 @@ public class EngineContext implements EngineInterface, Serializable {
         try {
             this.rowers.shallowAdd(new Rower("AdminUserID", "Admin", (short) 25,
                     Rower.eRowerRank.PRO, "123456", true, "admin@gmail.com", "054-0000000"));
+            this.rowers.shallowAdd(new Rower("notAdminId", "notAdmin", (short) 25,
+                    Rower.eRowerRank.PRO, "123456", false, "notAdmin@gmail.com", "054-0000000"));
+            //TODO - delete not admin user
         } catch (Exception ex) {
 
         }

@@ -39,14 +39,11 @@ public class BHMServer implements ServletContextListener, HttpSessionListener {
         log("SESSION CREATED");
         Map<String, LocalDateTime> sessionExpMap = (Map<String, LocalDateTime>) httpSessionEvent.getSession()
                 .getServletContext().getAttribute(Constants.sessionExpMap);
-        //TODO - לשנות לימים\שבועות
         sessionExpMap.put(httpSessionEvent.getSession().getId(), Constants.getNewSessionExpiredDate());
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-//        String sessionId = httpSessionEvent.getSession().getId();
-//        EngineContext.getInstance().logout(sessionId);
         log("SESSION DESTROYED");
     }
 }
