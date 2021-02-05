@@ -1,5 +1,6 @@
 const menuItemsListEl = document.getElementById("mainMenu")
 const currentYearElements = document.getElementsByClassName("currentYear");
+const titleEl = document.getElementById("title");
 
 document.addEventListener("DOMContentLoaded", function () {
     getNavMenuItems();
@@ -26,7 +27,13 @@ function buildMenuItem(itemObject) {
 
 function buildMenu(menuItemsList) {
     let html = "";
-    menuItemsList.forEach((menuItem) => html += buildMenuItem(menuItem) + "\n");
+    menuItemsList.forEach((menuItem) => {
+        if (menuItem.isActive) {
+            titleEl.innerText = menuItem.text;
+        }
+
+        html += buildMenuItem(menuItem) + "\n"
+    });
     menuItemsListEl.innerHTML = html;
 }
 

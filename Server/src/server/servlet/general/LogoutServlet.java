@@ -21,6 +21,7 @@ public class LogoutServlet extends HttpServlet {
         Map<String, LocalDateTime> sessionExpMap = (Map<String, LocalDateTime>) req.getServletContext().getAttribute(Constants.sessionExpMap);
         sessionExpMap.remove(req.getRequestedSessionId());
         EngineContext.getInstance().logout(req.getRequestedSessionId());
+        req.getSession().invalidate();
         resp.sendRedirect("/login");
     }
 }
