@@ -21,14 +21,31 @@ export function getBoostrapLinkEl(){
     return bootstrapLink;
 }
 
-export function createEmptyTable(colNames){
+export function getRowInTable(rowElements, rowNumber) {
+    let tr = document.createElement("tr");
+    let th = document.createElement("th");
+    th.scope = "row";
+    th.innerText = rowNumber;
+    tr.appendChild(th);
+
+    rowElements.forEach(element => {
+        let td = document.createElement("td");
+        td.appendChild(element);
+        tr.appendChild(td);
+    });
+
+    return tr;
+}
+
+
+export function createEmptyTable(colNames) {
     let res = document.createElement("div");
-    // res.appendChild(getBoostrapLinkEl()); //TODO - עושה בעיות
+// res.appendChild(getBoostrapLinkEl()); //TODO - עושה בעיות
     let table = document.createElement("table");
     res.appendChild(table);
-    table.classList.add("table table-striped");
+    table.className += "table table-striped";
 
-    //build the head
+//build the head
     let head = document.createElement("thead");
     let tr = document.createElement("tr");
     tr.id = "tableHead"
@@ -46,27 +63,12 @@ export function createEmptyTable(colNames){
 
     table.appendChild(head);
 
-    //build tbody:
+//build tbody:
     let tbody = document.createElement("tbody");
-    tbody.classList.add(".table-striped");
+    tbody.className += ".table-striped";
     tbody.id = "tableBody";
     table.appendChild(tbody);
 
     return res;
-}
-
-export function getRowInTable(rowElements, rowNumber){
-    let tr = document.createElement("tr");
-    let th = document.createElement("th");
-    th.scope = "row";
-    th.innerText = rowNumber;
-    tr.appendChild(th);
-
-    rowElements.forEach(element => {
-        let td = document.createElement("td");
-        td.appendChild(element);
-    });
-
-    return tr;
 }
 
