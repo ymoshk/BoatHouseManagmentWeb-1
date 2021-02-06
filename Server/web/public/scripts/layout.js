@@ -28,7 +28,6 @@ function buildMenuItem(itemObject) {
 function buildMenu(menuItemsList) {
     let html = "";
     menuItemsList.forEach((menuItem) => {
-
         html += buildMenuItem(menuItem) + "\n"
     });
     menuItemsListEl.innerHTML = html;

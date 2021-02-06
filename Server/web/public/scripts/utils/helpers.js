@@ -12,3 +12,61 @@ export function validatePhone(phone) {
     let regWO = new RegExp(PHONE_PATTERN);
     return reg.test(phone) || regWO.test(phone);
 }
+
+export function getBoostrapLinkEl(){
+    const bootstrapLink = document.createElement("link");
+    bootstrapLink.rel = "stylesheet";
+    bootstrapLink.href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css";
+
+    return bootstrapLink;
+}
+
+export function createEmptyTable(colNames){
+    let res = document.createElement("div");
+    // res.appendChild(getBoostrapLinkEl()); //TODO - עושה בעיות
+    let table = document.createElement("table");
+    res.appendChild(table);
+    table.classList.add("table table-striped");
+
+    //build the head
+    let head = document.createElement("thead");
+    let tr = document.createElement("tr");
+    tr.id = "tableHead"
+    let indexCol = document.createElement("th");
+    indexCol.scope = "col";
+    indexCol.innerText = "#"
+    tr.appendChild(indexCol);
+    head.appendChild(tr);
+    colNames.forEach(name => {
+        let th = document.createElement("th");
+        th.scope = "col";
+        th.innerText = name;
+        tr.appendChild(th);
+    });
+
+    table.appendChild(head);
+
+    //build tbody:
+    let tbody = document.createElement("tbody");
+    tbody.classList.add(".table-striped");
+    tbody.id = "tableBody";
+    table.appendChild(tbody);
+
+    return res;
+}
+
+export function getRowInTable(rowElements, rowNumber){
+    let tr = document.createElement("tr");
+    let th = document.createElement("th");
+    th.scope = "row";
+    th.innerText = rowNumber;
+    tr.appendChild(th);
+
+    rowElements.forEach(element => {
+        let td = document.createElement("td");
+        td.appendChild(element);
+    });
+
+    return tr;
+}
+
