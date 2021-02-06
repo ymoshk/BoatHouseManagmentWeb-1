@@ -23,5 +23,6 @@ public class LogoutServlet extends HttpServlet {
         EngineContext.getInstance().logout(req.getRequestedSessionId());
         req.getSession().invalidate();
         resp.sendRedirect("/login");
+
     }
 }
