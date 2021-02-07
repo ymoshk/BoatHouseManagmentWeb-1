@@ -1,7 +1,7 @@
 package server;
 
-import server.constant.Constants;
 import engine.api.EngineContext;
+import server.constant.Constants;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,6 +14,11 @@ import java.util.Map;
 
 @WebListener
 public class BHMServer implements ServletContextListener, HttpSessionListener {
+
+    public static void log(String msg) {
+        System.out.println("Server: " + msg + " " + LocalDateTime.now());
+        System.out.println("-----------------------------------------------------");
+    }
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -28,18 +33,13 @@ public class BHMServer implements ServletContextListener, HttpSessionListener {
 
     }
 
-    public static void log(String msg) {
-        System.out.println("Server: " + msg + " " + LocalDateTime.now());
-        System.out.println("-----------------------------------------------------");
-    }
-
-
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         log("SESSION CREATED");
         Map<String, LocalDateTime> sessionExpMap = (Map<String, LocalDateTime>) httpSessionEvent.getSession()
                 .getServletContext().getAttribute(Constants.sessionExpMap);
         sessionExpMap.put(httpSessionEvent.getSession().getId(), Constants.getNewSessionExpiredDate());
+        httpSessionEvent.getSession().setMaxInactiveInterval(60 * 60 * 24);
     }
 
     @Override
