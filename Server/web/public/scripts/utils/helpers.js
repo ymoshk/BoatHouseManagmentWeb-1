@@ -9,6 +9,6 @@ export function validateEmailAddress(email) {
 
 export function validatePhone(phone) {
     let reg = new RegExp(PHONE_PATTERN);
-    let regWO = new RegExp(PHONE_PATTERN);
+    let regWO = new RegExp(PHONE_WITHOUT_PATTERN);
     return reg.test(phone) || regWO.test(phone);
 }

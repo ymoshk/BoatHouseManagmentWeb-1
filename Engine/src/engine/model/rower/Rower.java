@@ -283,6 +283,18 @@ public class Rower extends Model implements Serializable {
     public enum eRowerRank {
         BEGINNER, AVERAGE, PRO;
 
+        public static eRowerRank getFromInt(int number) {
+            switch (number) {
+                case 0:
+                    return BEGINNER;
+                case 1:
+                    return AVERAGE;
+                case 2:
+                    return PRO;
+            }
+            return null;
+        }
+
         public String getRankName() {
             String result = null;
 

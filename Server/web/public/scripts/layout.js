@@ -44,5 +44,3 @@ function getNavMenuItems() {
     });
     // TODO - handle notifications
 }
-
-

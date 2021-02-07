@@ -3,6 +3,7 @@ export function getRowInTable(id, rowElements, rowNumber) {
     let th = document.createElement("th");
     th.scope = "row";
     th.innerText = rowNumber;
+
     tr.appendChild(th);
 
     rowElements.forEach(element => {
@@ -13,6 +14,7 @@ export function getRowInTable(id, rowElements, rowNumber) {
 
     let actionButtons = createActionButton(id);
     tr.appendChild(actionButtons);
+    tr.style.textAlign = "center";
 
     return tr;
 }
@@ -20,8 +22,9 @@ export function getRowInTable(id, rowElements, rowNumber) {
 export function createEmptyTable(colNames) {
     let res = document.createElement("div");
     let table = document.createElement("table");
+    res.className += "table-responsive";
     res.appendChild(table);
-    table.className += "table table-striped";
+    table.className += "table-striped";
 
 //build the head
     let head = document.createElement("thead");
@@ -31,6 +34,7 @@ export function createEmptyTable(colNames) {
     indexCol.scope = "col";
     indexCol.innerText = "#"
     indexCol.style.fontWeight = "bold";
+    indexCol.style.textAlign = "center";
     tr.appendChild(indexCol);
     head.appendChild(tr);
     colNames.forEach(name => {
@@ -38,6 +42,7 @@ export function createEmptyTable(colNames) {
         th.scope = "col";
         th.innerText = name;
         th.style.fontWeight = "bold";
+        th.style.textAlign = "center";
         tr.appendChild(th);
     });
 
@@ -45,6 +50,8 @@ export function createEmptyTable(colNames) {
     actions.scope = "col";
     actions.innerText = "Actions"
     actions.style.fontWeight = "bold";
+    actions.style.textAlign = "center";
+    actions.style.width = "10%";
     tr.appendChild(actions);
 
     table.appendChild(head);
@@ -55,6 +62,7 @@ export function createEmptyTable(colNames) {
     tbody.id = "tableBody";
     table.appendChild(tbody);
 
+
     return res;
 }
 
@@ -62,36 +70,38 @@ export function createEmptyTable(colNames) {
 function createTableButton(id, tooltip, colorClass, iconClass) {
     let div = document.createElement("div");
     div.className += "col-6";
-    let span = document.createElement("span");
-    span.className += "tooltip";
-    span.innerText = tooltip;
+    let toolT = document.createElement("div");
+    toolT.className += "ripple-container";
     let tableBtn = document.createElement("button");
-    tableBtn.className += "btn";
-    tableBtn.className += "btn-block";
     tableBtn.className += colorClass;
     tableBtn.value = id;
+    tableBtn.style.textAlign = "center";
+    tableBtn.style.paddingBottom = "5px";
+    tableBtn.style.paddingTop = "5px";
+    tableBtn.style.paddingRight = "10px";
+    tableBtn.style.paddingLeft = "10px";
+    // tableBtn.setAttribute("rel", "tooltip");
+    // tableBtn.setAttribute("data-original-title", tooltip);
+    tableBtn.setAttribute("title", tooltip);
 
     let icon = document.createElement("i");
     icon.className += iconClass;
-
     tableBtn.appendChild(icon);
-
+    tableBtn.appendChild(toolT);
     div.appendChild(tableBtn);
-    div.appendChild(span);
 
     return div;
 }
 
 function createActionButton(id) {
-    let updateBtn = createTableButton(id, "Click to update", "btn-secondary",
+    let updateBtn = createTableButton(id, "Click to update", "btn-sm btn-secondary",
         "fa fa-pencil-square-o");
 
-    let deleteBtn = createTableButton(id, "Click to delete", "btn-danger",
+    let deleteBtn = createTableButton(id, "Click to delete", "btn-sm btn-danger",
         "fa fa-trash-o");
 
     let div = document.createElement("div");
-    div.className += "row";
-    div.className += "col-12";
+    div.className += "row col-12";
     div.appendChild(deleteBtn);
     div.appendChild(updateBtn);
 
