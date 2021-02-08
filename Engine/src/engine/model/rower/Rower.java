@@ -312,5 +312,19 @@ public class Rower extends Model implements Serializable {
 
             return result;
         }
+
+        public static int getIntFromRank(eRowerRank rank) {
+            switch (rank) {
+                case BEGINNER:
+                    return 0;
+                case AVERAGE:
+                    return 1;
+                case PRO:
+                    return 2;
+            }
+
+            return -1;
+        }
     }
 }
+
