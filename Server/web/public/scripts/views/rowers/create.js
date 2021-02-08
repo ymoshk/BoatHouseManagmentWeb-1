@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 async function sendForm() {
-    let data = new URLSearchParams();
+    let data = new FormData();
     data.append("serialNumber", serialNumberEl.value);
     data.append("name", nameEl.value);
     data.append("age", ageEl.value);
@@ -33,13 +33,12 @@ async function sendForm() {
         body: data
     }).then(async function (response) {
         let json = await response.json()
-        console.log(json);
 
         if (json.result === false) {
             showErrors(json.error);
         } else {
             showSuccess("Rower successfully added!");
-            setTimeout(function () {
+            setTimeout( function () {
                 window.location = '/rowers/index';
             }, 2000);
         }

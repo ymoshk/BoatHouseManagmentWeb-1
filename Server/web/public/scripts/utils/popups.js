@@ -13,7 +13,7 @@ function showError(title, message) {
     Swal.fire(title, message, "error");
 }
 
-function areYouSureMessage(message, afterMessage, title) {
+function showAreYouSureMessage(message, afterMessage, title) {
     if (title === undefined) {
         title = "Are you sure?";
     }

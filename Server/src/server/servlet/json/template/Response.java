@@ -4,10 +4,15 @@ import java.util.List;
 
 public class Response {
     public final boolean isSuccess;
-    public final List<Object> values;
+    public final List<Object> data;
 
-    public Response(boolean isSuccess, List<Object> values) {
+    public Response(boolean isSuccess, List<Object> data) {
         this.isSuccess = isSuccess;
-        this.values = values;
+        this.data = data;
+    }
+
+    public Response(boolean isSuccess) {
+        this.isSuccess = isSuccess;
+        data = null;
     }
 }
