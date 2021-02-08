@@ -38,7 +38,7 @@ async function sendForm() {
                 window.location = '/rowers/index';
             }, 2000);
         }
-    });
+    }).catch(showError("Error", "Adding rower failed for unknown reason."));
 
 }
 
