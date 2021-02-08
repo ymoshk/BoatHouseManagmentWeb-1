@@ -82,9 +82,13 @@ function createTableButton(id, tooltip, colorClass, iconClass, onClick) {
     tableBtn.style.marginTop = "5px";
     tableBtn.style.marginBottom = "5px";
     tableBtn.setAttribute("title", tooltip);
+    tableBtn.setAttribute("data-toggle", "tooltip");
+    tableBtn.setAttribute("data-placement", "top");
     tableBtn.addEventListener("click", function () {
         onClick(id)
     });
+
+
 
     let icon = document.createElement("i");
     icon.className += iconClass;

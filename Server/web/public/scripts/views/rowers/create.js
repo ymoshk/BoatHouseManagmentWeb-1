@@ -9,6 +9,7 @@ const levelEl = document.getElementById("level");
 const formEl = document.getElementById("createRowerForm");
 const errorListEl = document.getElementById("errors");
 const isAdminEl = document.getElementById("isAdmin");
+const notesEl = document.getElementById("notes");
 
 document.addEventListener("DOMContentLoaded", function () {
     formEl.addEventListener('submit', validateForm);
@@ -25,6 +26,7 @@ async function sendForm() {
     data.append("password", passwordOneEl.value);
     data.append("level", levelEl.selectedIndex);
     data.append("isAdmin", isAdminEl.checked);
+    data.append("notes", notesEl.value);
 
     fetch('/rowers/create', {
         method: 'post',

@@ -3,6 +3,7 @@ package server.servlet.views.rowers;
 import com.google.gson.Gson;
 import engine.api.EngineContext;
 import engine.model.rower.Rower;
+import engine.model.rower.RowerModifier;
 import engine.utils.RegexHandler;
 import server.constant.Constants;
 import server.constant.ePages;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -39,6 +41,7 @@ public class CreateRowerServlet extends HttpServlet {
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        List<String> notes = splitsNotes(req.getParameter("notes"));
         boolean isAdmin = Boolean.parseBoolean(req.getParameter("isAdmin"));
         Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(req.getParameter("level")) - 1);
 
@@ -59,10 +62,24 @@ public class CreateRowerServlet extends HttpServlet {
                 } else {
                     // Success
                     eng.getRowersCollectionManager().add(newRower);
+                    if (notes != null) {
+                        RowerModifier modifier = eng.getRowerModifier(newRower, null);
+                        notes.forEach(modifier::addNewNote);
+                    }
                     out.println(Utils.standardJsonResponse(true));
                 }
             }
         }
+    }
+
+    private List<String> splitsNotes(String notes) {
+        if (notes.length() == 0) {
+            return null;
+        }
+        List<String> temp = Arrays.asList(notes.split(String.valueOf('\n')).clone());
+        List<String> res = new ArrayList<>();
+        temp.forEach(str -> res.add(str.trim()));
+        return res;
     }
 
     private List<String> validateRower(Rower newRower, EngineContext eng) {
