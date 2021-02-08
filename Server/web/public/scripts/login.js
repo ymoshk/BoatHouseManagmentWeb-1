@@ -30,7 +30,7 @@ import ("./utils/helpers.js").then((helpers) => {
                 passwordErrorEl.style.display = 'none';
                 window.location = '/home'
             }
-        }).catch(showError("Error", "Login failed for unknown reason."));
+        }).catch(() => showError("Error", "Login failed for unknown reason."));
     }
 
     function showError(element, error) {

@@ -3,6 +3,7 @@ package server.servlet.views.rowers;
 import com.google.gson.Gson;
 import engine.api.EngineContext;
 import engine.model.rower.Rower;
+import engine.utils.RegexHandler;
 import server.constant.Constants;
 import server.constant.ePages;
 import server.servlet.json.template.ErrorsList;
@@ -60,11 +61,15 @@ public class CreateRowerServlet extends HttpServlet {
         List<String> result = new ArrayList<>();
 
         if (!eng.getRowersCollectionManager().isSerialNumberAvailable(newRower.getSerialNumber())) {
-            result.add("Serial number already exist");
+            result.add("Serial number already exist.");
         }
 
         if (eng.getRowersCollectionManager().emailExist(newRower.getEmail())) {
-            result.add("Email address already exists");
+            result.add("Email address already exists.");
+        }
+
+        if (!RegexHandler.isPhoneNumberValid(newRower.getPhoneNumber())) {
+            result.add("Invalid phone number received.");
         }
 
         return result;
