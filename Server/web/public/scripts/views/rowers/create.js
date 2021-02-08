@@ -34,7 +34,6 @@ async function sendForm() {
         console.log(json);
 
         if (json.result === false) {
-            console.log(json);
             showErrors(json.error);
         } else {
             showSuccess("Rower successfully added!");
@@ -50,26 +49,24 @@ async function validateForm(event) {
     event.preventDefault();
     let errors = [];
 
-    import ("/public/scripts/utils/helpers.js").then((helpers) => {
 
-        if (!helpers.validatePhone(phoneEl.value)) {
-            errors.push("Invalid phone number received.");
-        }
+    if (!validatePhone(phoneEl.value)) {
+        errors.push("Invalid phone number received.");
+    }
 
-        if (passwordOneEl.value !== passwordTwoEl.value) {
-            errors.push("Password aren't match");
-        }
+    if (passwordOneEl.value !== passwordTwoEl.value) {
+        errors.push("Password aren't match");
+    }
 
-        if (levelEl.selectedIndex.valueOf() === 0) {
-            errors.push("You must select a rower level");
-        }
+    if (levelEl.selectedIndex.valueOf() === 0) {
+        errors.push("You must select a rower level");
+    }
 
-        if (errors.length > 0) {
-            showErrors(errors);
-        } else {
-            sendForm();
-        }
-    });
+    if (errors.length > 0) {
+        showErrors(errors);
+    } else {
+        await sendForm();
+    }
 }
 
 

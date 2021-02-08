@@ -17,11 +17,13 @@ public class RowerJson {
     public final List<String> notes;
     public final String joiningDate;
     public final String expirationDate;
+    private final String id;
 
     public RowerJson(Rower rower){
         this.age = rower.getAge();
         this.rank = Rower.eRowerRank.getIntFromRank(rower.getRank());
-        this.serialNumber = rower.getId();
+        this.serialNumber = rower.getSerialNumber();
+        this.id = rower.getId();
         this.name = rower.getName();
         this.phone = rower.getPhoneNumber();
         this.email = rower.getEmail();
