@@ -5,6 +5,7 @@ import engine.api.EngineContext;
 import engine.model.rower.Rower;
 import server.constant.Constants;
 import server.constant.ePages;
+import server.servlet.json.template.ErrorsList;
 import server.utils.Utils;
 
 import javax.servlet.ServletException;
@@ -46,7 +47,7 @@ public class CreateRowerServlet extends HttpServlet {
 
             if (!errors.isEmpty()) {
                 // Failed
-                out.println(Utils.standardJsonResponse(false, new Gson().toJson(errors)));
+                out.println(new Gson().toJson(new ErrorsList(false, errors)));
             } else {
                 // Success
                 eng.getRowersCollectionManager().add(newRower);

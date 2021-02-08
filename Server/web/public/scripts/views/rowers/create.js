@@ -33,8 +33,10 @@ async function sendForm() {
         if (json.result === false) {
             showErrors(json.error);
         } else {
-            // TODO add sweetalert
-            window.location = '/rowers/index';
+            showSuccess("Rower successfully added!");
+            setTimeout(function () {
+                window.location = '/rowers/index';
+            }, 2000);
         }
     });
 

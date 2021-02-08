@@ -11596,7 +11596,7 @@ fieldset[disabled] .form-group.is-focused .form-check .form-check-label {
 }
 
 .form-check .form-check-input:checked ~ .form-check-sign .check {
-    background: #9c27b0;
+    background: #56baed;
 }
 
 .form-check .form-check-input:checked ~ .form-check-sign .check:before {
@@ -15439,7 +15439,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     padding: 5px 0px;
     display: inline-block;
     font-size: 18px;
-    color: #3C4858;
+    color: #ffffff;
     white-space: nowrap;
     font-weight: 400;
     line-height: 30px;

@@ -4,13 +4,11 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="col-lg-10 col-xl-10 col-sm-12 col-md-12"></div>
-                        <div class="col-lg-2 col-xl-2 col-sm-12 col-md-12">
-                            <a class="btn btn-dark btn-block" href="/rowers/index">
-                                Back
-                            </a>
-
+                        <div class="col-md-10">
+                            <p style="margin-top:10px; font-size: 22px;">Create A New Rower</p>
                         </div>
+                        <div class="col-md-2"></div>
+                        <hr>
                     </div>
                     <div class="card-body" id="bodyTest">
                         <div class="row">
@@ -79,10 +77,32 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="">
+                                            Is Admin
+                                            <span class="form-check-sign"><span class="check"></span></span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <button id="createRowerBtn" type="submit" class="btn btn-blue pull-right">Create
-                                Rower
-                            </button>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-3">
+                                    <a class="btn btn-dark btn-block" href="/rowers/index">
+                                        Back
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="createRowerBtn" type="submit" class="btn btn-blue btn-block">Create
+                                        Rower
+                                    </button>
+                                </div>
+                            </div>
                             <div class="clearfix"></div>
                         </form>
                     </div>

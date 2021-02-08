@@ -22,9 +22,9 @@ export function getRowInTable(id, rowElements, rowNumber) {
 export function createEmptyTable(colNames) {
     let res = document.createElement("div");
     let table = document.createElement("table");
-    res.className += "table-responsive";
+    res.className += "table-responsive-sm";
     res.appendChild(table);
-    table.className += "table-striped";
+    table.className += "table-striped dataTable";
 
 //build the head
     let head = document.createElement("thead");
@@ -35,6 +35,7 @@ export function createEmptyTable(colNames) {
     indexCol.innerText = "#"
     indexCol.style.fontWeight = "bold";
     indexCol.style.textAlign = "center";
+    indexCol.style.width = "5px";
     tr.appendChild(indexCol);
     head.appendChild(tr);
     colNames.forEach(name => {
@@ -51,7 +52,7 @@ export function createEmptyTable(colNames) {
     actions.innerText = "Actions"
     actions.style.fontWeight = "bold";
     actions.style.textAlign = "center";
-    actions.style.width = "10%";
+    actions.style.width = "15%";
     tr.appendChild(actions);
 
     table.appendChild(head);
@@ -69,9 +70,7 @@ export function createEmptyTable(colNames) {
 // build action buttons
 function createTableButton(id, tooltip, colorClass, iconClass) {
     let div = document.createElement("div");
-    div.className += "col-6";
-    let toolT = document.createElement("div");
-    toolT.className += "ripple-container";
+    div.className += "col-md-4";
     let tableBtn = document.createElement("button");
     tableBtn.className += colorClass;
     tableBtn.value = id;
@@ -80,14 +79,14 @@ function createTableButton(id, tooltip, colorClass, iconClass) {
     tableBtn.style.paddingTop = "5px";
     tableBtn.style.paddingRight = "10px";
     tableBtn.style.paddingLeft = "10px";
-    // tableBtn.setAttribute("rel", "tooltip");
-    // tableBtn.setAttribute("data-original-title", tooltip);
+    tableBtn.style.fontSize = "15px";
+    tableBtn.style.marginTop = "5px";
+    tableBtn.style.marginBottom = "5px";
     tableBtn.setAttribute("title", tooltip);
 
     let icon = document.createElement("i");
     icon.className += iconClass;
     tableBtn.appendChild(icon);
-    tableBtn.appendChild(toolT);
     div.appendChild(tableBtn);
 
     return div;
@@ -95,15 +94,19 @@ function createTableButton(id, tooltip, colorClass, iconClass) {
 
 function createActionButton(id) {
     let updateBtn = createTableButton(id, "Click to update", "btn-sm btn-secondary",
-        "fa fa-pencil-square-o");
+        "fa fa-pencil");
 
     let deleteBtn = createTableButton(id, "Click to delete", "btn-sm btn-danger",
         "fa fa-trash-o");
 
+    let infoBtn = createTableButton(id, "Click for more details", "btn-sm btn-info",
+        "fa fa-info-circle");
+
     let div = document.createElement("div");
-    div.className += "row col-12";
+    div.className += "row";
     div.appendChild(deleteBtn);
     div.appendChild(updateBtn);
+    div.appendChild(infoBtn);
 
     let td = document.createElement("td");
     td.appendChild(div);
