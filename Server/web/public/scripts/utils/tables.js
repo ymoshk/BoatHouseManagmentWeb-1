@@ -1,4 +1,4 @@
-export function getRowInTable(id, rowElements, rowNumber) {
+export function getRowInTable(id, rowElements, rowNumber, onDelete, onUpdate, onEdit) {
     let tr = document.createElement("tr");
     let th = document.createElement("th");
     th.scope = "row";
@@ -12,7 +12,7 @@ export function getRowInTable(id, rowElements, rowNumber) {
         tr.appendChild(td);
     });
 
-    let actionButtons = createActionButton(id);
+    let actionButtons = createActionButton(id, onDelete, onUpdate, onEdit);
     tr.appendChild(actionButtons);
     tr.style.textAlign = "center";
 
@@ -68,12 +68,11 @@ export function createEmptyTable(colNames) {
 }
 
 // build action buttons
-function createTableButton(id, tooltip, colorClass, iconClass) {
+function createTableButton(id, tooltip, colorClass, iconClass, onClick) {
     let div = document.createElement("div");
     div.className += "col-md-4";
     let tableBtn = document.createElement("button");
     tableBtn.className += colorClass;
-    tableBtn.value = id;
     tableBtn.style.textAlign = "center";
     tableBtn.style.paddingBottom = "5px";
     tableBtn.style.paddingTop = "5px";
@@ -83,6 +82,9 @@ function createTableButton(id, tooltip, colorClass, iconClass) {
     tableBtn.style.marginTop = "5px";
     tableBtn.style.marginBottom = "5px";
     tableBtn.setAttribute("title", tooltip);
+    tableBtn.addEventListener("click", function () {
+        onClick(id)
+    });
 
     let icon = document.createElement("i");
     icon.className += iconClass;
@@ -92,15 +94,15 @@ function createTableButton(id, tooltip, colorClass, iconClass) {
     return div;
 }
 
-function createActionButton(id) {
+function createActionButton(id, onDelete, onUpdate, onEdit) {
     let updateBtn = createTableButton(id, "Click to update", "btn-sm btn-secondary",
-        "fa fa-pencil");
+        "fa fa-pencil", onUpdate);
 
     let deleteBtn = createTableButton(id, "Click to delete", "btn-sm btn-danger",
-        "fa fa-trash-o");
+        "fa fa-trash-o", onDelete);
 
     let infoBtn = createTableButton(id, "Click for more details", "btn-sm btn-info",
-        "fa fa-info-circle");
+        "fa fa-info-circle", onEdit);
 
     let div = document.createElement("div");
     div.className += "row";

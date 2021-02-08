@@ -3,9 +3,7 @@ package server.servlet.views.rowers;
 import com.google.gson.Gson;
 import engine.api.EngineContext;
 import engine.model.rower.Rower;
-import server.constant.ePages;
 import server.servlet.json.template.model.rower.RowerListJson;
-import server.utils.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,13 +14,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "rowers", urlPatterns = "/rowers/index")
-public class RowersServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/rowers/index/getRowers")
+public class GetRowersCollectionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Utils.renderLayout(req,resp, "/public/html/views/rowers/index.html", ePages.ROWERS);
+        EngineContext eng = EngineContext.getInstance();
+        List<Rower> rowers = eng.getRowersCollectionManager().toArrayList();
+
+        try(PrintWriter out = resp.getWriter()){
+            out.print(new Gson().toJson(new RowerListJson(rowers)));
+        }
     }
-
-
 }

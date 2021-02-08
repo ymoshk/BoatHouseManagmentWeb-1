@@ -17,21 +17,17 @@ function areYouSureMessage(message, afterMessage, title) {
     if (title === undefined) {
         title = "Are you sure?";
     }
-    Swal.fire({
+    let res = Swal.fire({
         title: title,
         text: message,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes'
     }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Success!',
-                'afterMessage',
-                'success'
-            )
-        }
-    })
+        return result.isConfirmed;
+    });
+
+    return res;
 }

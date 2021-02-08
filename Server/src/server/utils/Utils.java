@@ -24,7 +24,6 @@ public class Utils {
                 "\"error\": \"" + error + "\"}";
     }
 
-
     private static boolean sessionExpired(HttpSession session) {
         Map<String, LocalDateTime> map = getSessionExpMap(session);
         boolean isExpired = map.get(session.getId()) == null || map.get(session.getId())
