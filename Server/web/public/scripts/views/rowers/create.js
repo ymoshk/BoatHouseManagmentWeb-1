@@ -8,6 +8,7 @@ const passwordTwoEl = document.getElementById("password2");
 const levelEl = document.getElementById("level");
 const formEl = document.getElementById("createRowerForm");
 const errorListEl = document.getElementById("errors");
+const isAdminEl = document.getElementById("isAdmin");
 
 document.addEventListener("DOMContentLoaded", function () {
     formEl.addEventListener('submit', validateForm);
@@ -23,14 +24,17 @@ async function sendForm() {
     data.append("email", emailEl.value);
     data.append("password", passwordOneEl.value);
     data.append("level", levelEl.selectedIndex);
+    data.append("isAdmin", isAdminEl.checked);
 
     fetch('/rowers/create', {
         method: 'post',
         body: data
     }).then(async function (response) {
         let json = await response.json()
+        console.log(json);
 
         if (json.result === false) {
+            console.log(json);
             showErrors(json.error);
         } else {
             showSuccess("Rower successfully added!");
@@ -38,7 +42,7 @@ async function sendForm() {
                 window.location = '/rowers/index';
             }, 2000);
         }
-    }).catch(showError("Error", "Adding rower failed for unknown reason."));
+    }).catch(() => showError("Error", "Adding rower failed for unknown reason."));
 
 }
 
@@ -56,20 +60,20 @@ async function validateForm(event) {
             errors.push("Password aren't match");
         }
 
-        if (levelEl.selectedIndex === 0) {
+        if (levelEl.selectedIndex.valueOf() === 0) {
             errors.push("You must select a rower level");
         }
+
+        if (errors.length > 0) {
+            showErrors(errors);
+        } else {
+            sendForm();
+        }
     });
-    if (errors.length > 0) {
-        showErrors(errors);
-    } else {
-        await sendForm();
-    }
 }
 
 
 function showErrors(errorsList) {
-    console.log(errorsList);
     errorListEl.innerHTML = "";
     errorsList.forEach((error) => {
         let domEl = document.createElement("li");

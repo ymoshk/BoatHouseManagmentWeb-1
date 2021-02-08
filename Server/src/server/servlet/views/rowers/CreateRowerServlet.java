@@ -60,11 +60,11 @@ public class CreateRowerServlet extends HttpServlet {
         List<String> result = new ArrayList<>();
 
         if (!eng.getRowersCollectionManager().isSerialNumberAvailable(newRower.getSerialNumber())) {
-            result.add("Serial number already exist");
+            result.add("Serial number already exist in the system");
         }
 
         if (eng.getRowersCollectionManager().emailExist(newRower.getEmail())) {
-            result.add("Email address already exists");
+            result.add("Email address already exists in the system");
         }
 
         return result;
