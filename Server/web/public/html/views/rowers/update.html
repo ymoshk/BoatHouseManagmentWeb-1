@@ -1,0 +1,123 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-md-10">
+                            <p style="margin-top:10px; font-size: 22px;">Create A New Rower</p>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <hr>
+                    </div>
+                    <div class="card-body" id="bodyTest">
+                        <div class="row">
+                            <ul style="color:red;" id="errors">
+                            </ul>
+                        </div>
+                        <form id="createRowerForm">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="serialNumber" name="serialNumber" type="text" class="form-control"
+                                               placeholder="ID Number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="name" name="name" type="text" class="form-control"
+                                               placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="age" name="age" type="number" class="form-control" placeholder="Age"
+                                               value="13" min="13"
+                                               max="120" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="phone" name="phone" type="text" class="form-control"
+                                               placeholder="Phone Number (e.g 05X-XXXXXXX)" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="email" name="email" type="email" class="form-control" required
+                                               placeholder="Email Address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="password1" name="password1" type="password" class="form-control"
+                                               minlength="4" required placeholder="Enter Password">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="password2" name="password2" type="password" class="form-control"
+                                               minlength="4" required placeholder="Retype Password">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group bmd-form-group">
+                                        <textarea id="notes" name="notes" class="form-control" rows="2"
+                                                  placeholder="Notes (one at each line)"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group bmd-form-group">
+                                        <select id="level" name="level" class="form-control selectpicker"
+                                                data-style="btn btn-link">
+                                            <option style="color: #aeadad" selected disabled>Select Rower Level</option>
+                                            <option>Beginner</option>
+                                            <option>Average</option>
+                                            <option>Professional</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                            <input id="isAdmin" class="form-check-input" type="checkbox" value="">
+                                            Is Admin
+                                            <span class="form-check-sign"><span class="check"></span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="margin-top: 70px">
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-3">
+                                    <a class="btn btn-dark btn-block" href="/rowers/index">
+                                        Back
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <button id="createRowerBtn" type="submit" class="btn btn-blue btn-block">Create
+                                        Rower
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/public/scripts/views/rowers/update.js"></script>
+</div>
+

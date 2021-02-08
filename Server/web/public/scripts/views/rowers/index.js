@@ -43,12 +43,14 @@ async function createTable() {
 
 async function deleteRower(serialNumber, deleteRowerArgs) {
     let data = new FormData();
-    data.append("serialNumber", serialNumber);
-    data.append("args", deleteRowerArgs);
+    data.append("test", "myTest");
+    //data.append("serialNumber", serialNumber);
+    //data.append("args", deleteRowerArgs);
 
     await fetch('/rowers/delete', {
         method: 'post',
-        body: data
+        body: data,
+        headers: {'Content-Type': 'multipart/form-data'}
     }).then(async function (response) {
         let resAsJson = await response.json();
         if (!resAsJson.isSuccess) {
@@ -59,7 +61,7 @@ async function deleteRower(serialNumber, deleteRowerArgs) {
                 window.location.refresh(true);
             }, timeOutTime));
         }
-    });
+    }).catch((err) => showError("Error", err.toString()));
 }
 
 async function onDelete(serialNumber) {
@@ -72,7 +74,7 @@ async function onDelete(serialNumber) {
     await fetch('/rowers/delete/info', {
         method: 'post',
         body: reqData,
-        headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': 'multipart/form-data'}
     }).then(async function (response) {
         let resAsJson = await response.json();
         if (!resAsJson.isSuccess) {
@@ -93,9 +95,8 @@ async function onDelete(serialNumber) {
                         "He will be removed from these activities, are you sure?");
             }
         }
-    });
-
-    await deleteRower(serialNumber, deleteRowerArgs);
+        await deleteRower(serialNumber, deleteRowerArgs);
+    }).catch((err) => showError("Error", err.toString()));
 }
 
 function onEdit(serialNumber) {

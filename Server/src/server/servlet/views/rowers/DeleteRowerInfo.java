@@ -37,8 +37,10 @@ public class DeleteRowerInfo extends HttpServlet {
                 return;
             } else {
                 List<Object> res = new ArrayList<>();
-                res.add(rowerToDelete.hasPrivateBoat());
-                res.add(!eng.canRowerBeRemoved(rowerToDelete)); //false if rower take part in activities
+//                res.add(rowerToDelete.hasPrivateBoat());
+//                res.add(!eng.canRowerBeRemoved(rowerToDelete)); //false if rower take part in activities
+                res.add(true);
+                res.add(true);
                 out.println(gson.toJson(new Response(true, res)));
             }
         }

@@ -6,8 +6,8 @@ const passwordErrorEl = document.getElementById('passwordError');
 
 
 async function processLogin() {
-    let email = emailInputEl.value
-    let password = passwordInputEl.value
+    let email = emailInputEl.value;
+    let password = passwordInputEl.value;
     let data = new URLSearchParams();
     data.append("email", email);
     data.append("password", password);
