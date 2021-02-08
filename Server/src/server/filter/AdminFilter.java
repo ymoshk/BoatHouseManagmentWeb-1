@@ -1,5 +1,7 @@
 package server.filter;
 
+import engine.api.EngineContext;
+import engine.model.rower.Rower;
 import server.utils.Utils;
 
 import javax.servlet.*;
@@ -9,24 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/home", "/unapproved", "/layout", "/rowers/*"})
-public class AuthFilter implements Filter {
-
+@WebFilter(urlPatterns = {"/rowers/*"})
+public class AdminFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         HttpSession session = ((HttpServletRequest) servletRequest).getSession(false);
-        HttpServletResponse resp = (HttpServletResponse) servletResponse;
-        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-        resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-        resp.setDateHeader("Expires", 0); // Proxies
+        Rower loggedInUser = EngineContext.getInstance().getLoggedInUser(session.getId());
 
-        if (session == null || Utils.isSessionInvalid(session)) {
-            ((HttpServletResponse) servletResponse).sendRedirect("/login");
+        if (!loggedInUser.isAdmin()) {
+            ((HttpServletResponse) servletResponse).sendRedirect("/unapproved");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

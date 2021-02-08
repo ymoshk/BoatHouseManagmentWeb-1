@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @WebServlet(name = "CreateRower", urlPatterns = "/rowers/create")
 public class CreateRowerServlet extends HttpServlet {
 
@@ -26,6 +27,7 @@ public class CreateRowerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Utils.renderLayout(req, resp, "/public/html/views/rowers/create.html", ePages.ROWERS);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,19 +42,25 @@ public class CreateRowerServlet extends HttpServlet {
         boolean isAdmin = Boolean.parseBoolean(req.getParameter("isAdmin"));
         Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(req.getParameter("level")) - 1);
 
-        Rower newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone);
 
         try (PrintWriter out = resp.getWriter()) {
             EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
-            List<String> errors = validateRower(newRower, eng);
+            List<String> errors = new ArrayList<>(validatePhone(phone));
 
             if (!errors.isEmpty()) {
-                // Failed
                 out.println(new Gson().toJson(new ErrorsList(false, errors)));
             } else {
-                // Success
-                eng.getRowersCollectionManager().add(newRower);
-                out.println(Utils.standardJsonResponse(true));
+                Rower newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone);
+                errors.addAll(validateRower(newRower, eng));
+
+                if (!errors.isEmpty()) {
+                    // Failed
+                    out.println(new Gson().toJson(new ErrorsList(false, errors)));
+                } else {
+                    // Success
+                    eng.getRowersCollectionManager().add(newRower);
+                    out.println(Utils.standardJsonResponse(true));
+                }
             }
         }
     }
@@ -61,17 +69,21 @@ public class CreateRowerServlet extends HttpServlet {
         List<String> result = new ArrayList<>();
 
         if (!eng.getRowersCollectionManager().isSerialNumberAvailable(newRower.getSerialNumber())) {
-            result.add("Serial number already exist in the system.");
+            result.add("Serial number already exist.");
         }
 
         if (eng.getRowersCollectionManager().emailExist(newRower.getEmail())) {
-            result.add("Email address already exists in the system.");
+            result.add("Email address already exists.");
         }
 
-        if (!RegexHandler.isPhoneNumberValid(newRower.getPhoneNumber())) {
+        return result;
+    }
+
+    private List<String> validatePhone(String phone) {
+        List<String> result = new ArrayList<>();
+        if (!RegexHandler.isPhoneNumberValid(phone)) {
             result.add("Invalid phone number received.");
         }
-
         return result;
     }
 }
