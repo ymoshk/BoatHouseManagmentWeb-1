@@ -8,13 +8,16 @@ const passwordErrorEl = document.getElementById('passwordError');
 async function processLogin() {
     let email = emailInputEl.value;
     let password = passwordInputEl.value;
-    let data = new URLSearchParams();
-    data.append("email", email);
-    data.append("password", password);
+
+    let data = JSON.stringify({
+        email: email,
+        password: password
+    });
 
     fetch('/login', {
         method: 'post',
-        body: data
+        body: data,
+        headers: getPostHeaders()
     }).then(async function (response) {
         let json = await response.json()
 

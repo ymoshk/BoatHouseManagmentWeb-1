@@ -17,9 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @WebServlet(name = "CreateRower", urlPatterns = "/rowers/create")
@@ -34,39 +32,48 @@ public class CreateRowerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO handle private boats
-        resp.setContentType("application/json");
-        String serial = req.getParameter("serialNumber");
-        String name = req.getParameter("name");
-        int age = Integer.parseInt(req.getParameter("age"));
-        String phone = req.getParameter("phone");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        List<String> notes = splitsNotes(req.getParameter("notes"));
-        boolean isAdmin = Boolean.parseBoolean(req.getParameter("isAdmin"));
-        Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(req.getParameter("level")) - 1);
-
 
         try (PrintWriter out = resp.getWriter()) {
-            EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
-            List<String> errors = new ArrayList<>(validatePhone(phone));
-
-            if (!errors.isEmpty()) {
-                out.println(new Gson().toJson(new ErrorsList(false, errors)));
+            HashMap<String, String> data = Utils.parsePostData(req);
+            if (data == null) {
+                out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
             } else {
-                Rower newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone);
-                errors.addAll(validateRower(newRower, eng));
+                try {
+                    String serial = data.get("serialNumber");
+                    String name = data.get("name");
+                    int age = Integer.parseInt(data.get("age"));
+                    String phone = data.get("phone");
+                    String email = data.get("email");
+                    String password = data.get("password");
+                    List<String> notes = splitsNotes(data.get("notes"));
+                    boolean isAdmin = Boolean.parseBoolean(data.get("isAdmin"));
+                    Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(data.get("level")) - 1);
 
-                if (!errors.isEmpty()) {
-                    // Failed
-                    out.println(new Gson().toJson(new ErrorsList(false, errors)));
-                } else {
-                    // Success
-                    eng.getRowersCollectionManager().add(newRower);
-                    if (notes != null) {
-                        RowerModifier modifier = eng.getRowerModifier(newRower, null);
-                        notes.forEach(modifier::addNewNote);
+
+                    EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
+                    List<String> errors = new ArrayList<>(validatePhone(phone));
+
+                    if (!errors.isEmpty()) {
+                        out.println(new Gson().toJson(new ErrorsList(false, errors)));
+                    } else {
+                        Rower newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone);
+                        errors.addAll(validateRower(newRower, eng));
+
+                        if (!errors.isEmpty()) {
+                            // Failed
+                            out.println(new Gson().toJson(new ErrorsList(false, errors)));
+                        } else {
+                            // Success
+                            eng.getRowersCollectionManager().add(newRower);
+                            if (notes != null) {
+                                RowerModifier modifier = eng.getRowerModifier(newRower, null);
+                                notes.forEach(modifier::addNewNote);
+                            }
+                            out.println(Utils.standardJsonResponse(true));
+                        }
                     }
-                    out.println(Utils.standardJsonResponse(true));
+                } catch (Exception ex) {
+                    out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
                 }
             }
         }

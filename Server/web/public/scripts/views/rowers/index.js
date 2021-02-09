@@ -42,43 +42,47 @@ async function createTable() {
 }
 
 async function deleteRower(serialNumber, deleteRowerArgs) {
-    let data = new FormData();
-    data.append("test", "myTest");
-    //data.append("serialNumber", serialNumber);
-    //data.append("args", deleteRowerArgs);
+
+    let data = JSON.stringify({
+        serialNumber: serialNumber,
+        args: JSON.stringify(deleteRowerArgs)
+    });
 
     await fetch('/rowers/delete', {
         method: 'post',
         body: data,
-        headers: {'Content-Type': 'multipart/form-data'}
+        headers: getPostHeaders()
     }).then(async function (response) {
         let resAsJson = await response.json();
-        if (!resAsJson.isSuccess) {
-            showError(resAsJson.data[0]);
+        if (resAsJson.isSuccess === false) {
+            showError("Error", resAsJson.data[0]);
         } else {
-            showSuccess("Rower successfully removed");
+            showSuccess("Success!", "Rower successfully removed");
             setTimeout((function () {
-                window.location.refresh(true);
-            }, timeOutTime));
+                location.reload();
+            }), timeOutTime);
         }
-    }).catch((err) => showError("Error", err.toString()));
+    });
 }
 
 async function onDelete(serialNumber) {
-    let reqData = new FormData();
-    reqData.append("serialNumber", serialNumber);
     let deleteRowerArgs = {};
     deleteRowerArgs.shouldDeleteBoats = false;
     deleteRowerArgs.shouldDeleteRower = true;
 
+    let data = JSON.stringify({
+        serialNumber: serialNumber,
+    });
+
     await fetch('/rowers/delete/info', {
         method: 'post',
-        body: reqData,
-        headers: {'Content-Type': 'multipart/form-data'}
+        body: data,
+        headers: getPostHeaders()
     }).then(async function (response) {
         let resAsJson = await response.json();
-        if (!resAsJson.isSuccess) {
-            showError(resAsJson.data[0]);
+
+        if (resAsJson.isSuccess === false) {
+            showError("Error", resAsJson.data[0]);
         } else {
             let data = resAsJson;
 
@@ -94,13 +98,13 @@ async function onDelete(serialNumber) {
                         "The rower you want to delete participates in club activities. " +
                         "He will be removed from these activities, are you sure?");
             }
+            await deleteRower(serialNumber, deleteRowerArgs);
         }
-        await deleteRower(serialNumber, deleteRowerArgs);
-    }).catch((err) => showError("Error", err.toString()));
+    });
 }
 
 function onEdit(serialNumber) {
-    alert("Edit " + serialNumber);
+
 }
 
 function onInfo(serialNumber) {

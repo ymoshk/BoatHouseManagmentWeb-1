@@ -17,20 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 async function sendForm() {
-    let data = new FormData();
-    data.append("serialNumber", serialNumberEl.value);
-    data.append("name", nameEl.value);
-    data.append("age", ageEl.value);
-    data.append("phone", phoneEl.value);
-    data.append("email", emailEl.value);
-    data.append("password", passwordOneEl.value);
-    data.append("level", levelEl.selectedIndex);
-    data.append("isAdmin", isAdminEl.checked);
-    data.append("notes", notesEl.value);
+    let data = JSON.stringify({
+        serialNumber: serialNumberEl.value,
+        name: nameEl.value,
+        age: ageEl.value,
+        phone: phoneEl.value,
+        email: emailEl.value,
+        password: passwordOneEl.value,
+        level: levelEl.selectedIndex.toString(),
+        isAdmin: isAdminEl.checked.toString(),
+        notes: notesEl.value
+    });
 
     fetch('/rowers/create', {
         method: 'post',
-        body: data
+        body: data,
+        headers: getPostHeaders()
     }).then(async function (response) {
         let json = await response.json()
 
@@ -38,11 +40,11 @@ async function sendForm() {
             showErrors(json.error);
         } else {
             showSuccess("Rower successfully added!");
-            setTimeout( function () {
+            setTimeout(function () {
                 window.location = '/rowers/index';
             }, 2000);
         }
-    }).catch(() => showError("Error", "Adding rower failed for unknown reason."));
+    });
 
 }
 
