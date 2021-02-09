@@ -30,6 +30,7 @@ function getRankFromInt(num) {
 function getCheckedIcon() {
     let res = document.createElement("i");
     res.className += " fa fa-check";
+    res.style.color = "green";
 
     return res;
 }
@@ -37,6 +38,7 @@ function getCheckedIcon() {
 function getUnCheckedIcon() {
     let res = document.createElement("i");
     res.className += " fa fa-times";
+    res.style.color = "red";
 
     return res;
 }

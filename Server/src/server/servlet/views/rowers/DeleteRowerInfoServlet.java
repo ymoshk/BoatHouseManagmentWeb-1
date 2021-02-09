@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.util.*;
 
 @WebServlet(urlPatterns = "/rowers/delete/info")
-public class RowerDeleteInfo extends HttpServlet {
+public class DeleteRowerInfoServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

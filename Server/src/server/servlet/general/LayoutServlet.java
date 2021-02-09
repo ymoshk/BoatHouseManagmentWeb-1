@@ -47,7 +47,7 @@ public class LayoutServlet extends HttpServlet {
             res.add(new MenuItem(false, "navRowers"
                     , "fa fa-users", ePages.ROWERS.getTitle(), "/rowers/index"));
             res.add(new MenuItem(false, "navBoats"
-                    , "fa fa-anchor", ePages.BOATS.getTitle(), "/boats"));
+                    , "fa fa-anchor", ePages.BOATS.getTitle(), "/boats/index"));
             res.add(new MenuItem(false, "navWeeklyActivities"
                     , "fa fa-clock-o", ePages.WEEKLY_ACTIVITIES.getTitle(), "/weekly-activities"));
             res.add(new MenuItem(false, "navRowingActivities"

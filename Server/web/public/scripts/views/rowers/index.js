@@ -81,7 +81,7 @@ async function onDelete(serialNumber) {
     }).then(async function (response) {
         let resAsJson = await response.json();
 
-        if (resAsJson.isSuccess === false) {
+        if (!resAsJson.isSuccess) {
             showError("Error", resAsJson.data[0]);
         } else {
             let data = resAsJson.data;
