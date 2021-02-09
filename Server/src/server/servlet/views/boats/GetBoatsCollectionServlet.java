@@ -25,10 +25,9 @@ public class GetBoatsCollectionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EngineContext eng = EngineContext.getInstance();
-//        List<Boat> boats = eng.getBoatsCollectionManager().toArrayList();
-        Boat b = new Boat("boat", "boatSerial", Boat.eBoatType.DUE_SINGLE_OAR_WITH_COXWAIN, true, true, false);
-        List<Boat> boats = new ArrayList<>();
-        boats.add(b);
+        List<Boat> boats = eng.getBoatsCollectionManager().toArrayList();
+//        Boat b = new Boat("boat", "boatSerial", Boat.eBoatType.DUE_SINGLE_OAR_WITH_COXWAIN, true, true, false);
+//        List<Boat> boats = new ArrayList<>();
 
         try(PrintWriter out = resp.getWriter()){
             out.print(new Gson().toJson(new BoatsJson(boats)));

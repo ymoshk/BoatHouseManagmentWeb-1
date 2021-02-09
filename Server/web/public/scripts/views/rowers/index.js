@@ -18,11 +18,7 @@ function buildRowerTableElements(rower) {
 
 async function createTable() {
     import ("/public/scripts/utils/tables.js").then((tables) => {
-        fetch("/rowers/index/getRowers", {
-            method: 'get'
-        }).then(async function (response) {
-            let rowers = await response.json();
-            rowers = rowers.rowers;
+        getRowersFromServer().then(rowers => {
             if (rowers.length !== 0) {
                 let names = ["Name", "Email", "Phone", "Age", "Rank", "Is Admin"];
                 let table = tables.createEmptyTable(names)
@@ -37,7 +33,6 @@ async function createTable() {
                 tableContainer.appendChild(getNoDataEl());
             }
         }).catch(() => handleErrors());
-
     });
 }
 

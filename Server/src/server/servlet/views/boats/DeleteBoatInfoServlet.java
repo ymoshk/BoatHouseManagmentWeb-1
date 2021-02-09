@@ -24,10 +24,8 @@ public class DeleteBoatInfoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EngineContext eng = EngineContext.getInstance();
         HashMap<String, String> reqArgs = Utils.parsePostData(req);
-//        String serialNumber = reqArgs.get("serialNumber");
-        Boat b = new Boat("boat", "boatSerial", Boat.eBoatType.DUE_SINGLE_OAR_WITH_COXWAIN, true, true, false);
-        eng.addObject(b);
-        Boat boatToDelete = eng.getBoatsCollectionManager().findBySerialNumber(b.getSerialNumber());
+        String serialNumber = reqArgs.get("serialNumber");
+        Boat boatToDelete = eng.getBoatsCollectionManager().findBySerialNumber(serialNumber);
 
         try (PrintWriter out = resp.getWriter()) {
             if (boatToDelete == null) {

@@ -19,12 +19,7 @@ function buildBoatTableRow(boat) {
 
 async function createTable() {
     import ("/public/scripts/utils/tables.js").then((tables) => {
-        fetch("/boats/index/getBoats", {
-            method: 'get'
-        }).then(async function (response) {
-            let resAsJson = await response.json();
-            let boats = resAsJson.boats;
-
+        getBoatsFromServer().then(boats => {
             if (boats.length !== 0) {
                 let names = ["Name", "Description", "Sea boat", "Wide", "Active", "Owner", "Code"];
                 let table = tables.createEmptyTable(names);
@@ -39,9 +34,10 @@ async function createTable() {
             } else {
                 tableContainer.appendChild(getNoDataEl());
             }
-        });
-    }).catch(() => handleErrors());
+        }).catch(() => handleErrors());
+    });
 }
+
 
 async function deleteBoat(serialNumber) {
     let data = JSON.stringify({
@@ -54,7 +50,6 @@ async function deleteBoat(serialNumber) {
         headers: getPostHeaders()
     }).then(async function (response) {
         let resAsJson = await response.json();
-        alert(JSON.stringify(resAsJson));
         if (!resAsJson.isSuccess) {
             showError("Error");
         } else {

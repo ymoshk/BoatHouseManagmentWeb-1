@@ -66,21 +66,10 @@ async function validateForm(event) {
     }
 
     if (errors.length > 0) {
-        showErrors(errors);
+        showErrorsInCreateForm(errors, errorListEl);
     } else {
         await sendForm();
     }
-}
-
-
-function showErrors(errorsList) {
-    errorListEl.innerHTML = "";
-    errorsList.forEach((error) => {
-        let domEl = document.createElement("li");
-        domEl.textContent = error;
-        domEl.style.fontFamily = "Arial";
-        errorListEl.appendChild(domEl);
-    });
 }
 
 

@@ -9,7 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/home", "/unapproved", "/layout", "/rowers/*"})
+@WebFilter(urlPatterns = {
+        "/home",
+        "/unapproved",
+        "/layout",
+        "/rowers/*",
+        "/boats/*"
+})
 public class AuthFilter implements Filter {
 
     @Override

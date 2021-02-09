@@ -60,3 +60,53 @@ function getPostHeaders() {
         'Content-Type': 'application/json'
     });
 }
+
+function showErrorsInCreateForm(errorsList, errorListEl) {
+    errorListEl.innerHTML = "";
+    errorsList.forEach((error) => {
+        let domEl = document.createElement("li");
+        domEl.textContent = error;
+        domEl.style.fontFamily = "Arial";
+        errorListEl.appendChild(domEl);
+    });
+}
+
+function buildOwnerOptionEl(rower) {
+    let res = document.createElement("option");
+    res.className = rower.serialNumber;
+    res.innerText = rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
+
+    return res;
+}
+
+function buildBoatOptionEl(boat) {
+    let res = document.createElement("option");
+    res.className = boat.serialNumber;
+    res.innerText = boat.name + ' (' + boat.code + ')';
+
+    return res;
+}
+
+
+
+// TODO - add a filter
+function getBoatsFromServer() {
+    return fetch("/boats/index/getBoats", {
+        method: 'get'
+    }).then(boats = async function (response) {
+        let resAsJson = await response.json();
+        let res = resAsJson.boats;
+        return res;
+    });
+}
+
+// TODO - add a filter
+function getRowersFromServer() {
+    return fetch("/rowers/index/getRowers", {
+        method: 'get'
+    }).then(async function (response) {
+        let rowers = await response.json();
+        rowers = rowers.rowers;
+        return rowers;
+    });
+}
