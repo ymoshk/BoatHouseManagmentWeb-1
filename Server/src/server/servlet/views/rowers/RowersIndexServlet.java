@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "rowers", urlPatterns = "/rowers/index")
-public class RowersServlet extends HttpServlet {
+public class RowersIndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

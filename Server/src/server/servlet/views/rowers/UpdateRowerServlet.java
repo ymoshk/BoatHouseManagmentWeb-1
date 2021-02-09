@@ -5,6 +5,7 @@ import engine.api.EngineContext;
 import engine.model.rower.Rower;
 import engine.model.rower.RowerModifier;
 import engine.utils.RegexHandler;
+import javafx.application.Application;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import server.constant.Constants;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,12 +30,13 @@ import java.util.Arrays;
 import java.util.List;
 
 
-@WebServlet(name = "CreateRower", urlPatterns = "/rowers/update")
+@WebServlet(urlPatterns = "/rowers/update")
 public class UpdateRowerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        File template = new File("/public/html/views/rowers/update.html");
+
+        File template = new File("../public/html/views/rowers/update.html");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         Document doc;
