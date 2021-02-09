@@ -84,9 +84,9 @@ async function onDelete(serialNumber) {
         if (resAsJson.isSuccess === false) {
             showError("Error", resAsJson.data[0]);
         } else {
-            let data = resAsJson;
-
+            let data = resAsJson.data;
             if (data[0] === true) {
+
                 deleteRowerArgs.shouldDeleteBoats =
                     await showAreYouSureMessage(
                         "This rower has private boats, are you want to delete them to?");
