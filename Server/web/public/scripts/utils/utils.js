@@ -53,3 +53,22 @@ function showErrorsInCreateForm(errorsList, errorListEl) {
     });
 }
 
+const compareTime = (time1, time2) => {
+    //return true if time1 > time2
+    let time1Minutes = parseInt(time1[0].toString() + time1[1].toString());
+    let time1Hours = parseInt(time1[3].toString() + time1[4].toString());
+
+    let time2Minutes =parseInt(time2[0].toString() + time2[1].toString());
+    let time2Hours = parseInt(time2[3].toString() + time2[4].toString());
+
+    let t1 = new Date();
+    t1.setHours(time1Hours);
+    t1.setMinutes(time1Minutes);
+
+    let t2 = new Date();
+    t2.setHours(time2Hours);
+    t2.setMinutes(time2Minutes);
+
+    return t1.getTime() >= t2.getTime();
+};
+

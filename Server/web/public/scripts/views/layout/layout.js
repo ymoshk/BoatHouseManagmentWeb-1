@@ -29,6 +29,10 @@ function buildMenuItem(itemObject) {
 function buildMenu(menuItemsList) {
     let html = "";
     menuItemsList.forEach((menuItem) => {
+        if (menuItem.isActive) {
+            titleEl.innerText = menuItem.text.toUpperCase();
+        }
+
         html += buildMenuItem(menuItem) + "\n"
     });
     menuItemsListEl.innerHTML = html;
@@ -39,7 +43,6 @@ function getNavMenuItems() {
         method: 'get'
     }).then((response) => {
         response.json().then((value) => {
-            titleEl.innerText = value.active;
             buildMenu(value.menu);
         });
     });
@@ -61,5 +64,23 @@ function initDateTmePicker() {
         },
         format: 'DD/MM/YYYY',
         minDate: Date.now(),
+    });
+}
+
+function initDateTmePicker() {
+    $('.timepicker').datetimepicker({
+        icons: {
+            time: "fa fa-clock-o",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove',
+            pick12HourFormat: false
+        },
+
+        format: 'LT',
     });
 }

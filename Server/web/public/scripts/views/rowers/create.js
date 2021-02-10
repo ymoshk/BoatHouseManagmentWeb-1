@@ -37,12 +37,12 @@ async function sendForm() {
         let json = await response.json()
 
         if (json.result === false) {
-            showErrors(json.error);
+            showErrorsInCreateForm(json.error, errorListEl);
         } else {
             showSuccess("Rower successfully added!");
             setTimeout(function () {
                 window.location = '/rowers/index';
-            }, 2000);
+            }, timeOutTime);
         }
     });
 

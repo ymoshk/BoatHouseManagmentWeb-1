@@ -48,3 +48,14 @@ function getRowersFromServer() {
         return rowers.rowers;
     });
 }
+
+function getWeeklyActivitiesFromServer(){
+    return fetch("/weekly-activities/index/getWeeklyActivities", {
+        method: 'get'
+    }).then(async function (response) {
+        alert(JSON.stringify(response.json()));
+        let activities = await response.json();
+        // alert(JSON.stringify(activities));
+        return activities.activities;
+    });
+}

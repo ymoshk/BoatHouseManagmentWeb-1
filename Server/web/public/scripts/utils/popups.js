@@ -1,16 +1,17 @@
-function showSuccess(title, message) {
+function showSuccess(message, title) {
     if (title === undefined) {
         title = "Success!";
     }
-    Swal.fire(title, message, 'success'
-    )
+
+    Swal.fire(title, message, 'success')
 }
 
-function showError(title, message) {
+function showError(message, title) {
     if (title === undefined) {
         title = "Error!";
     }
-    Swal.fire(title, message, "error");
+
+    Swal.fire(title, message, "error")
 }
 
 function showAreYouSureMessage(message, title) {

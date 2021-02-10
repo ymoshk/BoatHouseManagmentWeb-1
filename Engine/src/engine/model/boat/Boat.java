@@ -186,6 +186,28 @@ public class Boat extends Model implements Serializable {
             return Collections.unmodifiableList(result);
         }
 
+        public static eBoatType getTypeFromInt(int boatTypeAsInt) {
+            if (boatTypeAsInt <= 0) {
+                return null;
+            } else {
+                return eBoatType.values()[boatTypeAsInt - 1];
+            }
+        }
+
+        public static int getIntFromBoatType(eBoatType boatType) {
+            int i = 0;
+
+            for (eBoatType type : eBoatType.values()) {
+                if (type == boatType) {
+                    break;
+                }
+
+                i++;
+            }
+
+            return -1;
+        }
+
         public int getNumOfRowers() {
             return numOfRowers + (this.hasCoxwain ? 1 : 0);
         }

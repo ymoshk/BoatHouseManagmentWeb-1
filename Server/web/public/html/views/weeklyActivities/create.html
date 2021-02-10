@@ -1,0 +1,84 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-md-10">
+                            <p style="margin-top:10px; font-size: 22px;">Create A New Weekly Activity</p>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <hr>
+                    </div>
+                    <div class="card-body" id="tableContainer">
+                        <div class="row">
+                            <ul style="color:red;" id="errors">
+                            </ul>
+                        </div>
+                        <form id="createWeeklyActivityForm">
+                            <div class="row">
+                                <div class="col-md-6" style="margin-top: 5px">
+                                    <div class="form-group bmd-form-group">
+                                        <input id="name" name="name" type="text" class="form-control"
+                                               placeholder="Weekly Activity Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <select id="boatType" name="level" class="form-control selectpicker"
+                                                data-style="btn btn-link">
+                                            <option>Select Boat Type</option>
+                                            <option>Single (1X)</option>
+                                            <option>Due (2X)</option>
+                                            <option>Due with coxwain (2X+)</option>
+                                            <option>Due Single oar (2-)</option>
+                                            <option>Due Single oar with coxwain (2+)</option>
+                                            <option>Four (4X)</option>
+                                            <option>Four with coxwain (4X+)</option>
+                                            <option>Four single oar (4-)</option>
+                                            <option>Four single oar with coxwain (4+)</option>
+                                            <option>Eight (8X+)</option>
+                                            <option>Eight single oar (8+)</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="startTime" class="label-control">Start Time</label>
+                                        <input id="startTime" type="time" class="form-control" value="00:00"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group bmd-form-group" style="">
+                                        <label for="endTime" class="label-control">End Time</label>
+                                        <input id="endTime" type="time" class="form-control" value="00:00"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="margin-top: 70px">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <a class="btn btn-dark btn-block" href="/weekly-activities/index">
+                                        Back
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <button id="createBoatBtn" type="submit" class="btn btn-blue btn-block">Create
+                                        Weekly Activity
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/public/scripts/views/weeklyActivities/create.js"></script>
+</div>
+

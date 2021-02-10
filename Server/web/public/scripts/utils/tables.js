@@ -19,7 +19,7 @@ export function getRowInTable(id, rowElements, rowNumber, onDelete, onUpdate, on
     return tr;
 }
 
-export function createEmptyTable(colNames, tableContainer) {
+export function createEmptyTable(colNames) {
     let res = document.createElement("div");
     let table = document.createElement("table");
     res.className += "table-responsive-sm";

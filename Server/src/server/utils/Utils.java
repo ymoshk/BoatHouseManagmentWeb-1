@@ -106,6 +106,7 @@ public class Utils {
         try (BufferedReader reader = req.getReader()) {
             result = gson.fromJson(reader, HashMap.class);
         }
+
         return result;
     }
 

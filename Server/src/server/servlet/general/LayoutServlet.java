@@ -49,13 +49,13 @@ public class LayoutServlet extends HttpServlet {
             res.add(new MenuItem(false, "navBoats"
                     , "fa fa-anchor", ePages.BOATS.getTitle(), "/boats/index"));
             res.add(new MenuItem(false, "navWeeklyActivities"
-                    , "fa fa-clock-o", ePages.WEEKLY_ACTIVITIES.getTitle(), "/weekly-activities"));
+                    , "fa fa-clock-o", ePages.WEEKLY_ACTIVITIES.getTitle(), "/weekly-activities/index"));
             res.add(new MenuItem(false, "navRowingActivities"
-                    , "fa fa-ship", ePages.ROWING_ACTIVITY.getTitle(), "/rowing-activities"));
+                    , "fa fa-ship", ePages.ROWING_ACTIVITY.getTitle(), "/rowing-activities/index"));
         }
 
         res.add(new MenuItem(false, "navRequest"
-                , "fa fa-calendar", ePages.REQUESTS.getTitle(), "/requests"));
+                , "fa fa-calendar", ePages.REQUESTS.getTitle(), "/requests/index"));
         res.add(new MenuItem(false, "navData"
                 , "fa fa-info-circle", ePages.MANAGE_DATA.getTitle(), "/manage-data"));
         res.add(new MenuItem(false, "navLogout"
