@@ -25,6 +25,7 @@ export function createEmptyTable(colNames, tableContainer) {
     res.className += "table-responsive-sm";
     res.appendChild(table);
     table.className += "table-striped dataTable";
+    table.style.width = "100%";
 
 //build the head
     let head = document.createElement("thead");
@@ -89,7 +90,6 @@ function createTableButton(id, tooltip, colorClass, iconClass, onClick) {
     });
 
 
-
     let icon = document.createElement("i");
     icon.className += iconClass;
     tableBtn.appendChild(icon);
@@ -118,4 +118,20 @@ function createActionButton(id, onDelete, onUpdate, onEdit) {
     td.appendChild(div);
 
     return td;
+}
+
+export function getNoDataEl() {
+    let header = document.createElement("h4");
+    let div = document.createElement("div");
+    let img = document.createElement("img");
+    header.innerText = "No entries were found for the requested search";
+    header.style.marginTop = "50px";
+    img.setAttribute("src", "/public/images/search.png");
+    img.style.width = "6%";
+    div.classList.add("col-12");
+    div.style.textAlign = "center";
+    div.appendChild(img);
+    div.appendChild(header);
+
+    return div;
 }

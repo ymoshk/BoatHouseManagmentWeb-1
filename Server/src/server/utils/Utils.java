@@ -14,10 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Utils {
 
@@ -75,6 +78,28 @@ public class Utils {
         dispatcher.include(req, resp);
     }
 
+    public static void renderLayoutString(HttpServletRequest req, HttpServletResponse resp, String htmlToInject, ePages activePage) throws ServletException, IOException {
+        req.getServletContext().setAttribute(Constants.currentActivePagAttr, activePage);
+
+        String layoutHeader = readHtmlPage("/public/html/layoutHeader.html", req);
+        String layoutFooter = readHtmlPage("/public/html/layoutFooter.html", req);
+        String result = String.format("%s%n%s%n%s", layoutHeader, htmlToInject, layoutFooter);
+
+        try (PrintWriter out = resp.getWriter()) {
+            out.println(result);
+        }
+    }
+
+    public static void errorPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getServletContext().setAttribute(Constants.currentActivePagAttr, ePages.HOME);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/public/html/layoutHeader.html");
+        dispatcher.include(req, resp);
+        dispatcher = req.getRequestDispatcher("/public/html/errorPage.html");
+        dispatcher.include(req, resp);
+        dispatcher = req.getRequestDispatcher("/public/html/layoutFooter.html");
+        dispatcher.include(req, resp);
+    }
+
     public static HashMap<String, String> parsePostData(HttpServletRequest req) throws IOException {
         HashMap<String, String> result;
         Gson gson = new Gson();
@@ -98,5 +123,15 @@ public class Utils {
 
     public static String getSuccessJson(Boolean result) {
         return new Gson().toJson(new Response(result));
+    }
+
+    public static String readHtmlPage(String path, HttpServletRequest req) {
+        InputStream stream = req.getServletContext().getResourceAsStream(path);
+        Scanner scanner = new Scanner(stream);
+        StringBuilder result = new StringBuilder();
+        while (scanner.hasNextLine()) {
+            result.append(scanner.nextLine());
+        }
+        return result.toString();
     }
 }

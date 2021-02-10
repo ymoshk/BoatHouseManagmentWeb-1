@@ -32,7 +32,7 @@ async function createTable() {
                         .appendChild(tables.getRowInTable(boat.serialNumber, boatTableRow, i++, onDelete, onEdit, onInfo));
                 });
             } else {
-                tableContainer.appendChild(getNoDataEl());
+                tableContainer.appendChild(tables.getNoDataEl());
             }
         }).catch(() => handleErrors());
     });

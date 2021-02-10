@@ -99,7 +99,9 @@ async function onDelete(serialNumber) {
 }
 
 function onEdit(serialNumber) {
-
+    let req = new URLSearchParams()
+    req.append("serialNumber",serialNumber);
+    window.location = "/rowers/update?" + req.toString();
 }
 
 function onInfo(serialNumber) {

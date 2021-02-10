@@ -5,9 +5,6 @@ import engine.api.EngineContext;
 import engine.model.rower.Rower;
 import engine.model.rower.RowerModifier;
 import engine.utils.RegexHandler;
-import javafx.application.Application;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 import server.constant.Constants;
 import server.constant.ePages;
 import server.servlet.json.template.ErrorsList;
@@ -18,15 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -36,25 +29,46 @@ public class UpdateRowerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        File template = new File("../public/html/views/rowers/update.html");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder;
-        Document doc;
-        try {
-            builder = factory.newDocumentBuilder();
-            doc = builder.parse(template);
-            doc.getDocumentElement().normalize();
-            doc.getElementById("serialNumber").setAttribute("value","testttt");
-        } catch (ParserConfigurationException | SAXException e) {
-            e.printStackTrace();
-        }
+        try (PrintWriter out = resp.getWriter()) {
 
-        Utils.renderLayout(req, resp, "/public/html/views/rowers/update.html", ePages.ROWERS);
+            String serial = req.getParameter("serialNumber");
+            Rower rowerToEdit = EngineContext.getInstance().getRowersCollectionManager().findRowerBySerialNumber(serial);
+
+            if (rowerToEdit == null) {
+                out.println(Utils.getErrorJson(Collections.singletonList("Couldn't find the requested rower")));
+            } else {
+                String updatePage = Utils.readHtmlPage("/public/html/views/rowers/update.html", req);
+                updatePage = prepeareUpdatePage(updatePage, rowerToEdit);
+                Utils.renderLayoutString(req, resp, updatePage, ePages.ROWERS);
+            }
+        }
+    }
+
+    private String prepeareUpdatePage(String updatePage, Rower rower) {
+        String age = String.valueOf(rower.getAge());
+        return updatePage.replace("{serialNumber}", rower.getSerialNumber())
+                .replace("{name}", rower.getName())
+                .replace("{email}", rower.getEmail())
+                .replace("{phone}", rower.getPhoneNumber())
+                .replace("{age}", age)
+                .replace("{notes}", mergeNotes(rower))
+                .replace("{expiration}", rower.getFormattedExpirationDate())
+                .replace("{isAdmin}", rower.isAdmin() ? "checked" : "")
+                .replace("{selected0}", rower.getRank() == Rower.eRowerRank.BEGINNER ? "selected" : "")
+                .replace("{selected1}", rower.getRank() == Rower.eRowerRank.AVERAGE ? "selected" : "")
+                .replace("{selected2}", rower.getRank() == Rower.eRowerRank.PRO ? "selected" : "");
+    }
+
+    private CharSequence mergeNotes(Rower rower) {
+        StringBuilder res = new StringBuilder();
+        rower.getNotes().forEach(note -> res.append(note).append('\n'));
+        return res.toString();
     }
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws
+            ServletException, IOException {
         // TODO handle private boats
         resp.setContentType("application/json");
         String serial = req.getParameter("serialNumber");

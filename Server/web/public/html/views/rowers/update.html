@@ -4,10 +4,16 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="col-md-10">
-                            <p style="margin-top:10px; font-size: 22px;">Create A New Rower</p>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <p style="margin-top:10px; font-size: 22px;">Update Rower</p>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="changePassword" style="margin-top: 10px;"
+                                        class="btn btn-outline-primary btn-block pull-right">Change Password
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-2"></div>
                         <hr>
                     </div>
                     <div class="card-body" id="bodyTest">
@@ -16,23 +22,29 @@
                             </ul>
                         </div>
                         <form id="createRowerForm">
+                            <input value="{serialNumber}" id="serialNumber" name="serialNumber"
+                                   type="hidden" class="form-control"
+                                   placeholder="ID Number" required>
                             <div class="row">
                                 <div class="col-md-5">
+                                    <label for="name">Full Name</label>
                                     <div class="form-group bmd-form-group">
-                                        <input id="serialNumber" name="serialNumber" type="text" class="form-control"
-                                               placeholder="ID Number" required>
+                                        <input value="{name}" id="name" name="name" type="text" class="form-control"
+                                               placeholder="Full Name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group bmd-form-group">
-                                        <input id="name" name="name" type="text" class="form-control"
-                                               placeholder="Full Name" required>
+                                        <label for="phone">Phone Number</label>
+                                        <input value="{phone}" id="phone" name="phone" type="text" class="form-control"
+                                               placeholder="Phone Number (e.g 05X-XXXXXXX)" required>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group bmd-form-group">
+                                        <label for="age">Age</label>
                                         <input id="age" name="age" type="number" class="form-control" placeholder="Age"
-                                               value="13" min="13"
+                                               value="{age}" min="13"
                                                max="120" required>
                                     </div>
                                 </div>
@@ -40,56 +52,45 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
-                                        <input id="phone" name="phone" type="text" class="form-control"
-                                               placeholder="Phone Number (e.g 05X-XXXXXXX)" required>
+                                        <label for="email">Email Address</label>
+                                        <input value="{email}" id="email" name="email" type="email" class="form-control"
+                                               required placeholder="Email Address">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <input id="email" name="email" type="email" class="form-control" required
-                                               placeholder="Email Address">
+                                    <div class="form-group">
+                                        <label class="label-control">Datetime Picker</label>
+                                        <input id="expirationDate" type="text" class="form-control datetimepicker"
+                                               value="{expiration}"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <input id="password1" name="password1" type="password" class="form-control"
-                                               minlength="4" required placeholder="Enter Password">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <input id="password2" name="password2" type="password" class="form-control"
-                                               minlength="4" required placeholder="Retype Password">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
+                                        <label for="notes">Notes</label>
                                         <textarea id="notes" name="notes" class="form-control" rows="2"
-                                                  placeholder="Notes (one at each line)"></textarea>
+                                                  placeholder="Notes (one at each line)">{notes}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
+                                        <label for="level">Rower Level</label>
                                         <select id="level" name="level" class="form-control selectpicker"
                                                 data-style="btn btn-link">
-                                            <option style="color: #aeadad" selected disabled>Select Rower Level</option>
-                                            <option>Beginner</option>
-                                            <option>Average</option>
-                                            <option>Professional</option>
+                                            <option {selected0}>Beginner</option>
+                                            <option {selected1}>Average</option>
+                                            <option {selected0}>Professional</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-check">
-                                        <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
-                                            <input id="isAdmin" class="form-check-input" type="checkbox" value="">
+                                        <label style=" margin-top: 40px; margin-left: 20px" class="form-check-label">
+                                            <input id="isAdmin" class="form-check-input" type="checkbox" value=""
+                                                   {isAdmin}>
                                             Is Admin
                                             <span class="form-check-sign"><span class="check"></span></span>
                                         </label>
@@ -97,11 +98,11 @@
                                 </div>
                             </div>
 
-                            <hr style="margin-top: 70px">
+                            <hr style="margin-top: 70px"></hr>
                             <div class="row">
                                 <div class="col-md-6"></div>
                                 <div class="col-md-3">
-                                    <button id="createRowerBtn" type="submit" class="btn btn-blue btn-block">Create
+                                    <button id="updateRowerBtn" type="submit" class="btn btn-blue btn-block">Update
                                         Rower
                                     </button>
                                 </div>
