@@ -12,32 +12,41 @@ function getRankFromInt(num) {
 }
 
 
-function buildOwnerOptionEl(rower) {
+function buildOwnerOptionEl(rower, selected) {
     let res = document.createElement("option");
     res.className = rower.serialNumber;
     res.innerText = rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
+    res.value = rower.serialNumber;
+
+    if (selected !== undefined) {
+        res.setAttribute("selected", "selected");
+    }
 
     return res;
 }
 
-function buildBoatOptionEl(boat) {
+function buildBoatOptionEl(boat, selected) {
     let res = document.createElement("option");
     res.className = boat.serialNumber;
     res.innerText = boat.name + ' (' + boat.code + ')';
+    res.value = boat.serialNumber;
+
+    if (selected) {
+        res.setAttribute('selected', 'selected');
+    }
 
     return res;
 }
 
 
-// TODO - add a filter
 function getBoatsFromServer(filter) {
     return fetch("/boats/index/getBoats", {
         method: 'get'
-    }).then(boats = async function (response) {
+    }).then(async function (response) {
         let resAsJson = await response.json();
         let boats = resAsJson.boats;
 
-        if(filter !== undefined){
+        if (filter !== undefined) {
             boats = boats.filter(boat => filter(boat));
         }
 
@@ -45,14 +54,14 @@ function getBoatsFromServer(filter) {
     });
 }
 
-// TODO - add a filter
+
 function getRowersFromServer(filter) {
     return fetch("/rowers/index/getRowers", {
         method: 'get'
     }).then(async function (response) {
         let rowers = await response.json();
 
-        if(filter !== undefined){
+        if (filter !== undefined) {
             rowers.rowers = rowers.rowers.filter(rower => filter(rower));
         }
 
@@ -60,7 +69,7 @@ function getRowersFromServer(filter) {
     });
 }
 
-function getWeeklyActivitiesFromServer(){
+function getWeeklyActivitiesFromServer() {
     return fetch("/weekly-activities/index/getWeeklyActivities", {
         method: 'get'
     }).then(async function (response) {

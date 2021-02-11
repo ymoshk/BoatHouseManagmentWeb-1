@@ -58,7 +58,7 @@ const compareTime = (time1, time2) => {
     let time1Minutes = parseInt(time1[0].toString() + time1[1].toString());
     let time1Hours = parseInt(time1[3].toString() + time1[4].toString());
 
-    let time2Minutes =parseInt(time2[0].toString() + time2[1].toString());
+    let time2Minutes = parseInt(time2[0].toString() + time2[1].toString());
     let time2Hours = parseInt(time2[3].toString() + time2[4].toString());
 
     let t1 = new Date();
@@ -72,4 +72,12 @@ const compareTime = (time1, time2) => {
     return t1.getTime() >= t2.getTime();
 };
 
+function selectExtractor(selectElementId) {
+    let list = ($('#' + selectElementId).select2('data'));
+    let result = [];
+
+    list.forEach(element => result.push(element.id));
+
+    return JSON.stringify(result);
+}
 

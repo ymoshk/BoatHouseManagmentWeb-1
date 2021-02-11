@@ -3,6 +3,7 @@ package server.servlet.views.rowers;
 
 import com.google.gson.Gson;
 import engine.api.EngineContext;
+import engine.model.boat.Boat;
 import engine.model.rower.Rower;
 import engine.model.rower.RowerModifier;
 import engine.utils.RegexHandler;
@@ -19,10 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(urlPatterns = "/rowers/update")
 public class UpdateRowerServlet extends HttpServlet {
@@ -53,7 +51,6 @@ public class UpdateRowerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO handle private boats
 
         try (PrintWriter out = resp.getWriter()) {
             HashMap<String, String> data = Utils.parsePostData(req);
@@ -92,7 +89,9 @@ public class UpdateRowerServlet extends HttpServlet {
         handleAgeSet(data.get("age"), errors, modifier);
         handlePhoneSet(data.get("phone"), errors, modifier);
         handleExpDateSet(data.get("expirationDate"), errors, modifier);
-        handlePrivateBoats(new Gson().fromJson(data.get("boatsId"), List.class), errors, modifier);
+        if (!handlePrivateBoats(new Gson().fromJson(data.get("boatsId"), String[].class), rowerToEdit)) {
+            errors.add("Error occured while updating the private boats");
+        }
         modifier.setIsAdminStatus(Boolean.parseBoolean(data.get("isAdmin")));
 
         Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(data.get("level")));
@@ -106,11 +105,27 @@ public class UpdateRowerServlet extends HttpServlet {
         return errors;
     }
 
-    private void handlePrivateBoats(List<String> boatsId, List<String> errors, RowerModifier modifier) {
+    private boolean handlePrivateBoats(String[] boatsId, Rower rower) {
+        try {
+            EngineContext eng = EngineContext.getInstance();
+            List<String> idToBoatList = Arrays.asList(boatsId);
+            List<Boat> currentBoats = eng.getBoatsCollectionManager()
+                    .filter(boat -> boat.hasOwner() && boat.getOwner().equals(rower));
+            List<Boat> newBoats = eng.getBoatsCollectionManager()
+                    .filter(boat -> idToBoatList.contains(boat.getSerialNumber()));
 
-        List<String> lst = boatsId;
+            currentBoats.forEach(rower::removePrivateBoat);
 
+            for (Boat current : newBoats) {
+                rower.addPrivateBoatAndChangeItsOwner(current);
+            }
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
+
 
     private void handleExpDateSet(String expirationDate, List<String> errors, RowerModifier modifier) {
         if (expirationDate.isEmpty()) {
@@ -147,7 +162,7 @@ public class UpdateRowerServlet extends HttpServlet {
         if (age.isEmpty()) {
             errors.add("Rower age can't be empty");
         } else {
-            if (Integer.parseInt(age) > 13) {
+            if (Integer.parseInt(age) >= 13) {
                 modifier.setRowerAge(Integer.parseInt(age));
             } else {
                 errors.add("Rower age must be at least 13");

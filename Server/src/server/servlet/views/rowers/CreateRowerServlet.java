@@ -34,50 +34,51 @@ public class CreateRowerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO handle private boats
 
         try (PrintWriter out = resp.getWriter()) {
             HashMap<String, String> data = Utils.parsePostData(req);
-            if (data == null) {
-                out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
-            } else {
-                try {
-                    String serial = data.get("serialNumber").trim();
-                    String name = data.get("name").trim();
-                    int age = Integer.parseInt(data.get("age"));
-                    String phone = data.get("phone").trim();
-                    String email = data.get("email").trim();
-                    String password = data.get("password").trim();
-                    List<String> notes = Utils.splitsNotes(data.get("notes"));
-                    boolean isAdmin = Boolean.parseBoolean(data.get("isAdmin"));
-                    Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(data.get("level")) - 1);
+            try {
+                String serial = data.get("serialNumber").trim();
+                String name = data.get("name").trim();
+                int age = Integer.parseInt(data.get("age"));
+                String phone = data.get("phone").trim();
+                String email = data.get("email").trim();
+                String password = data.get("password").trim();
+                List<String> notes = Utils.splitsNotes(data.get("notes"));
+                boolean isAdmin = Boolean.parseBoolean(data.get("isAdmin"));
+                Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(data.get("level")) - 1);
+                String[] privateBoats = new Gson().fromJson(data.get("boatsId"), String[].class);
 
 
-                    EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
-                    List<String> errors = new ArrayList<>(validatePhone(phone));
+                EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
+                List<String> errors = new ArrayList<>(validatePhone(phone));
+
+                if (!errors.isEmpty()) {
+                    out.println(new Gson().toJson(new ErrorsList(false, errors)));
+                } else {
+                    Rower newRower;
+                    if (privateBoats.length > 0) {
+                        newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone, privateBoats);
+                    } else {
+                        newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone);
+                    }
+                    errors.addAll(validateRower(newRower, eng));
 
                     if (!errors.isEmpty()) {
+                        // Failed
                         out.println(new Gson().toJson(new ErrorsList(false, errors)));
                     } else {
-                        Rower newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone);
-                        errors.addAll(validateRower(newRower, eng));
-
-                        if (!errors.isEmpty()) {
-                            // Failed
-                            out.println(new Gson().toJson(new ErrorsList(false, errors)));
-                        } else {
-                            // Success
-                            eng.getRowersCollectionManager().add(newRower);
-                            if (notes != null) {
-                                RowerModifier modifier = eng.getRowerModifier(newRower, null);
-                                notes.forEach(modifier::addNewNote);
-                            }
-                            out.println(Utils.standardJsonResponse(true));
+                        // Success
+                        eng.getRowersCollectionManager().add(newRower);
+                        if (notes != null) {
+                            RowerModifier modifier = eng.getRowerModifier(newRower, null);
+                            notes.forEach(modifier::addNewNote);
                         }
+                        out.println(Utils.standardJsonResponse(true));
                     }
-                } catch (Exception ex) {
-                    out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
                 }
+            } catch (Exception ex) {
+                out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
             }
         }
     }
