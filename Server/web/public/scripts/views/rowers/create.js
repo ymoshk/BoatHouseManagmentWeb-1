@@ -51,7 +51,7 @@ async function sendForm() {
         level: levelEl.selectedIndex.toString(),
         isAdmin: isAdminEl.checked.toString(),
         notes: notesEl.value,
-        boatsId: privateBoatsEl.value
+        boatsId: selectExtractor('privateBoats')
     });
 
     fetch('/rowers/create', {

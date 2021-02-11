@@ -11,12 +11,46 @@ const notesEl = document.getElementById("notes");
 const levelEl = document.getElementById("level");
 const isAdminEl = document.getElementById("isAdmin");
 const subscriptionExp = document.getElementById("expirationDate")
+const privateBoatsEl = document.getElementById("privateBoats");
 
 
 document.addEventListener("DOMContentLoaded", function () {
     changePasswordEl.addEventListener('click', (e) => changePasswordClickEventHandler(e));
     formEl.addEventListener('submit', (e) => updateRower(e));
+    insertOptionalBoats();
 });
+
+function insertOptionalBoats() {
+    let serial = serialNumber;
+
+    getBoatsFromServer(boat => boat.owner === undefined).then(function (boats) {
+        if (serial === undefined) {
+            insertBoatOptions(boats);
+        } else {
+            getBoatsFromServer(boat => boat.owner.serialNumber === serial)
+                .then((privateBoats => insertBoatOptions(boats, privateBoats)));
+        }
+    })
+}
+
+function insertBoatOptions(boats, privateBoats) {
+    boats.then(function (boats) {
+        if (boats !== false && boats.length > 0) {
+            boats.forEach(function (boat) {
+                let selected = false;
+                if (privateBoats !== undefined) {
+                    selected = privateBoats.includes(boat);
+                }
+                privateBoatsEl.appendChild(buildBoatOptionEl(boat, selected));
+            });
+        } else {
+            let notFoundEl = document.createElement('option');
+            notFoundEl.disabled = true;
+            notFoundEl.innerText = "Couldn't find any available boats"
+            privateBoatsEl.appendChild(notFoundEl);
+        }
+    });
+}
 
 
 function updateRower(e) {
@@ -31,7 +65,8 @@ function updateRower(e) {
         expirationDate: subscriptionExp.value,
         level: levelEl.selectedIndex.toString(),
         isAdmin: isAdminEl.checked.toString(),
-        notes: notesEl.value
+        notes: notesEl.value,
+        boatsId: selectExtractor('privateBoats')
     });
 
     fetch('/rowers/update', {
