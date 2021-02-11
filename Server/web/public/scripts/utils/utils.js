@@ -15,7 +15,6 @@ function validatePhone(phone) {
     return reg.test(phone);
 }
 
-
 function getCheckedIcon() {
     let res = document.createElement("i");
     res.className += " fa fa-check";
@@ -72,4 +71,5 @@ const compareTime = (time1, time2) => {
 
     return t1.getTime() >= t2.getTime();
 };
+
 

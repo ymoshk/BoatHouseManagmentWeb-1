@@ -74,12 +74,12 @@ function changePasswordClickEventHandler(e) {
             let passwordTwoVal = document.getElementById("password2").value;
 
             if (passwordOneVal.length < passwordMinLen || passwordTwoVal.length < passwordMinLen) {
-                showError("Failed", "The new password must be at least " + passwordMinLen + " characters long");
+                showError("The new password must be at least " + passwordMinLen + " characters long", "Failed",);
             } else {
                 if (passwordOneVal === passwordTwoVal) {
                     updatePassword(passwordOneVal);
                 } else {
-                    showError("Failed", "Changing password failed because the passwords aren't match.");
+                    showError("Changing password failed because the passwords aren't match.", "Failed");
                 }
             }
         }

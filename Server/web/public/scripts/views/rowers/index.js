@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 const tableContainer = document.getElementById("tableContainer");
 
+let rowersList;
 
 function buildRowerTableElements(rower) {
     let res = [];
@@ -20,6 +21,7 @@ async function createTable() {
     import ("/public/scripts/utils/tables.js").then((tables) => {
         getRowersFromServer().then(rowers => {
             if (rowers.length !== 0) {
+                rowersList = rowers;
                 let names = ["Name", "Email", "Phone", "Age", "Rank", "Is Admin"];
                 let table = tables.createEmptyTable(names)
                 tableContainer.appendChild(table);
@@ -120,5 +122,43 @@ function onEdit(serialNumber) {
 
 
 function onInfo(serialNumber) {
-    alert("INFO " + serialNumber);
+
+    const rower = rowersList.filter(rower => rower.serialNumber === serialNumber)[0];
+    createInfoPage(rower).then(infoPageEl => {
+        showInfoPopup(infoPageEl);
+    });
+}
+
+function createInfoPage(rower) {
+    return import ("/public/scripts/views/rowers/info.js").then((info) => {
+        let infoEl = info.getInfoDiv();
+        let nameEl = infoEl.querySelector("#name");
+        let ageEl = infoEl.querySelector("#age");
+        let emailEl = infoEl.querySelector("#email");
+        let serialNumberEl = infoEl.querySelector("#serialNumber");
+        let phoneEl = infoEl.querySelector("#phone");
+        let rankEl = infoEl.querySelector("#rank");
+        let joiningDateEl = infoEl.querySelector("#joiningDate");
+        let expDateEl = infoEl.querySelector("#expDate");
+        let notesEl = infoEl.querySelector("#notes");
+        let privateBoatsEl = infoEl.querySelector("#privateBoats");
+        let isAdminEl = infoEl.querySelector("#isAdmin");
+        alert(JSON.stringify(rower));
+
+        nameEl.value = rower.name;
+        ageEl.value = rower.age;
+        emailEl.value = rower.email;
+        serialNumberEl.value = rower.serialNumber;
+        phoneEl.value = rower.phone;
+        rankEl.value = getRankFromInt(rower.rank);
+        joiningDateEl.value = rower.joiningDate;
+        expDateEl.value = rower.expirationDate;
+        notesEl.value = rower.notes.length !== 0 ? rower.notes : "This rower has no notes";
+        privateBoatsEl.value = rower.boatsId.length !== 0 ? rower.boatsId : "This rower has no boats";
+        isAdminEl.checked = rower.isAdmin;
+        notesEl.value =notesEl.value.replace(",", "\n");
+        privateBoatsEl.value = privateBoatsEl.value.replace(",", "\n");
+
+        return infoEl;
+    });
 }

@@ -3,7 +3,7 @@ function getRankFromInt(num) {
         case 0:
             return "Beginner";
         case 1:
-            return "Avarage";
+            return "Average";
         case 2:
             return "Professional";
     }

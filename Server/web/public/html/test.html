@@ -1,0 +1,104 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <div class="col-md-10" style="text-align: left">
+                            <p style="margin-top:10px; font-size: 22px;">Information</p>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <hr>
+                    </div>
+                    <div class="card-body" id="tableContainer">
+                        <div class="infoCard">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="serialNumber">ID Number</label>
+                                        <input id="serialNumber" name="serialNumber" type="text" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="name">Boat Name</label>
+                                        <input id="name" name="name" type="text" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="age">Age</label>
+                                        <input id="age" name="age" type="number" class="form-control"
+                                               value="13" min="13"
+                                               max="120" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="phone">Phone Number</label>
+                                        <input id="phone" name="phone" type="text" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="email">Email Address</label>
+                                        <input id="email" name="email" type="email" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                            <input id="isAdmin" disabled class="form-check-input" type="checkbox"
+                                                   value="">Is Admin
+                                            <span class="form-check-sign"><span class="check"></span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="rank">Rank</label>
+                                        <input id="rank" class="form-control" minlength="4" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="joiningDate">Joining Date</label>
+                                        <input id="joiningDate" class="form-control" minlength="4" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="expDate">Expiration Date</label>
+                                        <input id="expDate" class="form-control" minlength="4" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="notes">Notes</label>
+                                        <textarea id="notes" disabled name="notes" class="form-control" rows="4">Notes</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="privateBoats">Private Boats</label>
+                                        <textarea id="privateBoats" disabled class="form-control" rows="4">Boats</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="margin-top: 70px">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/public/scripts/views/rowers/create.js"></script>
+</div>
+

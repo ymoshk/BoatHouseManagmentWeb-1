@@ -40,7 +40,6 @@ async function addBoat() {
         }
     ).then(async function (response) {
         let resAsJson = await response.json();
-        alert(JSON.stringify(resAsJson));
         if(resAsJson.isSuccess){
             showSuccess("Boat successfully added!");
 
@@ -73,6 +72,6 @@ function validateForm(event) {
     if (errors.length === 0) {
         addBoat();
     } else {
-        showErrorsInCreateForm(errors, errorListEl);
+        showErrorsInUnOrderedListEl(errors, errorListEl);
     }
 }
