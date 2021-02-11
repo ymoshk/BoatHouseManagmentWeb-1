@@ -10,10 +10,33 @@ const formEl = document.getElementById("createRowerForm");
 const errorListEl = document.getElementById("errors");
 const isAdminEl = document.getElementById("isAdmin");
 const notesEl = document.getElementById("notes");
+const privateBoatsEl = document.getElementById("privateBoats");
 
 document.addEventListener("DOMContentLoaded", function () {
     formEl.addEventListener('submit', validateForm);
+    insertOptionalBoats();
 });
+
+function insertOptionalBoats() {
+    let serial = serialNumberEl.value;
+
+    if (serial === undefined) {
+        serial = null;
+    }
+
+    let boats = getPublicBoatsFromServer(serial);
+
+    if (boats !== undefined && boats !== false && boats.length > 0) {
+        boats.foreach(function (boat) {
+            privateBoatsEl.appendChild(buildBoatOptionEl(boat));
+        });
+    } else {
+        let notFoundEl = document.createElement('option');
+        notFoundEl.disabled = true;
+        notFoundEl.innerText = "Couldn't find any available boats"
+        privateBoatsEl.appendChild(notFoundEl);
+    }
+}
 
 
 async function sendForm() {
@@ -66,7 +89,7 @@ async function validateForm(event) {
     }
 
     if (errors.length > 0) {
-        showErrorsInCreateForm(errors, errorListEl);
+        showErrorsInUnOrderedListEl(errors, errorListEl);
     } else {
         await sendForm();
     }

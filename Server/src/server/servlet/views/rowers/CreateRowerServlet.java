@@ -17,7 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 
 @WebServlet(name = "CreateRower", urlPatterns = "/rowers/create")
@@ -39,13 +42,13 @@ public class CreateRowerServlet extends HttpServlet {
                 out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
             } else {
                 try {
-                    String serial = data.get("serialNumber");
-                    String name = data.get("name");
+                    String serial = data.get("serialNumber").trim();
+                    String name = data.get("name").trim();
                     int age = Integer.parseInt(data.get("age"));
-                    String phone = data.get("phone");
-                    String email = data.get("email");
-                    String password = data.get("password");
-                    List<String> notes = splitsNotes(data.get("notes"));
+                    String phone = data.get("phone").trim();
+                    String email = data.get("email").trim();
+                    String password = data.get("password").trim();
+                    List<String> notes = Utils.splitsNotes(data.get("notes"));
                     boolean isAdmin = Boolean.parseBoolean(data.get("isAdmin"));
                     Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(data.get("level")) - 1);
 
@@ -77,16 +80,6 @@ public class CreateRowerServlet extends HttpServlet {
                 }
             }
         }
-    }
-
-    private List<String> splitsNotes(String notes) {
-        if (notes.length() == 0) {
-            return null;
-        }
-        List<String> temp = Arrays.asList(notes.split(String.valueOf('\n')).clone());
-        List<String> res = new ArrayList<>();
-        temp.forEach(str -> res.add(str.trim()));
-        return res;
     }
 
     private List<String> validateRower(Rower newRower, EngineContext eng) {

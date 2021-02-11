@@ -2,7 +2,8 @@ const EMAIL_PATTERN = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_
 const PHONE_PATTERN = "^05\\d-\\d{7}$|^05\\d{8}$";
 
 
-const timeOutTime = 2000; //2 sec
+const timeOutTime = 1500;
+const passwordMinLen = 4;
 
 function validateEmailAddress(email) {
     let reg = new RegExp(EMAIL_PATTERN);
@@ -43,7 +44,7 @@ function getPostHeaders() {
     });
 }
 
-function showErrorsInCreateForm(errorsList, errorListEl) {
+function showErrorsInUnOrderedListEl(errorsList, errorListEl) {
     errorListEl.innerHTML = "";
     errorsList.forEach((error) => {
         let domEl = document.createElement("li");

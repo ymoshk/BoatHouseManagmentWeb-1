@@ -4,6 +4,10 @@
     border-bottom: 1px dotted black;
 }
 
+.gj-datepicker-bootstrap > span.input-group-append{
+    display: none;
+}
+
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;

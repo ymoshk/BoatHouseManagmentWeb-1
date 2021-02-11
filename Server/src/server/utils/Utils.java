@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Utils {
 
@@ -101,27 +98,34 @@ public class Utils {
     }
 
     public static HashMap<String, String> parsePostData(HttpServletRequest req) throws IOException {
-        HashMap<String, String> result;
+        HashMap<String, String> result = new HashMap<>();
+        HashMap<String, String> temp;
         Gson gson = new Gson();
         try (BufferedReader reader = req.getReader()) {
-            result = gson.fromJson(reader, HashMap.class);
+            temp = gson.fromJson(reader, HashMap.class);
         }
+
+        temp.forEach((key, value) -> result.put(key, value.trim()));
 
         return result;
     }
 
+    // For update or create form - insert into UL element.
     public static String getErrorListJson(List<String> error) {
         return new Gson().toJson(new ErrorsList(false, error));
     }
 
+    // For ajax pop up results
     public static String getErrorJson(List<Object> data) {
         return new Gson().toJson(new Response(false, data));
     }
 
+    // For ajax pop up results
     public static String getSuccessJson(List<Object> data) {
         return new Gson().toJson(new Response(true, data));
     }
 
+    // For ajax pop up results
     public static String getSuccessJson(Boolean result) {
         return new Gson().toJson(new Response(result));
     }
@@ -134,5 +138,15 @@ public class Utils {
             result.append(scanner.nextLine());
         }
         return result.toString();
+    }
+
+    public static List<String> splitsNotes(String notes) {
+        if (notes.length() == 0) {
+            return null;
+        }
+        List<String> temp = Arrays.asList(notes.split(String.valueOf('\n')).clone());
+        List<String> res = new ArrayList<>();
+        temp.forEach(str -> res.add(str.trim()));
+        return res;
     }
 }

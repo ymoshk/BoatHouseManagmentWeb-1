@@ -99,10 +99,25 @@ async function onDelete(serialNumber) {
 }
 
 function onEdit(serialNumber) {
-    let req = new URLSearchParams()
-    req.append("serialNumber",serialNumber);
-    window.location = "/rowers/update?" + req.toString();
+    let data = JSON.stringify({
+        serialNumber: serialNumber,
+    });
+
+
+    fetch('/rowers/update/init', {
+        method: 'post',
+        body: data,
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+        if (resAsJson.isSuccess) {
+            window.location = "/rowers/update";
+        } else {
+            showError(resAsJson.error);
+        }
+    });
 }
+
 
 function onInfo(serialNumber) {
     alert("INFO " + serialNumber);

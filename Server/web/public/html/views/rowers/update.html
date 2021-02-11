@@ -10,7 +10,7 @@
                             </div>
                             <div class="col-md-3">
                                 <button id="changePassword" style="margin-top: 10px;"
-                                        class="btn btn-outline-primary btn-block pull-right">Change Password
+                                        class="btn btn-outline-info btn-block pull-right">Change Password
                                 </button>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                             <ul style="color:red;" id="errors">
                             </ul>
                         </div>
-                        <form id="createRowerForm">
+                        <form id="updateRowerForm">
                             <input value="{serialNumber}" id="serialNumber" name="serialNumber"
                                    type="hidden" class="form-control"
                                    placeholder="ID Number" required>
@@ -59,8 +59,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="label-control">Datetime Picker</label>
-                                        <input id="expirationDate" type="text" class="form-control datetimepicker"
+                                        <label class="label-control">Subscription Expiration Date</label>
+                                        <input id="expirationDate" name="expirationDate" type="text" class="form-control datepicker2"
                                                value="{expiration}"/>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
-                                        <label for="notes">Notes</label>
+                                        <label for="notes">Notes (one each line)</label>
                                         <textarea id="notes" name="notes" class="form-control" rows="2"
                                                   placeholder="Notes (one at each line)">{notes}</textarea>
                                     </div>
@@ -81,7 +81,7 @@
                                                 data-style="btn btn-link">
                                             <option {selected0}>Beginner</option>
                                             <option {selected1}>Average</option>
-                                            <option {selected0}>Professional</option>
+                                            <option {selected2}>Professional</option>
                                         </select>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                     <div class="form-check">
                                         <label style=" margin-top: 40px; margin-left: 20px" class="form-check-label">
                                             <input id="isAdmin" class="form-check-input" type="checkbox" value=""
-                                                   {isAdmin}>
+                                                   {isAdmin} {isAdminDisabled}>
                                             Is Admin
                                             <span class="form-check-sign"><span class="check"></span></span>
                                         </label>

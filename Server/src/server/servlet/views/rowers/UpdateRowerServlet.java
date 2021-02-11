@@ -1,13 +1,12 @@
 package server.servlet.views.rowers;
 
-import com.google.gson.Gson;
+
 import engine.api.EngineContext;
 import engine.model.rower.Rower;
 import engine.model.rower.RowerModifier;
 import engine.utils.RegexHandler;
 import server.constant.Constants;
 import server.constant.ePages;
-import server.servlet.json.template.ErrorsList;
 import server.utils.Utils;
 
 import javax.servlet.ServletException;
@@ -17,11 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-
 
 @WebServlet(urlPatterns = "/rowers/update")
 public class UpdateRowerServlet extends HttpServlet {
@@ -31,20 +31,146 @@ public class UpdateRowerServlet extends HttpServlet {
 
         try (PrintWriter out = resp.getWriter()) {
 
-            String serial = req.getParameter("serialNumber");
-            Rower rowerToEdit = EngineContext.getInstance().getRowersCollectionManager().findRowerBySerialNumber(serial);
+            String serial = (String) req.getSession().getAttribute("UpdateRowerSerial");
 
-            if (rowerToEdit == null) {
-                out.println(Utils.getErrorJson(Collections.singletonList("Couldn't find the requested rower")));
+            if (serial == null) {
+                resp.sendRedirect("/rowers/index");
             } else {
-                String updatePage = Utils.readHtmlPage("/public/html/views/rowers/update.html", req);
-                updatePage = prepeareUpdatePage(updatePage, rowerToEdit);
-                Utils.renderLayoutString(req, resp, updatePage, ePages.ROWERS);
+                req.getSession().removeAttribute("UpdateRowerSerial");
+                Rower rowerToEdit = EngineContext.getInstance().getRowersCollectionManager().findRowerBySerialNumber(serial);
+
+                if (rowerToEdit == null) {
+                    out.println(Utils.getErrorJson(Collections.singletonList("Couldn't find the requested rower")));
+                } else {
+                    String updatePage = Utils.readHtmlPage("/public/html/views/rowers/update.html", req);
+                    updatePage = prepareUpdatePage(updatePage, rowerToEdit, req.getSession().getId());
+                    Utils.renderLayoutString(req, resp, updatePage, ePages.ROWERS);
+                }
             }
         }
     }
 
-    private String prepeareUpdatePage(String updatePage, Rower rower) {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO handle private boats
+
+        try (PrintWriter out = resp.getWriter()) {
+            HashMap<String, String> data = Utils.parsePostData(req);
+
+            try {
+                EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
+                String serial = data.get("serialNumber");
+
+                Rower rowerToEdit = eng.getRowersCollectionManager().findRowerBySerialNumber(serial);
+                if (rowerToEdit == null) {
+                    out.println(Utils.getErrorListJson(
+                            Collections.singletonList("Unknown error occurred during rower editing.")));
+                } else {
+                    List<String> errors = new ArrayList<>(updateTheRower(rowerToEdit, data));
+
+                    if (!errors.isEmpty()) {
+                        out.println(Utils.getErrorListJson(errors));
+                    } else {
+                        out.println(Utils.standardJsonResponse(true));
+                    }
+                }
+
+            } catch (Exception ex) {
+                out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
+            }
+        }
+    }
+
+    private List<String> updateTheRower(Rower rowerToEdit, HashMap<String, String> data) {
+        List<String> errors = new ArrayList<>();
+        EngineContext eng = EngineContext.getInstance();
+        RowerModifier modifier = eng.getRowerModifier(rowerToEdit, null);
+
+        handleEmailSet(eng, rowerToEdit, modifier, data.get("email"), errors);
+        handleNameSet(data.get("name"), errors, modifier);
+        handleAgeSet(data.get("age"), errors, modifier);
+        handlePhoneSet(data.get("phone"), errors, modifier);
+        handleExpDateSet(data.get("expirationDate"), errors, modifier);
+        modifier.setIsAdminStatus(Boolean.parseBoolean(data.get("isAdmin")));
+
+        Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(data.get("level")));
+        modifier.setRowerRank(rank);
+
+        List<String> notes = Utils.splitsNotes(data.get("notes"));
+        modifier.cleanNotes();
+        if (notes != null) {
+            notes.forEach(modifier::addNewNote);
+        }
+        return errors;
+    }
+
+    private void handleExpDateSet(String expirationDate, List<String> errors, RowerModifier modifier) {
+        if (expirationDate.isEmpty()) {
+            errors.add("Subscription expiration date can't be empty");
+        } else {
+            LocalDate parsedDate;
+
+            try {
+                parsedDate = LocalDate.parse(expirationDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                if (parsedDate.isBefore(LocalDate.now())) {
+                    errors.add("Subscription expiration date must be greater than today");
+                } else {
+                    modifier.setRowerExpirationDate(parsedDate);
+                }
+            } catch (Exception ex) {
+                errors.add("Invalid subscription expiration date received");
+            }
+        }
+    }
+
+    private void handlePhoneSet(String phone, List<String> errors, RowerModifier modifier) {
+        if (!phone.isEmpty()) {
+            if (!RegexHandler.isPhoneNumberValid(phone)) {
+                errors.add("Invalid phone number received.");
+            } else {
+                modifier.setRowerPhoneNumber(phone);
+            }
+        } else {
+            errors.add("Rower phone can't be empty.");
+        }
+    }
+
+    private void handleAgeSet(String age, List<String> errors, RowerModifier modifier) {
+        if (age.isEmpty()) {
+            errors.add("Rower age can't be empty");
+        } else {
+            if (Integer.parseInt(age) > 13) {
+                modifier.setRowerAge(Integer.parseInt(age));
+            } else {
+                errors.add("Rower age must be at least 13");
+            }
+        }
+    }
+
+    private void handleNameSet(String name, List<String> errors, RowerModifier modifier) {
+        if (name.isEmpty()) {
+            errors.add("Rower name can't be empty");
+        } else {
+            modifier.setRowerName(name);
+        }
+    }
+
+    private void handleEmailSet(EngineContext eng, Rower rowerToEdit, RowerModifier modifier,
+                                String email, List<String> result) {
+        if (!email.equals(rowerToEdit.getEmail())) {
+            if (email.isEmpty() || !RegexHandler.isEmailAddressValid(email)) {
+                result.add("Email address isn't valid");
+            } else if (eng.getRowersCollectionManager().emailExist(email)) {
+                result.add("The new email address already exists.");
+            } else {
+                modifier.setRowerEmail(email);
+            }
+        }
+    }
+
+    private String prepareUpdatePage(String updatePage, Rower rower, String sessionId) {
+        String loggedInSerial = EngineContext.getInstance().getLoggedInUser(sessionId).getSerialNumber();
+
         String age = String.valueOf(rower.getAge());
         return updatePage.replace("{serialNumber}", rower.getSerialNumber())
                 .replace("{name}", rower.getName())
@@ -56,7 +182,8 @@ public class UpdateRowerServlet extends HttpServlet {
                 .replace("{isAdmin}", rower.isAdmin() ? "checked" : "")
                 .replace("{selected0}", rower.getRank() == Rower.eRowerRank.BEGINNER ? "selected" : "")
                 .replace("{selected1}", rower.getRank() == Rower.eRowerRank.AVERAGE ? "selected" : "")
-                .replace("{selected2}", rower.getRank() == Rower.eRowerRank.PRO ? "selected" : "");
+                .replace("{selected2}", rower.getRank() == Rower.eRowerRank.PRO ? "selected" : "")
+                .replace("{isAdminDisabled}", loggedInSerial.equals(rower.getSerialNumber()) ? "disabled" : "");
     }
 
     private CharSequence mergeNotes(Rower rower) {
@@ -64,80 +191,4 @@ public class UpdateRowerServlet extends HttpServlet {
         rower.getNotes().forEach(note -> res.append(note).append('\n'));
         return res.toString();
     }
-
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws
-            ServletException, IOException {
-        // TODO handle private boats
-        resp.setContentType("application/json");
-        String serial = req.getParameter("serialNumber");
-        String name = req.getParameter("name");
-        int age = Integer.parseInt(req.getParameter("age"));
-        String phone = req.getParameter("phone");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        List<String> notes = splitsNotes(req.getParameter("notes"));
-        boolean isAdmin = Boolean.parseBoolean(req.getParameter("isAdmin"));
-        Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(req.getParameter("level")) - 1);
-
-
-        try (PrintWriter out = resp.getWriter()) {
-            EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
-            List<String> errors = new ArrayList<>(validatePhone(phone));
-
-            if (!errors.isEmpty()) {
-                out.println(new Gson().toJson(new ErrorsList(false, errors)));
-            } else {
-                Rower newRower = new Rower(serial, name, age, rank, password, isAdmin, email, phone);
-                errors.addAll(validateRower(newRower, eng));
-
-                if (!errors.isEmpty()) {
-                    // Failed
-                    out.println(new Gson().toJson(new ErrorsList(false, errors)));
-                } else {
-                    // Success
-                    eng.getRowersCollectionManager().add(newRower);
-                    if (notes != null) {
-                        RowerModifier modifier = eng.getRowerModifier(newRower, null);
-                        notes.forEach(modifier::addNewNote);
-                    }
-                    out.println(Utils.standardJsonResponse(true));
-                }
-            }
-        }
-    }
-
-    private List<String> splitsNotes(String notes) {
-        if (notes.length() == 0) {
-            return null;
-        }
-        List<String> temp = Arrays.asList(notes.split(String.valueOf('\n')).clone());
-        List<String> res = new ArrayList<>();
-        temp.forEach(str -> res.add(str.trim()));
-        return res;
-    }
-
-    private List<String> validateRower(Rower newRower, EngineContext eng) {
-        List<String> result = new ArrayList<>();
-
-        if (!eng.getRowersCollectionManager().isSerialNumberAvailable(newRower.getSerialNumber())) {
-            result.add("Serial number already exist.");
-        }
-
-        if (eng.getRowersCollectionManager().emailExist(newRower.getEmail())) {
-            result.add("Email address already exists.");
-        }
-
-        return result;
-    }
-
-    private List<String> validatePhone(String phone) {
-        List<String> result = new ArrayList<>();
-        if (!RegexHandler.isPhoneNumberValid(phone)) {
-            result.add("Invalid phone number received.");
-        }
-        return result;
-    }
 }
-

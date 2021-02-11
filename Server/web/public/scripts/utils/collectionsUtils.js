@@ -49,6 +49,52 @@ function getRowersFromServer() {
     });
 }
 
+function getPublicBoatsFromServer(serialNumber) {
+
+    if (serialNumber === undefined) {
+        serialNumber = null
+    }
+
+    let data = JSON.stringify({
+        serialNumber: serialNumber,
+    });
+
+
+    fetch('/collectors/publicBoats', {
+        method: 'post',
+        body: data,
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+        if (resAsJson.isSuccess) {
+            return resAsJson.data[0].boats;
+        } else {
+            return false;
+        }
+    });
+}
+
+function getRowersPrivateBoatsFromServer(serialNumber) {
+
+    let data = JSON.stringify({
+        serialNumber: serialNumber,
+    });
+
+
+    fetch('/collectors/rowersPrivateBoats', {
+        method: 'post',
+        body: data,
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+        if (resAsJson.isSuccess) {
+            return resAsJson.data[0].boats;
+        } else {
+            return false;
+        }
+    });
+}
+
 function getWeeklyActivitiesFromServer(){
     return fetch("/weekly-activities/index/getWeeklyActivities", {
         method: 'get'
