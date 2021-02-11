@@ -24,7 +24,7 @@ function insertOptionalBoats() {
         serial = null;
     }
 
-    let boats = getPublicBoatsFromServer(serial);
+    let boats = getBoatsFromServer(boat => boat.owner === undefined)
     boats.then(function (boats) {
         if (boats !== false && boats.length > 0) {
             boats.forEach(function (boat) {
@@ -50,7 +50,8 @@ async function sendForm() {
         password: passwordOneEl.value,
         level: levelEl.selectedIndex.toString(),
         isAdmin: isAdminEl.checked.toString(),
-        notes: notesEl.value
+        notes: notesEl.value,
+        boatsId: privateBoatsEl.value
     });
 
     fetch('/rowers/create', {

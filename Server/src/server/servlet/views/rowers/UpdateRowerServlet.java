@@ -1,6 +1,7 @@
 package server.servlet.views.rowers;
 
 
+import com.google.gson.Gson;
 import engine.api.EngineContext;
 import engine.model.rower.Rower;
 import engine.model.rower.RowerModifier;
@@ -91,6 +92,7 @@ public class UpdateRowerServlet extends HttpServlet {
         handleAgeSet(data.get("age"), errors, modifier);
         handlePhoneSet(data.get("phone"), errors, modifier);
         handleExpDateSet(data.get("expirationDate"), errors, modifier);
+        handlePrivateBoats(new Gson().fromJson(data.get("boatsId"), List.class), errors, modifier);
         modifier.setIsAdminStatus(Boolean.parseBoolean(data.get("isAdmin")));
 
         Rower.eRowerRank rank = Rower.eRowerRank.getFromInt(Integer.parseInt(data.get("level")));
@@ -102,6 +104,12 @@ public class UpdateRowerServlet extends HttpServlet {
             notes.forEach(modifier::addNewNote);
         }
         return errors;
+    }
+
+    private void handlePrivateBoats(List<String> boatsId, List<String> errors, RowerModifier modifier) {
+
+        List<String> lst = boatsId;
+
     }
 
     private void handleExpDateSet(String expirationDate, List<String> errors, RowerModifier modifier) {
