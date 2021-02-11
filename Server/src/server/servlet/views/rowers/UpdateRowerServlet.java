@@ -114,18 +114,20 @@ public class UpdateRowerServlet extends HttpServlet {
             List<Boat> newBoats = eng.getBoatsCollectionManager()
                     .filter(boat -> idToBoatList.contains(boat.getSerialNumber()));
 
-            currentBoats.forEach(rower::removePrivateBoat);
+            currentBoats.forEach(boat -> {
+                rower.removePrivateBoat(boat);
+                eng.getBoatModifier(boat, null).removeOwner();
+            });
 
             for (Boat current : newBoats) {
                 rower.addPrivateBoatAndChangeItsOwner(current);
             }
 
             return true;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             return false;
         }
     }
-
 
     private void handleExpDateSet(String expirationDate, List<String> errors, RowerModifier modifier) {
         if (expirationDate.isEmpty()) {

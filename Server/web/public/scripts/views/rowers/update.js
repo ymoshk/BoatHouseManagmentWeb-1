@@ -18,38 +18,33 @@ document.addEventListener("DOMContentLoaded", function () {
     changePasswordEl.addEventListener('click', (e) => changePasswordClickEventHandler(e));
     formEl.addEventListener('submit', (e) => updateRower(e));
     insertOptionalBoats();
+    insertPrivateBoats();
 });
 
 function insertOptionalBoats() {
-    let serial = serialNumber;
-
     getBoatsFromServer(boat => boat.owner === undefined).then(function (boats) {
-        if (serial === undefined) {
-            insertBoatOptions(boats);
-        } else {
-            getBoatsFromServer(boat => boat.owner.serialNumber === serial)
-                .then((privateBoats => insertBoatOptions(boats, privateBoats)));
-        }
+        insertBoatOptions(boats, false);
     })
 }
 
-function insertBoatOptions(boats, privateBoats) {
-    boats.then(function (boats) {
-        if (boats !== false && boats.length > 0) {
-            boats.forEach(function (boat) {
-                let selected = false;
-                if (privateBoats !== undefined) {
-                    selected = privateBoats.includes(boat);
-                }
-                privateBoatsEl.appendChild(buildBoatOptionEl(boat, selected));
-            });
-        } else {
-            let notFoundEl = document.createElement('option');
-            notFoundEl.disabled = true;
-            notFoundEl.innerText = "Couldn't find any available boats"
-            privateBoatsEl.appendChild(notFoundEl);
-        }
-    });
+function insertPrivateBoats() {
+    let serial = serialNumber;
+    getBoatsFromServer(boat => boat.owner !== undefined && boat.owner.serialNumber === serial).then(function (boats) {
+        insertBoatOptions(boats, true);
+    })
+}
+
+function insertBoatOptions(boats, selected) {
+    if (boats !== false && boats.length > 0) {
+        boats.forEach(function (boat) {
+            privateBoatsEl.appendChild(buildBoatOptionEl(boat, selected));
+        });
+    } else {
+        let notFoundEl = document.createElement('option');
+        notFoundEl.disabled = true;
+        notFoundEl.innerText = "Couldn't find any available boats"
+        privateBoatsEl.appendChild(notFoundEl);
+    }
 }
 
 

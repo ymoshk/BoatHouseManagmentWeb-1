@@ -2,6 +2,7 @@ package server.servlet.views.rowers;
 
 import com.google.gson.Gson;
 import engine.api.EngineContext;
+import engine.model.boat.Boat;
 import engine.model.rower.Rower;
 import engine.model.rower.RowerModifier;
 import engine.utils.RegexHandler;
@@ -70,6 +71,7 @@ public class CreateRowerServlet extends HttpServlet {
                     } else {
                         // Success
                         eng.getRowersCollectionManager().add(newRower);
+                        attachNewRowerToItsPrivateBoats(newRower);
                         if (notes != null) {
                             RowerModifier modifier = eng.getRowerModifier(newRower, null);
                             notes.forEach(modifier::addNewNote);
@@ -103,6 +105,16 @@ public class CreateRowerServlet extends HttpServlet {
             result.add("Invalid phone number received.");
         }
         return result;
+    }
+
+    private void attachNewRowerToItsPrivateBoats(Rower newRower) {
+        EngineContext eng = EngineContext.getInstance();
+        for (String serialNumber : newRower.getPrivateBoatsSerialNumbers()) {
+            Boat bt = eng.getBoatsCollectionManager().findBySerialNumber(serialNumber);
+            if (bt != null) {
+                eng.getBoatModifier(bt, System.out::println).setOwner(newRower);
+            }
+        }
     }
 }
 
