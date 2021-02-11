@@ -61,7 +61,7 @@ async function sendForm() {
         let json = await response.json()
 
         if (json.result === false) {
-            showErrorsInCreateForm(json.error, errorListEl);
+            showErrorsInUnOrderedListEl(json.error, errorListEl);
         } else {
             showSuccess("Rower successfully added!");
             setTimeout(function () {

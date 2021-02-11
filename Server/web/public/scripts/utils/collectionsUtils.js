@@ -30,68 +30,33 @@ function buildBoatOptionEl(boat) {
 
 
 // TODO - add a filter
-function getBoatsFromServer() {
+function getBoatsFromServer(filter) {
     return fetch("/boats/index/getBoats", {
         method: 'get'
     }).then(boats = async function (response) {
         let resAsJson = await response.json();
-        return resAsJson.boats;
+        let boats = resAsJson.boats;
+
+        if(filter !== undefined){
+            boats = boats.filter(boat => filter(boat));
+        }
+
+        return boats;
     });
 }
 
 // TODO - add a filter
-function getRowersFromServer() {
+function getRowersFromServer(filter) {
     return fetch("/rowers/index/getRowers", {
         method: 'get'
     }).then(async function (response) {
         let rowers = await response.json();
+
+        if(filter !== undefined){
+            rowers.rowers = rowers.rowers.filter(rower => filter(rower));
+        }
+
         return rowers.rowers;
-    });
-}
-
-function getPublicBoatsFromServer(serialNumber) {
-
-    if (serialNumber === undefined) {
-        serialNumber = null
-    }
-
-    let data = JSON.stringify({
-        serialNumber: serialNumber,
-    });
-
-
-    return fetch('/collectors/publicBoats', {
-        method: 'post',
-        body: data,
-        headers: getPostHeaders()
-    }).then(async function (response) {
-        let resAsJson = await response.json();
-        if (resAsJson.isSuccess) {
-            return resAsJson.data[0].boats;
-        } else {
-            return false;
-        }
-    });
-}
-
-function getRowersPrivateBoatsFromServer(serialNumber) {
-
-    let data = JSON.stringify({
-        serialNumber: serialNumber,
-    });
-
-
-    return fetch('/collectors/rowersPrivateBoats', {
-        method: 'post',
-        body: data,
-        headers: getPostHeaders()
-    }).then(async function (response) {
-        let resAsJson = await response.json();
-        if (resAsJson.isSuccess) {
-            return resAsJson.data[0].boats;
-        } else {
-            return false;
-        }
     });
 }
 
@@ -99,9 +64,8 @@ function getWeeklyActivitiesFromServer(){
     return fetch("/weekly-activities/index/getWeeklyActivities", {
         method: 'get'
     }).then(async function (response) {
-        alert(JSON.stringify(response.json()));
         let activities = await response.json();
-        // alert(JSON.stringify(activities));
+
         return activities.activities;
     });
 }

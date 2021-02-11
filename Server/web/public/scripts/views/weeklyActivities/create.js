@@ -22,7 +22,7 @@ async function validateForm(event) {
     }
 
     if (errors.length !== 0) {
-        showErrorsInCreateForm(errors, errorsListEl);
+        showErrorsInUnOrderedListEl(errors, errorsListEl);
     } else {
         addWeeklyActivity();
     }

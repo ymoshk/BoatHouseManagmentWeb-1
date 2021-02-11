@@ -50,7 +50,7 @@ async function addBoat() {
         }else{
             let errors = resAsJson.data;
             if(errors.length !== 0){
-                showErrorsInCreateForm(errors, errorListEl);
+                showErrorsInUnOrderedListEl(errors, errorListEl);
             }
             else {
                 showError("Something happened, try again later");
