@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
         uiLibrary: 'bootstrap4',
         format: 'dd/mm/yyyy'
     });
+
+    $('.select2El').select2();
 });
 
 

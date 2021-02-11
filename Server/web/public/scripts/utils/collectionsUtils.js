@@ -60,7 +60,7 @@ function getPublicBoatsFromServer(serialNumber) {
     });
 
 
-    fetch('/collectors/publicBoats', {
+    return fetch('/collectors/publicBoats', {
         method: 'post',
         body: data,
         headers: getPostHeaders()
@@ -81,7 +81,7 @@ function getRowersPrivateBoatsFromServer(serialNumber) {
     });
 
 
-    fetch('/collectors/rowersPrivateBoats', {
+    return fetch('/collectors/rowersPrivateBoats', {
         method: 'post',
         body: data,
         headers: getPostHeaders()

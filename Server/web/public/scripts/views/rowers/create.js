@@ -25,17 +25,18 @@ function insertOptionalBoats() {
     }
 
     let boats = getPublicBoatsFromServer(serial);
-
-    if (boats !== undefined && boats !== false && boats.length > 0) {
-        boats.foreach(function (boat) {
-            privateBoatsEl.appendChild(buildBoatOptionEl(boat));
-        });
-    } else {
-        let notFoundEl = document.createElement('option');
-        notFoundEl.disabled = true;
-        notFoundEl.innerText = "Couldn't find any available boats"
-        privateBoatsEl.appendChild(notFoundEl);
-    }
+    boats.then(function (boats) {
+        if (boats !== false && boats.length > 0) {
+            boats.forEach(function (boat) {
+                privateBoatsEl.appendChild(buildBoatOptionEl(boat));
+            });
+        } else {
+            let notFoundEl = document.createElement('option');
+            notFoundEl.disabled = true;
+            notFoundEl.innerText = "Couldn't find any available boats"
+            privateBoatsEl.appendChild(notFoundEl);
+        }
+    });
 }
 
 

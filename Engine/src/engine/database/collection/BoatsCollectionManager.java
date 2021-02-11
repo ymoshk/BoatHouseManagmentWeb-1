@@ -21,10 +21,25 @@ public class BoatsCollectionManager extends CollectionManager<Boat> {
 
     public BoatsCollectionManager(EngineInterface engine) {
         super(engine);
+
+        //TODO remove these boats
+        add(new Boat("name", "serial1", Boat.eBoatType.DUE, true, true, false));
+        add(new Boat("name", "serial2", Boat.eBoatType.DUE_SINGLE_OAR, true, true, false));
+        add(new Boat("name", "serial3", Boat.eBoatType.FOUR_SINGLE_OAR, true, true, false));
+        add(new Boat("name", "serial4", Boat.eBoatType.FOUR_WITH_COXWAIN, true, true, false));
+        add(new Boat("name", "serial5", Boat.eBoatType.EIGHT, true, true, false));
+
     }
 
     public BoatsCollectionManager(EngineInterface engineContext, List<Boat> boats) {
         super(engineContext, boats);
+
+        //TODO remove these boats
+        add(new Boat("name", "serial1", Boat.eBoatType.DUE, true, true, false));
+        add(new Boat("name", "serial2", Boat.eBoatType.DUE_SINGLE_OAR, true, true, false));
+        add(new Boat("name", "serial3", Boat.eBoatType.FOUR_SINGLE_OAR, true, true, false));
+        add(new Boat("name", "serial4", Boat.eBoatType.FOUR_WITH_COXWAIN, true, true, false));
+        add(new Boat("name", "serial5", Boat.eBoatType.EIGHT, true, true, false));
     }
 
     @Override
