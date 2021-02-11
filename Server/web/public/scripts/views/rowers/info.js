@@ -56,8 +56,8 @@ function getInfoHtml() {
         "                                    </div>\n" +
         "                                </div>\n" +
         "                                <div class=\"col-md-4\">\n" +
-        "                                    <div class=\"form-check\">\n" +
-        "                                        <label style=\"margin-top: 20px; margin-left: 20px\" class=\"form-check-label\">\n" +
+        "                                    <div class=\"form-check pull-left\">\n" +
+        "                                        <label style=\"margin-top: 20px; margin-left: 0px\" class=\"form-check-label\">\n" +
         "                                            <input id=\"isAdmin\" disabled class=\"form-check-input\" type=\"checkbox\"\n" +
         "                                                   value=\"\">Is Admin\n" +
         "                                            <span class=\"form-check-sign\"><span class=\"check\"></span></span>\n" +

@@ -43,8 +43,8 @@ function getInfoHtml() {
         "                                    </div>\n" +
         "                                </div>\n" +
         "                                <div class=\"col-md-2\">\n" +
-        "                                    <div class=\"form-check\">\n" +
-        "                                        <label style=\"margin-top: 20px; margin-left: 20px\" class=\"form-check-label\">\n" +
+        "                                    <div class=\"form-check pull-left\">\n" +
+        "                                        <label style=\"margin-top: 20px; margin-left: 0px\" class=\"form-check-label\">\n" +
         "                                            <input id=\"isWide\" disabled class=\"form-check-input\" type=\"checkbox\"\n" +
         "                                                   value=\"\">Is Wide\n" +
         "                                            <span class=\"form-check-sign\"><span class=\"check\"></span></span>\n" +
@@ -52,8 +52,8 @@ function getInfoHtml() {
         "                                    </div>\n" +
         "                                </div>\n" +
         "                                <div class=\"col-md-2\">\n" +
-        "                                    <div class=\"form-check\">\n" +
-        "                                        <label style=\"margin-top: 20px; margin-left: 20px\" class=\"form-check-label\">\n" +
+        "                                    <div class=\"form-check pull-left\">\n" +
+        "                                        <label style=\"margin-top: 20px; margin-left: 0px\" class=\"form-check-label\">\n" +
         "                                            <input id=\"isSeaBoat\" disabled class=\"form-check-input\" type=\"checkbox\"\n" +
         "                                                   value=\"\">Is Sew Boat\n" +
         "                                            <span class=\"form-check-sign\"><span class=\"check\"></span></span>\n" +
@@ -61,8 +61,8 @@ function getInfoHtml() {
         "                                    </div>\n" +
         "                                </div>\n" +
         "                                <div class=\"col-md-2\">\n" +
-        "                                    <div class=\"form-check\">\n" +
-        "                                        <label style=\"margin-top: 20px; margin-left: 20px\" class=\"form-check-label\">\n" +
+        "                                    <div class=\"form-check pull-left\">\n" +
+        "                                        <label style=\"margin-top: 20px; margin-left: 0px\" class=\"form-check-label\">\n" +
         "                                            <input id=\"isDisable\" disabled class=\"form-check-input\" type=\"checkbox\"\n" +
         "                                                   value=\"\">Is Disable\n" +
         "                                            <span class=\"form-check-sign\"><span class=\"check\"></span></span>\n" +
