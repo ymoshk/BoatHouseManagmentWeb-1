@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/rowers/delete")
 public class DeleteRowerServlet extends HttpServlet {
@@ -40,13 +41,16 @@ public class DeleteRowerServlet extends HttpServlet {
                 } else if (rowerToDelete == null) {
                     out.println(Utils.getErrorJson(Collections.singletonList("Rower not found")));
                 } else {
+                    List<Boat> rowerBoats = eng.getBoatsCollectionManager().filter(boat ->
+                            boat.hasOwner() && boat.getOwner().equals(rowerToDelete));
                     String argsParam = data.get("args");
                     Args deleteRowerArgs = gson.fromJson(argsParam, Args.class);
                     if (deleteRowerArgs.shouldDeleteRower) {
-                        if (deleteRowerArgs.shouldDeleteBoats) {
-                            for (String serial : rowerToDelete.getPrivateBoatsSerialNumbers()) {
-                                Boat boatToDelete = eng.getBoatsCollectionManager().findBySerialNumber(serial);
-                                eng.removeObject(boatToDelete);
+                        for (Boat boat : rowerBoats) {
+                            if (deleteRowerArgs.shouldDeleteBoats) {
+                                eng.getBoatsCollectionManager().remove(boat);
+                            } else {
+                                eng.getBoatModifier(boat, null).removeOwner();
                             }
                         }
                         out.println(Utils.getSuccessJson(eng.removeObject(rowerToDelete)));

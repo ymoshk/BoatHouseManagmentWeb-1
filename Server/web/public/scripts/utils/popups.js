@@ -20,7 +20,8 @@ function showInfoPopup(divToInject){
         showConfirmButton: false,
         showCancelButton: true,
         focusConfirm: false,
-        width : "80%" ,
+        padding: "0px",
+        width : "85%" ,
         cancelButtonText:
             '<i class="fa fa-close"></i> Exit',
         cancelButtonAriaLabel: 'Exit'
@@ -38,7 +39,8 @@ function showAreYouSureMessage(message, title) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
     }).then((result) => {
         return result.isConfirmed;
     });

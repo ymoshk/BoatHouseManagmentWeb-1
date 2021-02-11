@@ -18,6 +18,6 @@ public class TestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Utils.renderLayout(req, resp, "/public/html/views/rowers/test.html", ePages.ROWERS);
+        Utils.renderLayout(req, resp, "/public/html/test.html", ePages.ROWERS);
     }
 }

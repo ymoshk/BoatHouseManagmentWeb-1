@@ -11,6 +11,24 @@ function getRankFromInt(num) {
     return "None";
 }
 
+function getBoatTypeFromNum(num) {
+    let types = [
+        "Single",
+        "Due (2X)",
+        "Due with coxwain (2X+)",
+        "Due Single oar (2-)",
+        "Due Single oar with coxwain (2+)",
+        "Four (4X)",
+        "Four with coxwain (4X+)",
+        "Four single oar (4-)",
+        "Four single oar with coxwain (4+)",
+        "Eight (8X+)",
+        "Eight single oar (8+)",
+    ];
+
+    return num >= 0 ? types[num] : "None";
+}
+
 
 function buildOwnerOptionEl(rower, selected) {
     let res = document.createElement("option");

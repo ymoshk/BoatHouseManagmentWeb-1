@@ -13,81 +13,60 @@
                     <div class="card-body" id="tableContainer">
                         <div class="infoCard">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         <label for="serialNumber">ID Number</label>
-                                        <input id="serialNumber" name="serialNumber" type="text" class="form-control" disabled>
+                                        <input id="serialNumber" name="serialNumber" type="text" class="form-control"
+                                               disabled>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         <label for="name">Boat Name</label>
                                         <input id="name" name="name" type="text" class="form-control" disabled>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="age">Age</label>
-                                        <input id="age" name="age" type="number" class="form-control"
-                                               value="13" min="13"
-                                               max="120" disabled>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
-                                        <label for="phone">Phone Number</label>
-                                        <input id="phone" name="phone" type="text" class="form-control" disabled>
+                                        <label for="owner">Owner</label>
+                                        <input id="owner" name="owner" type="text" class="form-control" disabled>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="email">Email Address</label>
-                                        <input id="email" name="email" type="email" class="form-control" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-check">
                                         <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
-                                            <input id="isAdmin" disabled class="form-check-input" type="checkbox"
-                                                   value="">Is Admin
+                                            <input id="isWide" disabled class="form-check-input" type="checkbox"
+                                                   value="">Is Wide
+                                            <span class="form-check-sign"><span class="check"></span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                            <input id="isSeaBoat" disabled class="form-check-input" type="checkbox"
+                                                   value="">Is Sew Boat
+                                            <span class="form-check-sign"><span class="check"></span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                            <input id="isDisable" disabled class="form-check-input" type="checkbox"
+                                                   value="">Is Disable
                                             <span class="form-check-sign"><span class="check"></span></span>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-2">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="rank">Rank</label>
-                                        <input id="rank" class="form-control" minlength="4" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="joiningDate">Joining Date</label>
-                                        <input id="joiningDate" class="form-control" minlength="4" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="expDate">Expiration Date</label>
-                                        <input id="expDate" class="form-control" minlength="4" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
-                                        <label for="notes">Notes</label>
-                                        <textarea id="notes" disabled name="notes" class="form-control" rows="4">Notes</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="privateBoats">Private Boats</label>
-                                        <textarea id="privateBoats" disabled class="form-control" rows="4">Boats</textarea>
+                                        <label for="boatType">Boat Type</label>
+                                        <input id="boatType" name="boatType" type="text" class="form-control" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -99,6 +78,5 @@
             </div>
         </div>
     </div>
-    <script src="/public/scripts/views/rowers/create.js"></script>
 </div>
 

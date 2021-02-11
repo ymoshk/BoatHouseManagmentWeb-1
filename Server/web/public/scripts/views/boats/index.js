@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const tableContainer = document.getElementById("tableContainer");
+let boatsList;
 
 function buildBoatTableRow(boat) {
     let res = [];
@@ -21,10 +22,10 @@ async function createTable() {
     import ("/public/scripts/utils/tables.js").then((tables) => {
         getBoatsFromServer().then(boats => {
             if (boats.length !== 0) {
+                boatsList = boats;
                 let names = ["Name", "Description", "Sea boat", "Wide", "Active", "Owner", "Code"];
                 let table = tables.createEmptyTable(names);
                 tableContainer.appendChild(table);
-
                 let i = 1;
                 boats.forEach((boat) => {
                     let boatTableRow = buildBoatTableRow(boat);
@@ -101,5 +102,31 @@ function onEdit(serialNumber) {
 }
 
 function onInfo(serialNumber) {
-    alert("Update " + serialNumber);
+    const boat = boatsList.filter(boat => boat.serialNumber === serialNumber)[0];
+    createInfoPage(boat).then(infoPageEl => {
+        showInfoPopup(infoPageEl);
+    });
+}
+
+function createInfoPage(boat){
+    return import ("/public/scripts/views/boats/info.js").then((info) => {
+        let infoEl = info.getInfoDiv();
+        let serialNumberEl = infoEl.querySelector("#serialNumber");
+        let nameEl = infoEl.querySelector("#name");
+        let ownerEl = infoEl.querySelector("#owner");
+        let isWideEl = infoEl.querySelector("#isWide");
+        let isDisableEl = infoEl.querySelector("#isDisable");
+        let isSeaBoatEl = infoEl.querySelector("#isSeaBoat");
+        let boatTypeEl = infoEl.querySelector("#boatType");
+
+        serialNumberEl.value = boat.serialNumber;
+        nameEl.value = boat.name;
+        isWideEl.checked = boat.isWide;
+        isDisableEl.checked = boat.isDisable;
+        isSeaBoatEl.checked = boat.isSeaBoat;
+        ownerEl.value = boat.owner !== undefined ? boat.owner : "The boat has no owner";
+        boatTypeEl.value = boat.description;
+
+        return infoEl;
+    });
 }

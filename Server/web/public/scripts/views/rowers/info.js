@@ -99,7 +99,6 @@ function getInfoHtml() {
         "                                    </div>\n" +
         "                                </div>\n" +
         "                            </div>\n" +
-        "                            <hr style=\"margin-top: 70px\">\n" +
         "                            <div class=\"clearfix\"></div>\n" +
         "                        </div>\n" +
         "                    </div>\n" +
@@ -107,7 +106,6 @@ function getInfoHtml() {
         "            </div>\n" +
         "        </div>\n" +
         "    </div>\n" +
-        "    <script src=\"/public/scripts/views/rowers/create.js\"></script>\n" +
         "</div>\n" +
         "\n"
 }

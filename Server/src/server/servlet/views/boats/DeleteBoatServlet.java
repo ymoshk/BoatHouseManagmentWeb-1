@@ -32,7 +32,7 @@ public class DeleteBoatServlet extends HttpServlet {
                 out.println(Utils.getErrorListJson(Collections.singletonList("Boat not found")));
             } else {
                 List<Object> res = new ArrayList<>();
-                res.add(eng.removeObject(boatToDelete));
+                res.add(eng.getBoatsCollectionManager().remove(boatToDelete));
                 out.println(Utils.getSuccessJson(res));
             }
         }

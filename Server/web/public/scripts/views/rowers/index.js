@@ -122,7 +122,6 @@ function onEdit(serialNumber) {
 
 
 function onInfo(serialNumber) {
-
     const rower = rowersList.filter(rower => rower.serialNumber === serialNumber)[0];
     createInfoPage(rower).then(infoPageEl => {
         showInfoPopup(infoPageEl);
@@ -143,7 +142,6 @@ function createInfoPage(rower) {
         let notesEl = infoEl.querySelector("#notes");
         let privateBoatsEl = infoEl.querySelector("#privateBoats");
         let isAdminEl = infoEl.querySelector("#isAdmin");
-        alert(JSON.stringify(rower));
 
         nameEl.value = rower.name;
         ageEl.value = rower.age;
@@ -156,8 +154,8 @@ function createInfoPage(rower) {
         notesEl.value = rower.notes.length !== 0 ? rower.notes : "This rower has no notes";
         privateBoatsEl.value = rower.boatsId.length !== 0 ? rower.boatsId : "This rower has no boats";
         isAdminEl.checked = rower.isAdmin;
-        notesEl.value =notesEl.value.replace(",", "\n");
-        privateBoatsEl.value = privateBoatsEl.value.replace(",", "\n");
+        notesEl.value = notesEl.value.replaceAll(",", "\n");
+        privateBoatsEl.value = privateBoatsEl.value.replaceAll(",", "\n");
 
         return infoEl;
     });
