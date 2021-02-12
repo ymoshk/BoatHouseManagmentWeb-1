@@ -40,6 +40,7 @@ function showAreYouSureMessage(message, title) {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes',
+        allowOutsideClick: false,
         cancelButtonText: 'No'
     }).then((result) => {
         return result.isConfirmed;
