@@ -23,7 +23,7 @@ async function createTable() {
         getBoatsFromServer().then(boats => {
             if (boats.length !== 0) {
                 boatsList = boats;
-                let names = ["Name", "Description", "Sea boat", "Wide", "Active", "Owner", "Code"];
+                let names = ["Name", "Description", "Sea boat", "Wide Boat", "Active", "Owner", "Code"];
                 let table = tables.createEmptyTable(names);
                 tableContainer.appendChild(table);
                 let i = 1;
@@ -98,7 +98,22 @@ async function onDelete(serialNumber) {
 }
 
 function onEdit(serialNumber) {
-    alert("Edit " + serialNumber);
+    let data = JSON.stringify({
+        serialNumber: serialNumber,
+    });
+
+    fetch('/boats/update/init', {
+        method: 'post',
+        body: data,
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+        if (resAsJson.isSuccess) {
+            window.location = "/boats/update";
+        } else {
+            showError(resAsJson.error);
+        }
+    });
 }
 
 function onInfo(serialNumber) {

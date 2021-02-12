@@ -56,6 +56,17 @@ function buildBoatOptionEl(boat, selected) {
     return res;
 }
 
+function buildBoatTypeOptionEl(type) {
+    let res = document.createElement("option");
+    res.innerText = type.name;
+    res.value = type.index;
+
+    if (res.select) {
+        res.setAttribute('selected', 'selected');
+    }
+    return res;
+}
+
 
 function getBoatsFromServer(filter) {
     return fetch("/boats/index/getBoats", {
@@ -96,3 +107,20 @@ function getWeeklyActivitiesFromServer() {
         return activities.activities;
     });
 }
+
+
+function getSimilarTypesFromServer(serialNumber) {
+    let data = JSON.stringify({
+        serialNumber: serialNumber
+    });
+    return fetch("/collectors/SimilarBoatTypes", {
+        data: data,
+        method: 'post',
+        headers: getPostHeaders(),
+    }).then(async function (response) {
+        let activities = await response.json();
+
+        return activities.activities;
+    });
+}
+
