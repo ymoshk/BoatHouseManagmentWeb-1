@@ -1,4 +1,4 @@
-package server.servlet.json.template.collector.boat;
+package server.servlet.collector.boat;
 
 import engine.api.EngineContext;
 import engine.model.boat.Boat;
@@ -14,12 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 @WebServlet("/collectors/rowersPrivateBoats")
-public class rowersPrivateBoatsCollector extends HttpServlet {
+public class RowersPrivateBoatsCollector extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,14 +30,14 @@ public class rowersPrivateBoatsCollector extends HttpServlet {
             String serial = data.get("serialNumber");
 
             if (serial == null || serial.isEmpty()) {
-                out.println(Utils.getErrorJson(Collections.singletonList("Invalid serial number received")));
+                out.println(Utils.createJsonErrorObject("Invalid serial number received"));
             } else {
                 Rower owner = eng.getRowersCollectionManager().findRowerBySerialNumber(serial);
                 boats = eng.getBoatsCollectionManager()
                         .filter(boat -> boat.hasOwner() && boat.getOwner().equals(owner));
             }
 
-            out.println(Utils.getSuccessJson(Collections.singletonList(new BoatsJson(boats))));
+            out.println(Utils.createJsonSuccessObject(new BoatsJson(boats)));
         }
 
     }

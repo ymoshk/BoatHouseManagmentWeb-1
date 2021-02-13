@@ -18,7 +18,7 @@ async function validateForm(event) {
     let endTime = endTimeEl.value.toString();
 
     if (compareTime(startTime, endTime)) {
-        errors.push("End time should be after start time");
+        errors.push("End time must be after the start time");
     }
 
     if (errors.length !== 0) {
@@ -42,12 +42,12 @@ function addWeeklyActivity() {
             headers: getPostHeaders()
         }
     ).then(async function (response) {
-        let data = await response.json();
+        let result = await response.json();
 
-        if (data.isSuccess) {
-            showSuccess("Weekly activity added successfully!");
+        if (result.isSuccess) {
+            showSuccess("Weekly activity successfully added!");
         } else {
-            showError("Weekly activity couldn't added");
+            showError("Adding weekly activity failed.");
         }
 
         setTimeout(function () {

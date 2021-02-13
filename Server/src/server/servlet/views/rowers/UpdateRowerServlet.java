@@ -39,7 +39,7 @@ public class UpdateRowerServlet extends HttpServlet {
                 Rower rowerToEdit = EngineContext.getInstance().getRowersCollectionManager().findRowerBySerialNumber(serial);
 
                 if (rowerToEdit == null) {
-                    out.println(Utils.getErrorJson(Collections.singletonList("Couldn't find the requested rower")));
+                    out.println(Utils.createJsonErrorObject("Couldn't find the requested rower"));
                 } else {
                     String updatePage = Utils.readHtmlPage("/public/html/views/rowers/update.html", req);
                     updatePage = prepareUpdatePage(updatePage, rowerToEdit, req.getSession().getId());
@@ -61,20 +61,19 @@ public class UpdateRowerServlet extends HttpServlet {
 
                 Rower rowerToEdit = eng.getRowersCollectionManager().findRowerBySerialNumber(serial);
                 if (rowerToEdit == null) {
-                    out.println(Utils.getErrorListJson(
-                            Collections.singletonList("Unknown error occurred during rower editing.")));
+                    out.println(Utils.createJsonErrorObject("Unknown error occurred during rower editing."));
                 } else {
                     List<String> errors = new ArrayList<>(updateTheRower(rowerToEdit, data));
 
                     if (!errors.isEmpty()) {
-                        out.println(Utils.getErrorListJson(errors));
+                        out.println(Utils.createJsonErrorObject(errors));
                     } else {
-                        out.println(Utils.standardJsonResponse(true));
+                        out.println(Utils.createJsonSuccessObject(true));
                     }
                 }
 
             } catch (Exception ex) {
-                out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
+                out.println(Utils.createJsonErrorObject("Unknown error occurred during rower creation."));
             }
         }
     }
@@ -90,7 +89,7 @@ public class UpdateRowerServlet extends HttpServlet {
         handlePhoneSet(data.get("phone"), errors, modifier);
         handleExpDateSet(data.get("expirationDate"), errors, modifier);
         if (!handlePrivateBoats(new Gson().fromJson(data.get("boatsId"), String[].class), rowerToEdit)) {
-            errors.add("Error occured while updating the private boats");
+            errors.add("Error occurred while updating the private boats");
         }
         modifier.setIsAdminStatus(Boolean.parseBoolean(data.get("isAdmin")));
 

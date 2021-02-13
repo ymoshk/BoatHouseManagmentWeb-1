@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -23,18 +22,16 @@ public class UpdateRowerInitServlet extends HttpServlet {
             HashMap<String, String> data = Utils.parsePostData(req);
 
             if (data.isEmpty()) {
-                out.println(Utils.getErrorJson(
-                        Collections.singletonList("Can't update the requested rower due to an unknown error")));
+                out.println(Utils.createJsonErrorObject("Can't update the requested rower due to an unknown error"));
             } else {
                 String serialNumber = data.get("serialNumber");
 
                 if (serialNumber == null) {
-                    out.println(Utils.getErrorJson(
-                            Collections.singletonList("Can't update the requested rower due to an unknown error")));
+                    out.println(Utils.createJsonErrorObject("Can't update the requested rower due to an unknown error"));
                 }
 
                 req.getSession().setAttribute("UpdateRowerSerial", serialNumber);
-                out.println(Utils.getSuccessJson(true));
+                out.println(Utils.createJsonSuccessObject(true));
             }
         }
     }

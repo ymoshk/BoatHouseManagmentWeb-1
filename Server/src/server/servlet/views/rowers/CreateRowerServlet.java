@@ -8,7 +8,6 @@ import engine.model.rower.RowerModifier;
 import engine.utils.RegexHandler;
 import server.constant.Constants;
 import server.constant.ePages;
-import server.servlet.json.template.ErrorsList;
 import server.utils.Utils;
 
 import javax.servlet.ServletException;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,7 +53,7 @@ public class CreateRowerServlet extends HttpServlet {
                 List<String> errors = new ArrayList<>(validatePhone(phone));
 
                 if (!errors.isEmpty()) {
-                    out.println(new Gson().toJson(new ErrorsList(false, errors)));
+                    out.println(Utils.createJsonErrorsListObject(errors));
                 } else {
                     Rower newRower;
                     if (privateBoats.length > 0) {
@@ -67,7 +65,7 @@ public class CreateRowerServlet extends HttpServlet {
 
                     if (!errors.isEmpty()) {
                         // Failed
-                        out.println(new Gson().toJson(new ErrorsList(false, errors)));
+                        out.println(Utils.createJsonErrorsListObject(errors));
                     } else {
                         // Success
                         eng.getRowersCollectionManager().add(newRower);
@@ -76,11 +74,11 @@ public class CreateRowerServlet extends HttpServlet {
                             RowerModifier modifier = eng.getRowerModifier(newRower, null);
                             notes.forEach(modifier::addNewNote);
                         }
-                        out.println(Utils.standardJsonResponse(true));
+                        out.println(Utils.createJsonSuccessObject(true));
                     }
                 }
             } catch (Exception ex) {
-                out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
+                out.println(Utils.createJsonErrorObject("Unknown error occurred during rower creation."));
             }
         }
     }

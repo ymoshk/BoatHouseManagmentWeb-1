@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @WebServlet(urlPatterns = "/weekly-activities/create")
 public class CreateWeeklyActivityServlet extends HttpServlet {
@@ -43,9 +41,9 @@ public class CreateWeeklyActivityServlet extends HttpServlet {
 
         try(PrintWriter out = resp.getWriter()){
             if(engine.getWeeklyActivitiesCollectionManager().add(weeklyActivityToAdd)){
-                out.println(Utils.getSuccessJson(true));
+                out.println(Utils.createJsonSuccessObject(true));
             }else {
-                out.println(Utils.getSuccessJson(false));
+                out.println(Utils.createJsonSuccessObject(false));
             }
         }
     }

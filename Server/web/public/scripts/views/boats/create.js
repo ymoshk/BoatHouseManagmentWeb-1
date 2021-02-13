@@ -40,25 +40,24 @@ async function addBoat() {
         }
     ).then(async function (response) {
         let resAsJson = await response.json();
-        if(resAsJson.isSuccess){
+        if (resAsJson.isSuccess) {
             showSuccess("Boat successfully added!");
 
             setTimeout(function () {
                 window.location = '/boats/index';
             }, timeOutTime);
-        }else{
+        } else {
             let errors = resAsJson.data;
-            if(errors.length !== 0){
+            if (errors.length !== 0) {
                 showErrorsInUnOrderedListEl(errors, errorListEl);
-            }
-            else {
-                showError("Something happened, try again later");
+            } else {
+                showError("Boat creation failed due to unknown error.");
                 setTimeout(function () {
                     window.location = '/boats/index';
                 }, timeOutTime);
             }
         }
-    }).catch()
+    })
 }
 
 function validateForm(event) {
@@ -66,7 +65,7 @@ function validateForm(event) {
     let errors = [];
 
     if (boatTypeSelectEl.selectedIndex.valueOf() === 0) {
-        errors.push("You must to pick a boat type");
+        errors.push("You must to select a boat type");
     }
 
     if (errors.length === 0) {

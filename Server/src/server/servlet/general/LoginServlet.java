@@ -40,25 +40,21 @@ public class LoginServlet extends HttpServlet {
         try (PrintWriter out = resp.getWriter()) {
             HashMap<String, String> data = Utils.parsePostData(req);
 
-            if (data == null) {
-                out.println(Utils.standardJsonResponse(false, "Unknown error occurred during rower creation."));
+            String email = data.get("email");
+            String password = data.get("password");
+
+            if (email == null || password == null) {
+                out.println(Utils.standardJsonResponse(false, "Email and password can't be empty"));
             } else {
-                String email = data.get("email");
-                String password = data.get("password");
+                EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
+                Pair<Boolean, String> res = eng.verifyLoginDetails(email, password);
 
-                if (email == null || password == null) {
-                    out.println(Utils.standardJsonResponse(false, "Email and password can't be empty"));
+                if (!res.getKey()) {
+                    out.println(Utils.standardJsonResponse(false, res.getValue()));
                 } else {
-                    EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
-                    Pair<Boolean, String> res = eng.verifyLoginDetails(email, password);
-
-                    if (!res.getKey()) {
-                        out.println(Utils.standardJsonResponse(false, res.getValue()));
-                    } else {
-                        eng.login(email, password, req.getSession().getId());
-                        Utils.updateSession(req.getSession());
-                        out.println(Utils.standardJsonResponse(true));
-                    }
+                    eng.login(email, password, req.getSession().getId());
+                    Utils.updateSession(req.getSession());
+                    out.println(Utils.standardJsonResponse(true));
                 }
             }
         }

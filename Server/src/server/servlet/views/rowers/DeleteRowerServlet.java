@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,34 +26,30 @@ public class DeleteRowerServlet extends HttpServlet {
         try (PrintWriter out = resp.getWriter()) {
 
             HashMap<String, String> data = Utils.parsePostData(req);
-            if (data == null) {
-                out.println(Utils.getErrorJson(Collections.singletonList("Delete failed due to unknown error.")));
-            } else {
-                EngineContext eng = EngineContext.getInstance();
-                Rower rowerToDelete =
-                        EngineContext.getInstance().getRowersCollectionManager()
-                                .findRowerBySerialNumber(data.get("serialNumber"));
+            EngineContext eng = EngineContext.getInstance();
+            Rower rowerToDelete =
+                    EngineContext.getInstance().getRowersCollectionManager()
+                            .findRowerBySerialNumber(data.get("serialNumber"));
 
-                if (eng.getLoggedInUser(req.getRequestedSessionId())
-                        .getSerialNumber().equals(data.get("serialNumber"))) {
-                    out.println(Utils.getErrorJson(Collections.singletonList("You cannot delete your own user")));
-                } else if (rowerToDelete == null) {
-                    out.println(Utils.getErrorJson(Collections.singletonList("Rower not found")));
-                } else {
-                    List<Boat> rowerBoats = eng.getBoatsCollectionManager().filter(boat ->
-                            boat.hasOwner() && boat.getOwner().equals(rowerToDelete));
-                    String argsParam = data.get("args");
-                    Args deleteRowerArgs = gson.fromJson(argsParam, Args.class);
-                    if (deleteRowerArgs.shouldDeleteRower) {
-                        for (Boat boat : rowerBoats) {
-                            if (deleteRowerArgs.shouldDeleteBoats) {
-                                eng.getBoatsCollectionManager().remove(boat);
-                            } else {
-                                eng.getBoatModifier(boat, null).removeOwner();
-                            }
+            if (eng.getLoggedInUser(req.getRequestedSessionId())
+                    .getSerialNumber().equals(data.get("serialNumber"))) {
+                out.println(Utils.createJsonErrorObject("You cannot delete your own user"));
+            } else if (rowerToDelete == null) {
+                out.println(Utils.createJsonErrorObject("Rower not found"));
+            } else {
+                List<Boat> rowerBoats = eng.getBoatsCollectionManager().filter(boat ->
+                        boat.hasOwner() && boat.getOwner().equals(rowerToDelete));
+                String argsParam = data.get("args");
+                Args deleteRowerArgs = gson.fromJson(argsParam, Args.class);
+                if (deleteRowerArgs.shouldDeleteRower) {
+                    for (Boat boat : rowerBoats) {
+                        if (deleteRowerArgs.shouldDeleteBoats) {
+                            eng.getBoatsCollectionManager().remove(boat);
+                        } else {
+                            eng.getBoatModifier(boat, null).removeOwner();
                         }
-                        out.println(Utils.getSuccessJson(eng.removeObject(rowerToDelete)));
                     }
+                    out.println(Utils.createJsonSuccessObject(eng.removeObject(rowerToDelete)));
                 }
             }
         }

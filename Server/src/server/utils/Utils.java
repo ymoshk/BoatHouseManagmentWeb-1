@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import engine.api.EngineContext;
 import server.constant.Constants;
 import server.constant.ePages;
-import server.servlet.json.template.ErrorsList;
 import server.servlet.json.template.Response;
 
 import javax.servlet.RequestDispatcher;
@@ -110,24 +109,25 @@ public class Utils {
         return result;
     }
 
-    // For update or create form - insert into UL element.
-    public static String getErrorListJson(List<String> error) {
-        return new Gson().toJson(new ErrorsList(false, error));
-    }
 
     // For ajax pop up results
-    public static String getErrorJson(List<Object> data) {
+    public static String createJsonErrorsListObject(List<String> data) {
         return new Gson().toJson(new Response(false, data));
     }
 
 
     // For ajax pop up results
-    public static String getSuccessJson(List<Object> data) {
+    public static String createJsonErrorObject(Object data) {
+        return new Gson().toJson(new Response(false, data));
+    }
+
+    // For ajax pop up results
+    public static String createJsonSuccessObject(Object data) {
         return new Gson().toJson(new Response(true, data));
     }
 
     // For ajax pop up results
-    public static String getSuccessJson(Boolean result) {
+    public static String createJsonSuccessObject(Boolean result) {
         return new Gson().toJson(new Response(result));
     }
 

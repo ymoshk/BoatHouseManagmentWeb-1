@@ -21,16 +21,17 @@ document.addEventListener("DOMContentLoaded", function () {
     insertPrivateBoats();
 });
 
+
 function insertOptionalBoats() {
     getBoatsFromServer(boat => boat.owner === undefined).then(function (boats) {
-        insertBoatOptions(boats, false);
+        return insertBoatOptions(boats, false);
     })
 }
 
 function insertPrivateBoats() {
     let serial = serialNumber;
     getBoatsFromServer(boat => boat.owner !== undefined && boat.owner.serialNumber === serial).then(function (boats) {
-        insertBoatOptions(boats, true);
+        return insertBoatOptions(boats, true);
     })
 }
 
@@ -39,11 +40,6 @@ function insertBoatOptions(boats, selected) {
         boats.forEach(function (boat) {
             privateBoatsEl.appendChild(buildBoatOptionEl(boat, selected));
         });
-    } else {
-        let notFoundEl = document.createElement('option');
-        notFoundEl.disabled = true;
-        notFoundEl.innerText = "Couldn't find any available boats"
-        privateBoatsEl.appendChild(notFoundEl);
     }
 }
 
@@ -71,13 +67,13 @@ function updateRower(e) {
     }).then(async function (response) {
         let json = await response.json()
 
-        if (json.result === false) {
-            showErrorsInUnOrderedListEl(json.error, errorListEl);
-        } else {
+        if (json.isSuccess) {
             showSuccess("Rower successfully updated!");
             setTimeout(function () {
                 window.location = '/rowers/index';
             }, 2000);
+        } else {
+            showErrorsInUnOrderedListEl(json.data, errorListEl);
         }
     });
 
@@ -129,10 +125,10 @@ function updatePassword(value) {
     }).then(async function (response) {
         let json = await response.json()
 
-        if (json.result === false) {
-            showError("Failed!", json.error);
+        if (json.isSuccess) {
+            showSuccess("Password successfully changed");
         } else {
-            showSuccess("Success!", "Password successfully changed");
+            showError("Failed!", json.error);
         }
     });
 }

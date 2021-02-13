@@ -32,7 +32,7 @@ async function createTable() {
                         .appendChild(tables.getRowInTable(rower.serialNumber, tableElements, i++, onDelete, onEdit, onInfo));
                 })
             } else {
-                tableContainer.appendChild(getNoDataEl());
+                tableContainer.appendChild(tables.getNoDataEl());
             }
         }).catch(() => handleErrors());
     });
@@ -51,13 +51,13 @@ async function deleteRower(serialNumber, deleteRowerArgs) {
         headers: getPostHeaders()
     }).then(async function (response) {
         let resAsJson = await response.json();
-        if (resAsJson.isSuccess === false) {
-            showError("Error", resAsJson.data[0]);
-        } else {
-            showSuccess("Rower successfully removed", "Success!");
+        if (resAsJson.isSuccess) {
+            showSuccess("Rower successfully removed");
             setTimeout((function () {
                 location.reload();
             }), timeOutTime);
+        } else {
+            showError(resAsJson.data);
         }
     });
 }
@@ -82,14 +82,14 @@ async function onDelete(serialNumber) {
             showError("Error", resAsJson.data[0]);
         } else {
             let data = resAsJson.data;
-            if (data[0] === true) {
+            if (data[0]) {
 
                 deleteRowerArgs.shouldDeleteBoats =
                     await showAreYouSureMessage(
-                        "This rower has private boats, are you want to delete them to?");
+                        "This rower has private boats, do you want to delete them too?");
             }
 
-            if (data[1] === true) {
+            if (data[1]) {
                 deleteRowerArgs.shouldDeleteRower =
                     await showAreYouSureMessage(
                         "The rower you want to delete participates in club activities. " +
@@ -115,7 +115,7 @@ function onEdit(serialNumber) {
         if (resAsJson.isSuccess) {
             window.location = "/rowers/update";
         } else {
-            showError(resAsJson.error);
+            showError(resAsJson.data);
         }
     });
 }

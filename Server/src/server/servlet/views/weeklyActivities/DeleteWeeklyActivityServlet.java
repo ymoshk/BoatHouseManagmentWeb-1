@@ -30,9 +30,9 @@ public class DeleteWeeklyActivityServlet extends HttpServlet {
 
         try (PrintWriter out = resp.getWriter()) {
             if (weeklyActivityToDelete != null) {
-                out.println(Utils.getSuccessJson(weeklyActivities.remove(weeklyActivityToDelete)));
+                out.println(Utils.createJsonSuccessObject(weeklyActivities.remove(weeklyActivityToDelete)));
             } else {
-                out.println(Utils.getSuccessJson(false));
+                out.println(Utils.createJsonSuccessObject(false));
             }
         }
     }

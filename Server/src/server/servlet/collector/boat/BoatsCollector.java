@@ -1,4 +1,4 @@
-package server.servlet.views.boats;
+package server.servlet.collector.boat;
 
 import com.google.gson.Gson;
 import com.sun.org.apache.xerces.internal.util.HTTPInputSource;
@@ -19,8 +19,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/boats/index/getBoats")
-public class GetBoatsCollectionServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/collectors/boats")
+public class BoatsCollector extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,13 +1,11 @@
 package server.servlet.views.boats;
 
-import com.sun.deploy.ref.Helpers;
 import engine.api.EngineContext;
 import engine.model.boat.Boat;
 import engine.model.rower.Rower;
 import server.constant.ePages;
 import server.utils.Utils;
 
-import javax.rmi.CORBA.Util;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,11 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.acl.Owner;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @WebServlet(urlPatterns = "/boats/create")
 public class CreateBoatServlet extends HttpServlet {
@@ -56,15 +51,12 @@ public class CreateBoatServlet extends HttpServlet {
         }
 
         try (PrintWriter out = resp.getWriter()) {
-            List<Object> errors = new ArrayList<>();
-
             if (!eng.isBoatSerialNumberFree(serialNumber)) {
-                errors.add("Serial number already exist");
-                out.println(Utils.getErrorJson(errors));
+                out.println(Utils.createJsonErrorsListObject(Collections.singletonList("Serial number already exist")));
             } else if (eng.getBoatsCollectionManager().add(boatToAdd)) {
-                out.println(Utils.getSuccessJson(true));
+                out.println(Utils.createJsonSuccessObject(true));
             } else {
-                out.println(Utils.getSuccessJson(false));
+                out.println(Utils.createJsonErrorsListObject(Collections.singletonList("Boat creation failed  due to unknown error")));
             }
         }
 

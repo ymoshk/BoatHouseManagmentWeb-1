@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 
 @WebServlet(urlPatterns = "/boats/delete")
@@ -29,11 +26,9 @@ public class DeleteBoatServlet extends HttpServlet {
 
         try (PrintWriter out = resp.getWriter()) {
             if (boatToDelete == null) {
-                out.println(Utils.getErrorListJson(Collections.singletonList("Boat not found")));
+                out.println(Utils.createJsonErrorObject("Boat not found"));
             } else {
-                List<Object> res = new ArrayList<>();
-                res.add(eng.getBoatsCollectionManager().remove(boatToDelete));
-                out.println(Utils.getSuccessJson(res));
+                out.println(Utils.createJsonSuccessObject(eng.getBoatsCollectionManager().remove(boatToDelete)));
             }
         }
     }

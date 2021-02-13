@@ -38,7 +38,7 @@ public class UpdateInitServlet extends HttpServlet {
                 req.getSession().removeAttribute("UpdateBoatSerial");
                 Boat boatToEdit = EngineContext.getInstance().getBoatsCollectionManager().findBySerialNumber(serial);
                 if (boatToEdit == null) {
-                    out.println(Utils.getErrorJson(Collections.singletonList("Couldn't find the requested boat")));
+                    out.println(Utils.createJsonErrorObject("Couldn't find the requested boat"));
                 } else {
                     String updatePage = Utils.readHtmlPage("/public/html/views/boats/update.html", req);
                     updatePage = prepareUpdatePage(updatePage, boatToEdit, req.getSession().getId());
@@ -60,20 +60,19 @@ public class UpdateInitServlet extends HttpServlet {
 
                 Rower rowerToEdit = eng.getRowersCollectionManager().findRowerBySerialNumber(serial);
                 if (rowerToEdit == null) {
-                    out.println(Utils.getErrorListJson(
-                            Collections.singletonList("Unknown error occurred during rower editing.")));
+                    out.println(Utils.createJsonErrorObject("Unknown error occurred during rower editing."));
                 } else {
                     List<String> errors = new ArrayList<>(updateTheRower(rowerToEdit, data));
 
                     if (!errors.isEmpty()) {
-                        out.println(Utils.getErrorListJson(errors));
+                        out.println(Utils.createJsonErrorObject(errors));
                     } else {
-                        out.println(Utils.standardJsonResponse(true));
+                        out.println(Utils.createJsonSuccessObject(true));
                     }
                 }
 
             } catch (Exception ex) {
-                out.println(Utils.getErrorListJson(Collections.singletonList("Unknown error occurred during rower creation.")));
+                out.println(Utils.createJsonErrorObject("Unknown error occurred during rower creation."));
             }
         }
     }

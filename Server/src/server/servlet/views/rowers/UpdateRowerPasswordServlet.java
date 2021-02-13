@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,26 +25,22 @@ public class UpdateRowerPasswordServlet extends HttpServlet {
         try (PrintWriter out = resp.getWriter()) {
 
             HashMap<String, String> data = Utils.parsePostData(req);
-            if (data == null) {
-                out.println(Utils.getErrorJson(Collections.singletonList("Changing password failed due to unknown error.")));
+            EngineContext eng = EngineContext.getInstance();
+            Rower rowerToUpdate =
+                    EngineContext.getInstance().getRowersCollectionManager()
+                            .findRowerBySerialNumber(data.get("serialNumber"));
+
+            if (rowerToUpdate == null) {
+                out.println(Utils.createJsonErrorObject("Changing password failed due to unknown error."));
             } else {
-                EngineContext eng = EngineContext.getInstance();
-                Rower rowerToUpdate =
-                        EngineContext.getInstance().getRowersCollectionManager()
-                                .findRowerBySerialNumber(data.get("serialNumber"));
+                List<String> errors = new ArrayList<>();
+                RowerModifier modifier = eng.getRowerModifier(rowerToUpdate, errors::add);
+                modifier.setRowerPassword(data.get("password"));
 
-                if (rowerToUpdate == null) {
-                    out.println(Utils.getErrorJson(Collections.singletonList("Changing password failed due to unknown error.")));
+                if (errors.isEmpty()) {
+                    out.println(Utils.createJsonSuccessObject(true));
                 } else {
-                    List<String> errors = new ArrayList<>();
-                    RowerModifier modifier = eng.getRowerModifier(rowerToUpdate, errors::add);
-                    modifier.setRowerPassword(data.get("password"));
-
-                    if (errors.isEmpty()) {
-                        out.println(Utils.getSuccessJson(true));
-                    } else {
-                        out.println(Utils.getErrorJson(Collections.singletonList(errors.get(0))));
-                    }
+                    out.println(Utils.createJsonErrorObject(errors.get(0)));
                 }
             }
         }

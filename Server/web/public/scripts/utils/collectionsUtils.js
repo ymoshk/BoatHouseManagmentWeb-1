@@ -69,7 +69,7 @@ function buildBoatTypeOptionEl(type) {
 
 
 function getBoatsFromServer(filter) {
-    return fetch("/boats/index/getBoats", {
+    return fetch("/collectors/boats", {
         method: 'get'
     }).then(async function (response) {
         let resAsJson = await response.json();
@@ -85,7 +85,7 @@ function getBoatsFromServer(filter) {
 
 
 function getRowersFromServer(filter) {
-    return fetch("/rowers/index/getRowers", {
+    return fetch("/collectors/rowers", {
         method: 'get'
     }).then(async function (response) {
         let rowers = await response.json();
@@ -99,7 +99,7 @@ function getRowersFromServer(filter) {
 }
 
 function getWeeklyActivitiesFromServer() {
-    return fetch("/weekly-activities/index/getWeeklyActivities", {
+    return fetch("/collectors/weekly-activities", {
         method: 'get'
     }).then(async function (response) {
         let activities = await response.json();
@@ -120,7 +120,7 @@ function getSimilarTypesFromServer(serialNumber) {
     }).then(async function (response) {
         let types = await response.json();
 
-        return types.data;
+        return types;
     });
 }
 

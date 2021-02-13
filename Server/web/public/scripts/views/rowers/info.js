@@ -6,7 +6,14 @@ export function getInfoDiv() {
 }
 
 function getInfoHtml() {
-    return "<div class=\"content\">\n" +
+    return "<style>.form-check .form-check-input[disabled] ~ .form-check-sign .check {\n" +
+        "    opacity: 1 !important; */\n" +
+        "}" +
+        "fieldset[disabled] .form-check, fieldset[disabled] .form-check .form-check-input, .form-check .form-check-input[disabled] ~ .form-check-sign .check, .form-check .form-check-input[disabled] + .circle {\n" +
+        "    opacity: 1 !important; \n" +
+        "}" +
+        "</style>" +
+        "<div class=\"content\">\n" +
         "    <div class=\"container-fluid\">\n" +
         "        <div class=\"row\">\n" +
         "            <div class=\"col-12\">\n" +

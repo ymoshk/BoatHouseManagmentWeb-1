@@ -12,40 +12,40 @@ document.addEventListener("DOMContentLoaded", function () {
     insertOptionalTypes();
 });
 
-
-function updateRower(e) {
-    e.preventDefault();
-
-    let data = JSON.stringify({
-        serialNumber: serialNumber,
-        email: emailEl.value,
-        name: nameEl.value,
-        age: ageEl.value,
-        phone: phoneEl.value,
-        expirationDate: subscriptionExp.value,
-        level: levelEl.selectedIndex.toString(),
-        isAdmin: isAdminEl.checked.toString(),
-        notes: notesEl.value,
-        boatsId: selectExtractor('privateBoats')
-    });
-
-    fetch('/rowers/update', {
-        method: 'post',
-        body: data,
-        headers: getPostHeaders()
-    }).then(async function (response) {
-        let json = await response.json()
-
-        if (json.result === false) {
-            showErrorsInUnOrderedListEl(json.error, errorListEl);
-        } else {
-            showSuccess("Rower successfully updated!");
-            setTimeout(function () {
-                window.location = '/rowers/index';
-            }, 2000);
-        }
-    });
-}
+//
+// function updateRower(e) {
+//     e.preventDefault();
+//
+//     let data = JSON.stringify({
+//         serialNumber: serialNumber,
+//         email: emailEl.value,
+//         name: nameEl.value,
+//         age: ageEl.value,
+//         phone: phoneEl.value,
+//         expirationDate: subscriptionExp.value,
+//         level: levelEl.selectedIndex.toString(),
+//         isAdmin: isAdminEl.checked.toString(),
+//         notes: notesEl.value,
+//         boatsId: selectExtractor('privateBoats')
+//     });
+//
+//     fetch('/rowers/update', {
+//         method: 'post',
+//         body: data,
+//         headers: getPostHeaders()
+//     }).then(async function (response) {
+//         let json = await response.json()
+//
+//         if (json.result === false) {
+//             showErrorsInUnOrderedListEl(json.error, errorListEl);
+//         } else {
+//             showSuccess("Rower successfully updated!");
+//             setTimeout(function () {
+//                 window.location = '/rowers/index';
+//             }, 2000);
+//         }
+//     });
+// }
 
 
 function insertOptionalRowers() {
@@ -73,9 +73,9 @@ function insertOptionalRowers() {
 }
 
 function insertOptionalTypes() {
-    getSimilarTypesFromServer(serialNumber).then(function (types) {
-        if (types[0].types !== undefined && types[0].types.length > 0) {
-            types[0].types.forEach(function (type) {
+    getSimilarTypesFromServer(serialNumber).then(function (response) {
+        if (response !== undefined && response.types.length > 0) {
+            response.types.forEach(function (type) {
                 boatType.appendChild(buildBoatTypeOptionEl(type));
             });
         } else {

@@ -61,13 +61,13 @@ async function sendForm() {
     }).then(async function (response) {
         let json = await response.json()
 
-        if (json.result === false) {
-            showErrorsInUnOrderedListEl(json.error, errorListEl);
-        } else {
+        if (json.isSuccess) {
             showSuccess("Rower successfully added!");
             setTimeout(function () {
                 window.location = '/rowers/index';
             }, timeOutTime);
+        } else {
+            showErrorsInUnOrderedListEl(json.data, errorListEl);
         }
     });
 

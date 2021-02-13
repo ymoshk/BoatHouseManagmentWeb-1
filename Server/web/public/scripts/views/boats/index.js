@@ -54,8 +54,7 @@ async function deleteBoat(serialNumber) {
         if (!resAsJson.isSuccess) {
             showError("Error");
         } else {
-            let data = resAsJson.data;
-            if (data[0] === true) {
+            if (resAsJson.data) {
                 showSuccess("Boat successfully removed", "Success!" );
                 setTimeout((function () {
                     location.reload();
@@ -79,11 +78,11 @@ async function onDelete(serialNumber) {
     }).then(async function (response) {
         let resAsJson = await response.json();
         if (!resAsJson.isSuccess) {
-            showError("Error", resAsJson.data[0]);
+            showError("Error", resAsJson.data);
         } else {
             let data = resAsJson.data;
 
-            if (data[0] === false) {
+            if (data === false) {
                 shouldBoatRemoved = await showAreYouSureMessage(
                     "The boat that you want to delete participates in club activities. " +
                     "Would you like to remove these activities?");

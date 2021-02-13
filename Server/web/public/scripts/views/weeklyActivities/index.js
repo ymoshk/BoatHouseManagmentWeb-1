@@ -50,12 +50,12 @@ function onDelete(id) {
     }).then(async function (response) {
         let resAsJson = await response.json();
         if (resAsJson.isSuccess) {
-            showSuccess("Weekly activity successfully removed", "Success!");
+            showSuccess("Weekly activity successfully removed");
             setTimeout((function () {
                 location.reload();
             }), timeOutTime);
         } else {
-            showError("Error", "Please try again later");
+            showError("Deleting weekly activity failed, try again later.");
         }
     });
 }

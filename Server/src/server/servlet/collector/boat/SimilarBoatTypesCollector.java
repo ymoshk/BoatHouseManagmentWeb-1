@@ -1,5 +1,6 @@
-package server.servlet.json.template.collector.boat;
+package server.servlet.collector.boat;
 
+import com.google.gson.Gson;
 import engine.api.EngineContext;
 import engine.model.boat.Boat;
 import javafx.util.Pair;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class SimilarBoatTypesCollector extends HttpServlet {
                 }
             }
 
-            out.println(Utils.getSuccessJson(Collections.singletonList(result)));
+            out.println(new Gson().toJson(result));
         }
 
     }

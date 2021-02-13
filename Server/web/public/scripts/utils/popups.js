@@ -32,7 +32,7 @@ function showAreYouSureMessage(message, title) {
     if (title === undefined) {
         title = "Are you sure?";
     }
-    let res = Swal.fire({
+    return Swal.fire({
         title: title,
         text: message,
         icon: 'warning',
@@ -45,6 +45,4 @@ function showAreYouSureMessage(message, title) {
     }).then((result) => {
         return result.isConfirmed;
     });
-
-    return res;
 }
