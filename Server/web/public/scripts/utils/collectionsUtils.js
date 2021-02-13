@@ -32,11 +32,10 @@ function getBoatTypeFromNum(num) {
 
 function buildOwnerOptionEl(rower, selected) {
     let res = document.createElement("option");
-    res.className = rower.serialNumber;
     res.innerText = rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
     res.value = rower.serialNumber;
 
-    if (selected !== undefined) {
+    if (selected !== undefined && selected) {
         res.setAttribute("selected", "selected");
     }
 

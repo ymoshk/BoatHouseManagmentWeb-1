@@ -61,7 +61,22 @@ function onDelete(id) {
 }
 
 function onEdit(id) {
-    alert("Edit " + id);
+    let data = JSON.stringify({
+        id: id,
+    });
+
+    fetch('/weekly-activities/update/init', {
+        method: 'post',
+        body: data,
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+        if (resAsJson.isSuccess) {
+            window.location = "/weekly-activities/update";
+        } else {
+            showError(resAsJson.error);
+        }
+    });
 }
 
 function onInfo(id) {

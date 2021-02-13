@@ -35,14 +35,12 @@ public class CreateWeeklyActivityServlet extends HttpServlet {
         String endTimeString = reqArgsMap.get("endTime");
         LocalTime startTime = LocalTime.parse(startTimeString, DateTimeFormatter.ofPattern("HH:mm"));
         LocalTime endTime = LocalTime.parse(endTimeString, DateTimeFormatter.ofPattern("HH:mm"));
-        WeeklyActivity   weeklyActivityToAdd = new WeeklyActivity(name, startTime, endTime, boatType);
+        WeeklyActivity weeklyActivityToAdd = new WeeklyActivity(name, startTime, endTime, boatType);
 
-
-
-        try(PrintWriter out = resp.getWriter()){
-            if(engine.getWeeklyActivitiesCollectionManager().add(weeklyActivityToAdd)){
+        try (PrintWriter out = resp.getWriter()) {
+            if (engine.getWeeklyActivitiesCollectionManager().add(weeklyActivityToAdd)) {
                 out.println(Utils.createJsonSuccessObject(true));
-            }else {
+            } else {
                 out.println(Utils.createJsonSuccessObject(false));
             }
         }

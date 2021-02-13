@@ -74,4 +74,16 @@ public class BoatModifier extends Modifier<Boat> {
         this.markModify();
         invokeCallBack("Boat new state is " + (isDisable ? "disabled" : "enabled"));
     }
+
+    public void setIsWide(boolean isWide) {
+        this.objectToEdit.setIsWide(isWide);
+        this.markModify();
+        invokeCallBack("Boat new state is " + (isWide ? "wide" : "not wide"));
+    }
+
+    public void setIsSeaBoat(boolean isSeaBoat) {
+        this.objectToEdit.setIsSeaBoat(isSeaBoat);
+        this.markModify();
+        invokeCallBack("Boat new state is " + (isSeaBoat ? "sea boat" : "not sea boat"));
+    }
 }

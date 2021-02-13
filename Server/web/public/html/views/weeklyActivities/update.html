@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="col-md-10">
-                            <p style="margin-top:10px; font-size: 22px;">Create A New Weekly Activity</p>
+                            <p style="margin-top:10px; font-size: 22px;">Update Weekly Activity</p>
                         </div>
                         <div class="col-md-2"></div>
                         <hr>
@@ -15,17 +15,20 @@
                             <ul style="color:red;" id="errors">
                             </ul>
                         </div>
-                        <form id="createWeeklyActivityForm">
+                        <form id="updateWeeklyActivityForm">
+                            <input id="id" type="hidden" value="{id}">
                             <div class="row">
                                 <div class="col-md-6" style="margin-top: 5px">
                                     <div class="form-group bmd-form-group">
-                                        <input id="name" name="name" type="text" class="form-control"
+                                        <label for="name">Weekly Activity Name</label>
+                                        <input id="name" name="name" value={name} type="text" class="form-control"
                                                placeholder="Weekly Activity Name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
-                                        <select id="boatType" name="boatType" class="form-control selectpicker"
+                                        <label for="boatType">Boat Type</label>
+                                        <select id="boatType" name="BoatType" class="form-control selectpicker"
                                                 data-style="btn btn-link">
                                             <option value="-1">None</option>
                                         </select>
@@ -37,13 +40,13 @@
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group">
                                         <label for="startTime" class="label-control">Start Time</label>
-                                        <input id="startTime" type="time" class="form-control" value="00:00"/>
+                                        <input id="startTime" type="time" class="form-control" value="{startTime}"/>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group bmd-form-group" style="">
                                         <label for="endTime" class="label-control">End Time</label>
-                                        <input id="endTime" type="time" class="form-control" value="00:00"/>
+                                        <input id="endTime" type="time" class="form-control" value="{endTime}"/>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +59,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-4">
-                                    <button id="createWeeklyActivityBtn" type="submit" class="btn btn-blue btn-block">Create
+                                    <button id="updateBtn" type="submit" class="btn btn-blue btn-block">Create
                                         Weekly Activity
                                     </button>
                                 </div>
@@ -68,6 +71,6 @@
             </div>
         </div>
     </div>
-    <script src="/public/scripts/views/weeklyActivities/create.js"></script>
+    <script src="/public/scripts/views/weeklyActivities/update.js"></script>
 </div>
 

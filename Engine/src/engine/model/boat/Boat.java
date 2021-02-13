@@ -20,8 +20,8 @@ import java.util.Objects;
 public class Boat extends Model implements Serializable {
 
     private final String serialNumber;
-    private final boolean isWide;
-    private final boolean isSeaBoat;
+    private boolean isWide;
+    private boolean isSeaBoat;
     private String name;
     private eBoatType boatType;
     private boolean isDisable;
@@ -84,8 +84,16 @@ public class Boat extends Model implements Serializable {
         return this.isWide;
     }
 
+    void setIsWide(boolean newState) {
+        this.isWide = newState;
+    }
+
     public boolean isSeaBoat() {
         return this.isSeaBoat;
+    }
+
+    void setIsSeaBoat(boolean newState) {
+        this.isSeaBoat = newState;
     }
 
     public boolean isDisable() {
@@ -209,10 +217,10 @@ public class Boat extends Model implements Serializable {
         }
 
         public static eBoatType getTypeFromInt(int boatTypeAsInt) {
-            if (boatTypeAsInt <= 0) {
+            if (boatTypeAsInt < 0) {
                 return null;
             } else {
-                return eBoatType.values()[boatTypeAsInt - 1];
+                return eBoatType.values()[boatTypeAsInt];
             }
         }
 
@@ -220,10 +228,9 @@ public class Boat extends Model implements Serializable {
             int i = 0;
 
             for (eBoatType type : eBoatType.values()) {
-                if (type == boatType) {
+                if (type.equals(boatType)) {
                     return i;
                 }
-
                 i++;
             }
 

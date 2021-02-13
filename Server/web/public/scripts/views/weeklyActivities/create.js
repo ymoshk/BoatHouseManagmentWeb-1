@@ -8,7 +8,19 @@ const errorsListEl = document.getElementById("errors");
 
 document.addEventListener("DOMContentLoaded", function () {
     formEl.addEventListener('submit', validateForm);
+    insertBoatTypes();
 });
+
+
+function insertBoatTypes() {
+    getSimilarTypesFromServer().then(function (response) {
+        if (response.types !== undefined && response.types.length > 0) {
+            response.types.forEach(function (type) {
+                boatTypeEl.appendChild(buildBoatTypeOptionEl(type));
+            })
+        }
+    });
+}
 
 
 async function validateForm(event) {
@@ -31,7 +43,7 @@ async function validateForm(event) {
 function addWeeklyActivity() {
     let data = JSON.stringify({
         name: nameEl.value,
-        boatType: boatTypeEl.selectedIndex.toString(),
+        boatType: boatTypeEl.value.toString(),
         startTime: startTimeEl.value.toString(),
         endTime: endTimeEl.value.toString()
     })

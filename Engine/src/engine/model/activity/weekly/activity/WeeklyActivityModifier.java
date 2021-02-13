@@ -57,12 +57,8 @@ public class WeeklyActivityModifier extends Modifier<WeeklyActivity> {
     }
 
     public void setRequiredBoatType(Boat.eBoatType newType) {
-        if (newType != null) {
-            this.objectToEdit.setBoatType(newType);
-            this.markModify();
-            this.invokeCallBack("Weekly activity boat type successfully changed.");
-        } else {
-            this.invokeCallBack("Changing boat type failed. The boat type can't be empty.");
-        }
+        this.objectToEdit.setBoatType(newType);
+        this.markModify();
+        this.invokeCallBack("Weekly activity boat type successfully changed.");
     }
 }

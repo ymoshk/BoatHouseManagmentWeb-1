@@ -20,16 +20,15 @@ async function processLogin() {
         headers: getPostHeaders()
     }).then(async function (response) {
         let json = await response.json()
-
-        if (json.result === false) {
-            passwordErrorEl.innerText = json.error;
-            passwordErrorEl.style.display = 'block';
-            passwordInputEl.value = '';
-            emailInputEl.value = '';
-        } else {
+        if (json.isSuccess) {
             passwordErrorEl.innerText = '';
             passwordErrorEl.style.display = 'none';
             window.location = '/home'
+        } else {
+            passwordErrorEl.innerText = json.data;
+            passwordErrorEl.style.display = 'block';
+            passwordInputEl.value = '';
+            emailInputEl.value = '';
         }
     }).catch(() => showError("Error", "Login failed for unknown reason."));
 }

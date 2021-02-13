@@ -44,17 +44,17 @@ public class LoginServlet extends HttpServlet {
             String password = data.get("password");
 
             if (email == null || password == null) {
-                out.println(Utils.standardJsonResponse(false, "Email and password can't be empty"));
+                out.println(Utils.createJsonErrorObject("Email and password can't be empty"));
             } else {
                 EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
                 Pair<Boolean, String> res = eng.verifyLoginDetails(email, password);
 
                 if (!res.getKey()) {
-                    out.println(Utils.standardJsonResponse(false, res.getValue()));
+                    out.println(Utils.createJsonErrorObject(res.getValue()));
                 } else {
                     eng.login(email, password, req.getSession().getId());
                     Utils.updateSession(req.getSession());
-                    out.println(Utils.standardJsonResponse(true));
+                    out.println(Utils.createJsonSuccessObject(true));
                 }
             }
         }

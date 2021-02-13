@@ -33,7 +33,7 @@ public class CreateBoatServlet extends HttpServlet {
         String ownerSerialNumber = reqData.get("ownerSerialNumber");
         Rower owner = null;
 
-        if (ownerSerialNumber != null && !ownerSerialNumber.isEmpty()) {
+        if (ownerSerialNumber != null && !ownerSerialNumber.isEmpty() && !ownerSerialNumber.equals("none")) {
             owner = eng.getRowersCollectionManager().findRowerBySerialNumber(ownerSerialNumber);
         }
 

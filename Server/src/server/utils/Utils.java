@@ -20,14 +20,6 @@ import java.util.*;
 
 public class Utils {
 
-    public static String standardJsonResponse(Boolean result) {
-        return standardJsonResponse(result, "");
-    }
-
-    public static String standardJsonResponse(Boolean result, String error) {
-        return "{\"result\": " + result.toString().toLowerCase() + ", " +
-                "\"error\": \"" + error + "\"}";
-    }
 
     private static boolean sessionExpired(HttpSession session) {
         Map<String, LocalDateTime> map = getSessionExpMap(session);

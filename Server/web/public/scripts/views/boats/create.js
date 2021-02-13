@@ -8,6 +8,21 @@ const isWideEl = document.getElementById("isWide");
 const isDisableEl = document.getElementById("isDisable");
 const isSeaBoatEl = document.getElementById("isSeaBoat");
 
+document.addEventListener("DOMContentLoaded", function () {
+    fillInOwners();
+    insertBoatTypes();
+    formEl.addEventListener('submit', validateForm);
+});
+
+function insertBoatTypes() {
+    getSimilarTypesFromServer().then(function (response) {
+        if (response.types !== undefined && response.types.length > 0) {
+            response.types.forEach(function (type) {
+                boatTypeSelectEl.appendChild(buildBoatTypeOptionEl(type));
+            })
+        }
+    });
+}
 
 function fillInOwners() {
     getRowersFromServer().then(rowers => {
@@ -17,20 +32,16 @@ function fillInOwners() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    fillInOwners();
-    formEl.addEventListener('submit', validateForm);
-});
-
 async function addBoat() {
+
     let data = JSON.stringify({
         serialNumber: serialNumberEl.value,
         name: nameEl.value,
-        ownerSerialNumber: ownersEl[ownersEl.selectedIndex].className,
+        ownerSerialNumber: ownersEl.value,
         isWide: isWideEl.checked.toString(),
         isSeaBoatEl: isSeaBoatEl.checked.toString(),
         isDisable: isDisableEl.checked.toString(),
-        boatType: boatTypeSelectEl.selectedIndex.toString()
+        boatType: boatTypeSelectEl.value.toString()
     });
 
     fetch("/boats/create", {
@@ -64,7 +75,7 @@ function validateForm(event) {
     event.preventDefault();
     let errors = [];
 
-    if (boatTypeSelectEl.selectedIndex.valueOf() === 0) {
+    if (boatTypeSelectEl.value === "-1") {
         errors.push("You must to select a boat type");
     }
 

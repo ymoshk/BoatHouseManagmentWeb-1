@@ -38,14 +38,14 @@ function getInfoHtml() {
         "                                <div class=\"col-md-3\">\n" +
         "                                    <div class=\"form-group bmd-form-group\">\n" +
         "                                        <label for=\"startTime\">Start Time</label>\n" +
-        "                                        <input id=\"startTime\" name=\"startTime\" type=\"time\" class=\"form-control\"\n" +
+        "                                        <input style='text-align: left;' id=\"startTime\" name=\"startTime\" type=\"time\" class=\"form-control\"\n" +
         "                                               disabled>\n" +
         "                                    </div>\n" +
         "                                </div>\n" +
         "                                <div class=\"col-md-3\">\n" +
         "                                    <div class=\"form-group bmd-form-group\">\n" +
-        "                                        <label for=\"endTime\">Start Time</label>\n" +
-        "                                        <input id=\"endTime\" name=\"endTime\" type=\"time\" class=\"form-control\" disabled>\n" +
+        "                                        <label for=\"endTime\">End Time</label>\n" +
+        "                                        <input style='text-align: left' id=\"endTime\" name=\"endTime\" type=\"time\" class=\"form-control\" disabled>\n" +
         "                                    </div>\n" +
         "                                </div>\n" +
         "                                <hr style=\"margin-top: 70px\">\n" +

@@ -73,7 +73,7 @@ public class UpdateRowerServlet extends HttpServlet {
                 }
 
             } catch (Exception ex) {
-                out.println(Utils.createJsonErrorObject("Unknown error occurred during rower creation."));
+                out.println(Utils.createJsonErrorObject("Unknown error occurred during rower editing."));
             }
         }
     }
