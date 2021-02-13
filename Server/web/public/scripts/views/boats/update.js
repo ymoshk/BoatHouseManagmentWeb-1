@@ -74,15 +74,16 @@ function insertOptionalRowers() {
 
 function insertOptionalTypes() {
     getSimilarTypesFromServer(serialNumber).then(function (types) {
-        if (types !== false && types.length > 0) {
-            types.forEach(function (type) {
+        if (types[0].types !== undefined && types[0].types.length > 0) {
+            types[0].types.forEach(function (type) {
                 boatType.appendChild(buildBoatTypeOptionEl(type));
             });
         } else {
             let notFoundEl = document.createElement('option');
             notFoundEl.disabled = true;
-            notFoundEl.innerText = "Couldn't find any available rowers"
-            optionalOwner.appendChild(notFoundEl);
+            notFoundEl.innerText = "Couldn't find a types";
+            notFoundEl.selected = true;
+            boatType.appendChild(notFoundEl);
         }
     })
 }

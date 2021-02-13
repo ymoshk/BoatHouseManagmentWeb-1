@@ -120,6 +120,7 @@ public class Utils {
         return new Gson().toJson(new Response(false, data));
     }
 
+
     // For ajax pop up results
     public static String getSuccessJson(List<Object> data) {
         return new Gson().toJson(new Response(true, data));

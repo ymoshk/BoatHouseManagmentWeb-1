@@ -61,8 +61,8 @@ function buildBoatTypeOptionEl(type) {
     res.innerText = type.name;
     res.value = type.index;
 
-    if (res.select) {
-        res.setAttribute('selected', 'selected');
+    if (type.select) {
+        res.selected = true;
     }
     return res;
 }
@@ -114,13 +114,13 @@ function getSimilarTypesFromServer(serialNumber) {
         serialNumber: serialNumber
     });
     return fetch("/collectors/SimilarBoatTypes", {
-        data: data,
+        body: data,
         method: 'post',
         headers: getPostHeaders(),
     }).then(async function (response) {
-        let activities = await response.json();
+        let types = await response.json();
 
-        return activities.activities;
+        return types.data;
     });
 }
 

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class BoatTypeListJson {
 
-    public List<BoatTypeJson> boats;
+    public List<BoatTypeJson> types;
 
-    public BoatTypeListJson(List<BoatTypeJson> boats) {
-        this.boats = boats;
+    public BoatTypeListJson(List<BoatTypeJson> types) {
+        this.types = types;
     }
 }
