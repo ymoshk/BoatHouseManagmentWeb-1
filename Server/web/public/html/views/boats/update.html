@@ -4,10 +4,13 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="col-md-10">
-                            <p style="margin-top:10px; font-size: 22px;">Create A New Boat</p>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <p style="margin-top:10px; font-size: 22px;">Update Boat</p>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
                         </div>
-                        <div class="col-md-2"></div>
                         <hr>
                     </div>
                     <div class="card-body" id="tableContainer">
@@ -15,68 +18,55 @@
                             <ul style="color:red;" id="errors">
                             </ul>
                         </div>
-                        <form id="createBoatForm">
+                        <form id="updateBoatForm">
+                            <input id="serialNumber" name="serialNumber" value="{serialNumber}" type="hidden"
+                                   class="form-control" required>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
-                                        <input id="serialNumber" name="serialNumber" type="text" class="form-control"
-                                               placeholder="Serial number" required>
+                                        <label for="name">Boat Name</label>
+                                        <input id="name" name="name" value="{name}" type="text" class="form-control"
+                                               placeholder="Boat Name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
-                                        <input id="name" name="name" type="text" class="form-control"
-                                               placeholder="Boat Name" required>
+                                        <label for="owners">Select Owner</label>
+                                        <select id="owners" name="owner" class="form-control"
+                                                data-style="btn btn-link">
+                                            <option>None</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group bmd-form-group">
-                                        <select id="owners" name="level" class="form-control selectpicker"
+                                        <label for="boatType">Boat Type</label>
+                                        <select id="boatType" name="type" class="form-control"
                                                 data-style="btn btn-link">
-                                            <option>Select Owner</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <select id="boatType" name="level" class="form-control selectpicker"
-                                                data-style="btn btn-link">
-                                            <option style="color: #aeadad" selected disabled>Select Boat Type</option>
-                                            <option>Single (1X)</option>
-                                            <option>Due (2X)</option>
-                                            <option>Due with coxwain (2X+)</option>
-                                            <option>Due Single oar (2-)</option>
-                                            <option>Due Single oar with coxwain (2+)</option>
-                                            <option>Four (4X)</option>
-                                            <option>Four with coxwain (4X+)</option>
-                                            <option>Four single oar (4-)</option>
-                                            <option>Four single oar with coxwain (4+)</option>
-                                            <option>Eight (8X+)</option>
-                                            <option>Eight single oar (8+)</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row col-md-6">
                                 <div class="form-check col-md-4">
-                                    <label style="margin-top: 20px" class="form-check-label">
-                                        <input id="isWide" class="form-check-input" type="checkbox" value="">
+                                    <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                        <input id="isWide" class="form-check-input" type="checkbox" {isWide}>
                                         Is Wide
                                         <span class="form-check-sign"><span class="check"></span></span>
                                     </label>
                                 </div>
                                 <div class="form-check col-md-4">
-                                    <label style="margin-top: 20px" class="form-check-label">
-                                        <input id="isSeaBoat" class="form-check-input" type="checkbox" value="">
+                                    <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                        <input id="isSeaBoat" class="form-check-input" type="checkbox" {isSeaBoat}>
                                         Is Sea Boat
                                         <span class="form-check-sign"><span class="check"></span></span>
                                     </label>
                                 </div>
                                 <div class="form-check col-md-4">
-                                    <label style="margin-top: 20px" class="form-check-label">
-                                        <input id="isDisable" class="form-check-input" type="checkbox" value="">
+                                    <label style="margin-top: 20px; margin-left: 20px" class="form-check-label">
+                                        <input id="isDisable" class="form-check-input" type="checkbox" {isDisable}>
                                         Is Disable
                                         <span class="form-check-sign"><span class="check"></span></span>
                                     </label>
@@ -91,17 +81,18 @@
                                     </a>
                                 </div>
                                 <div class="col-md-3">
-                                    <button id="createBoatBtn" type="submit" class="btn btn-blue btn-block">Create
+                                    <button id="updateBoatBtn" type="submit" class="btn btn-blue btn-block">Update
                                         Boat
                                     </button>
                                 </div>
                             </div>
+                            <div class="clearfix"></div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/public/scripts/views/boats/create.js"></script>
+    <script src="/public/scripts/views/boats/update.js"></script>
 </div>
 

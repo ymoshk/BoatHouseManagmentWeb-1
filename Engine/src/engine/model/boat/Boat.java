@@ -3,6 +3,7 @@ package engine.model.boat;
 
 import engine.model.Model;
 import engine.model.rower.Rower;
+import javafx.util.Pair;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -172,6 +173,27 @@ public class Boat extends Model implements Serializable {
             this.shortCode = shortCode;
             this.hasCoxwain = hasCoxwain;
             this.description = description;
+        }
+
+        public static List<Pair<eBoatType, Integer>> toList() {
+            return toList(null);
+        }
+
+        public static List<Pair<eBoatType, Integer>> toList(eBoatType boatType) {
+            int i = 0;
+            List<Pair<eBoatType, Integer>> result = new ArrayList<>();
+
+            for (eBoatType type : eBoatType.values()) {
+                if (boatType == null) {
+                    result.add(new Pair<>(type, i++));
+                } else {
+                    if (boatType.numOfRowers == type.numOfRowers) {
+                        result.add(new Pair<>(type, i++));
+                    }
+                }
+            }
+
+            return result;
         }
 
         public static List<eBoatType> getSimilarTypes(eBoatType boatType) {
