@@ -29,8 +29,6 @@ public class GetWeeklyActivitiesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EngineContext eng = EngineContext.getInstance();
         List<WeeklyActivity> activities = eng.getWeeklyActivitiesCollectionManager().toArrayList();
-//        List<WeeklyActivity> activities = new ArrayList<>();
-//        activities.add(new WeeklyActivity("test", LocalTime.now(), LocalTime.now().plusHours(1), Boat.eBoatType.DUE_WITH_COXWAIN));
 
 
         try(PrintWriter out = resp.getWriter()){
