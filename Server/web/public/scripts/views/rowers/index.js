@@ -54,7 +54,7 @@ async function deleteRower(serialNumber, deleteRowerArgs) {
         if (resAsJson.isSuccess === false) {
             showError("Error", resAsJson.data[0]);
         } else {
-            showSuccess("Success!", "Rower successfully removed");
+            showSuccess("Rower successfully removed", "Success!");
             setTimeout((function () {
                 location.reload();
             }), timeOutTime);

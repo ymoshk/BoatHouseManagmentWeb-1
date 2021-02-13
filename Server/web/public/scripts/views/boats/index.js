@@ -56,7 +56,7 @@ async function deleteBoat(serialNumber) {
         } else {
             let data = resAsJson.data;
             if (data[0] === true) {
-                showSuccess("Success!", "Boat successfully removed");
+                showSuccess("Boat successfully removed", "Success!" );
                 setTimeout((function () {
                     location.reload();
                 }), timeOutTime);
@@ -93,7 +93,7 @@ async function onDelete(serialNumber) {
                 deleteBoat(serialNumber);
             }
         }
-    })
+    });
 
 }
 

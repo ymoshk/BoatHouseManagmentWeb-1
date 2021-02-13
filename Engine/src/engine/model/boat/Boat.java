@@ -199,7 +199,7 @@ public class Boat extends Model implements Serializable {
 
             for (eBoatType type : eBoatType.values()) {
                 if (type == boatType) {
-                    break;
+                    return i;
                 }
 
                 i++;

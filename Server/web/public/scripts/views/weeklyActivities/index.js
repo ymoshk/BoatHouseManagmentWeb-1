@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const tableContainer = document.getElementById("tableContainer");
+let weeklyActivities;
 
 
 function buildActivityRow(activity) {
@@ -22,7 +23,7 @@ function createTable() {
                 let names = ["Name", "Start Time", "End Time", "Boat Type"];
                 let table = tables.createEmptyTable(names);
                 tableContainer.appendChild(table);
-
+                weeklyActivities = activities;
                 let i = 1;
 
                 activities.forEach(activity => {
@@ -37,16 +38,54 @@ function createTable() {
     });
 }
 
-function onDelete(id){
-    alert("DELETE " + id);
+function onDelete(id) {
+    let data = JSON.stringify({
+        serialNumber: id
+    })
+
+    fetch('/weekly-activities/delete', {
+        method: "post",
+        body: data,
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+        if (resAsJson.isSuccess) {
+            showSuccess("Weekly activity successfully removed", "Success!");
+            setTimeout((function () {
+                location.reload();
+            }), timeOutTime);
+        } else {
+            showError("Error", "Please try again later");
+        }
+    });
 }
 
-function onEdit(id){
+function onEdit(id) {
     alert("Edit " + id);
 }
 
-function onInfo(id){
-    alert("INFO " + id);
+function onInfo(id) {
+    const weeklyActivity = weeklyActivities.filter(activity => activity.id === id)[0];
+    createInfoPage(weeklyActivity).then(infoPageEl => {
+        showInfoPopup(infoPageEl);
+    });
+}
+
+function createInfoPage(weeklyActivity) {
+    return import ("/public/scripts/views/weeklyActivities/info.js").then((info) => {
+        let infoEl = info.getInfoDiv();
+        let nameEl = infoEl.querySelector("#name");
+        let boatTypeEl = infoEl.querySelector("#boatType");
+        let startTimeEl = infoEl.querySelector("#startTime");
+        let endTimeEl = infoEl.querySelector("#endTime");
+
+        nameEl.value = weeklyActivity.name;
+        boatTypeEl.value = weeklyActivity.boatTypeDescription !== undefined ? weeklyActivity.boatTypeDescription : "None";
+        startTimeEl.value = weeklyActivity.startTime;
+        endTimeEl.value = weeklyActivity.endTime;
+
+        return infoEl;
+    });
 }
 
 
