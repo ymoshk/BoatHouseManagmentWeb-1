@@ -123,3 +123,14 @@ function getSimilarTypesFromServer(serialNumber) {
     });
 }
 
+function getLoggedInUser(){
+        return fetch("/collectors/loggedInUser", {
+        method: 'get',
+        headers: getPostHeaders(),
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+
+        return resAsJson.isSuccess ? resAsJson.data : undefined;
+    });
+}
+

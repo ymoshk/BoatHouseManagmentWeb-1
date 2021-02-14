@@ -1,1 +1,146 @@
-Personal Details Page
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <p style="margin-top:10px; font-size: 22px;">Personal Details</p>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="changePassword" disabled style="margin-top: 10px;"
+                                        class="btn btn-outline-info btn-block pull-right">Change Password
+                                </button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="card-body">
+                        <div class="infoCard">
+                            <div class="row">
+                                <ul style="color:red;" id="errors">
+                                </ul>
+                            </div>
+                            <form id="updateRowerForm">
+                                <input value="{serialNumber}" id="serialNumber" disabled name="serialNumber"
+                                       type="hidden" class="form-control"
+                                       placeholder="ID Number" required>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label for="name">Full Name</label>
+                                        <div class="form-group bmd-form-group">
+                                            <input value="{name}" id="name" disabled name="name" type="text"
+                                                   class="form-control"
+                                                   placeholder="Full Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group bmd-form-group">
+                                            <label for="phone">Phone Number</label>
+                                            <input value="{phone}" id="phone" disabled name="phone" type="text"
+                                                   class="form-control"
+                                                   placeholder="Phone Number (e.g 05X-XXXXXXX)" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group bmd-form-group">
+                                            <label for="age">Age</label>
+                                            <input id="age" name="age" type="number" disabled class="form-control"
+                                                   placeholder="Age"
+                                                   value="{age}" min="13"
+                                                   max="120" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group bmd-form-group">
+                                            <label for="email">Email Address</label>
+                                            <input value="{email}" id="email" name="email" disabled type="email"
+                                                   class="form-control"
+                                                   required placeholder="Email Address">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="label-control">Subscription Expiration Date</label>
+                                            <input id="expirationDate" disabled name="expirationDate" type="text"
+                                                   class="form-control datepicker2"
+                                                   value="{expiration}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group bmd-form-group">
+                                            <label for="notes">Notes (one each line)</label>
+                                            <textarea id="notes" name="notes" disabled class="form-control" rows="2">{notes}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div style="margin-top: 20px" class="form-group bmd-form-group">
+                                            <label for="level">Rower Level</label>
+                                            <select id="level" name="level" disabled class="form-control selectpicker"
+                                                    data-style="btn btn-link">
+                                                <option {selected0}>Beginner</option>
+                                                <option {selected1}>Average</option>
+                                                <option {selected2}>Professional</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <label style=" margin-top: 60px; margin-left: 20px"
+                                                   class="form-check-label">
+                                                <input id="isAdmin" disabled class="form-check-input" type="checkbox"
+                                                       value=""
+                                                       {isAdmin} {isAdminDisabled}>
+                                                Is Admin
+                                                <span class="form-check-sign"><span class="check"></span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group bmd-form-group">
+                                            <label for="privateBoats">Select Private Boats<br></label>
+                                            <select id="privateBoats" disabled class="select2El form-control"
+                                                    data-style="btn btn-link"
+                                                    multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr style="margin-top: 70px"></hr>
+                                <div class="row">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-3">
+                                        <button id="editBtn" class="btn btn-dark btn-block">
+                                            Edit
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button id="updateRowerBtn" disabled type="submit"
+                                                class="btn btn-blue btn-block">Update
+                                            Rower
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/public/scripts/views/general/personalDetails.js"></script>
+    <script src="/public/scripts/views/rowers/update.js"></script>
+</div>
+

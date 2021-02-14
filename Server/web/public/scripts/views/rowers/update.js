@@ -1,6 +1,7 @@
 const changePasswordEl = document.getElementById("changePassword");
 const errorListEl = document.getElementById("errors");
-const serialNumber = document.getElementById("serialNumber").value;
+let serialNumber;
+let redirectUrl = '/rowers/index';
 const formEl = document.getElementById("updateRowerForm");
 // form elements
 const nameEl = document.getElementById("name");
@@ -16,10 +17,19 @@ const privateBoatsEl = document.getElementById("privateBoats");
 
 document.addEventListener("DOMContentLoaded", function () {
     changePasswordEl.addEventListener('click', (e) => changePasswordClickEventHandler(e));
+    serialNumber = document.getElementById("serialNumber").value;
     formEl.addEventListener('submit', (e) => updateRower(e));
     insertOptionalBoats();
     insertPrivateBoats();
 });
+
+function updateSerialNumber(sn){
+    serialNumber = sn;
+}
+
+function updateRedirectUrl(newUrl){
+    redirectUrl = newUrl;
+}
 
 
 function insertOptionalBoats() {
@@ -70,7 +80,7 @@ function updateRower(e) {
         if (json.isSuccess) {
             showSuccess("Rower successfully updated!");
             setTimeout(function () {
-                window.location = '/rowers/index';
+                window.location = redirectUrl;
             }, 2000);
         } else {
             showErrorsInUnOrderedListEl(json.data, errorListEl);

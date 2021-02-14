@@ -8,7 +8,12 @@
     cursor: default !important;
 }
 
-.infoCard > div > div > .form-group{
+
+#updateRowerForm > div > div > div input, textarea, span, select {
+    cursor: default !important;
+}
+
+.infoCard > div > div > .form-group {
     text-align: left !important;
 }
 

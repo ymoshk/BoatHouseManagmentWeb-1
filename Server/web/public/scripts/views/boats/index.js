@@ -138,7 +138,7 @@ function createInfoPage(boat){
         isWideEl.checked = boat.isWide;
         isDisableEl.checked = boat.isDisable;
         isSeaBoatEl.checked = boat.isSeaBoat;
-        ownerEl.value = boat.owner !== undefined ? boat.owner : "The boat has no owner";
+        ownerEl.value = boat.owner !== undefined ? boat.owner.name : "The boat has no owner";
         boatTypeEl.value = boat.description;
 
         return infoEl;
