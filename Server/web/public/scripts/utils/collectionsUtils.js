@@ -30,7 +30,7 @@ function getBoatTypeFromNum(num) {
 }
 
 
-function buildOwnerOptionEl(rower, selected) {
+function buildRowerOptionEl(rower, selected) {
     let res = document.createElement("option");
     res.innerText = rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
     res.value = rower.serialNumber;
@@ -63,6 +63,18 @@ function buildBoatTypeOptionEl(type) {
     if (type.select) {
         res.selected = true;
     }
+    return res;
+}
+
+function buildWeeklyActivityOptionEl(weeklyActivity, select) {
+    let res = document.createElement("option");
+    res.innerText = weeklyActivity.name;
+    res.value = weeklyActivity.id;
+
+    if (select === undefined) {
+        res.selected = false;
+    }
+
     return res;
 }
 
@@ -131,6 +143,17 @@ function getLoggedInUser(){
         let resAsJson = await response.json();
 
         return resAsJson.isSuccess ? resAsJson.data : undefined;
+    });
+}
+
+function getRequestsFromServer(){
+    return fetch("/collectors/requests", {
+        method: 'get',
+        headers: getPostHeaders(),
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+
+        return resAsJson.requests;
     });
 }
 

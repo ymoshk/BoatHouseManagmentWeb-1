@@ -59,7 +59,7 @@ function insertOptionalRowers() {
                 if (selected) {
                     foundSelected = true;
                 }
-                optionalOwnerEl.appendChild(buildOwnerOptionEl(rower, selected));
+                optionalOwnerEl.appendChild(buildRowerOptionEl(rower, selected));
             });
             if (!foundSelected) {
                 optionalOwnerEl.selectedIndex = 0;

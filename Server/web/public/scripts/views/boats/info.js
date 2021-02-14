@@ -1,6 +1,6 @@
 export function getInfoDiv() {
     let div = document.createElement("div");
-    div.innerHTML = getInfoHtml().trim();
+    div.innerHTML = getInfoHtml();
 
     return div;
 }

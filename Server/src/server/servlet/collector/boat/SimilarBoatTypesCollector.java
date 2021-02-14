@@ -57,7 +57,9 @@ public class SimilarBoatTypesCollector extends HttpServlet {
 
     private BoatTypeListJson prepareResult(List<Pair<Boat.eBoatType, Integer>> types) {
         List<BoatTypeJson> list = new ArrayList<>();
-        types.forEach(pair -> list.add(new BoatTypeJson(pair.getKey().getTypeDescription(), pair.getValue(), false)));
+        types.forEach(pair ->
+                list.add(new BoatTypeJson(pair.getKey().getTypeDescription(), pair.getValue(),
+                        false, pair.getKey().getNumOfRowers())));
         return new BoatTypeListJson(list);
     }
 }

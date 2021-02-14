@@ -27,7 +27,7 @@ function insertBoatTypes() {
 function fillInOwners() {
     getRowersFromServer().then(rowers => {
         rowers.forEach((rower) => {
-            ownersEl.appendChild(buildOwnerOptionEl(rower));
+            ownersEl.appendChild(buildRowerOptionEl(rower));
         });
     });
 }
