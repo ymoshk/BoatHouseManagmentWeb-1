@@ -5,6 +5,7 @@ import engine.api.EngineContext;
 import engine.model.activity.weekly.activity.WeeklyActivity;
 import engine.model.activity.weekly.activity.WeeklyActivityModifier;
 import engine.model.boat.Boat;
+import javafx.util.Pair;
 import server.constant.Constants;
 import server.constant.ePages;
 import server.utils.Utils;
@@ -68,8 +69,14 @@ public class UpdateWeeklyActivityServlet extends HttpServlet {
                 EngineContext eng = (EngineContext) req.getServletContext().getAttribute(Constants.engineAtt);
                 String id = data.get("id");
 
-                WeeklyActivity weeklyActivityToEdit = (WeeklyActivity) eng.getWeeklyActivitiesCollectionManager()
+                List<WeeklyActivity> tempList = eng.getWeeklyActivitiesCollectionManager()
                         .filter(weeklyActivity -> weeklyActivity.getId().equals(id));
+
+                WeeklyActivity weeklyActivityToEdit = null;
+
+                if (tempList != null && tempList.size() == 1) {
+                    weeklyActivityToEdit = tempList.get(0);
+                }
 
                 if (weeklyActivityToEdit == null) {
                     out.println(Utils.createJsonErrorObject("Unknown error occurred during weekly activity editing."));
@@ -95,11 +102,26 @@ public class UpdateWeeklyActivityServlet extends HttpServlet {
         WeeklyActivityModifier modifier = eng.getWeeklyActivityModifier(weeklyActivityToEdit, null);
 
         handleNameSet(data.get("name"), errors, modifier);
-        handleStartTime(data.get("startTime"), errors, modifier);
-        handleEndTime(data.get("endTime"), errors, modifier);
+        if (validateTimes(data.get("startTime"), data.get("endTime"), errors)) {
+            handleStartTime(data.get("startTime"), errors, modifier);
+            handleEndTime(data.get("endTime"), errors, modifier);
+        } else {
+            errors.add("Activity start time must be before activity end time.");
+        }
         handleBoatType(data.get("BoatTypeIndex"), modifier);
 
         return errors;
+    }
+
+    private boolean validateTimes(String start, String end, List<String> errors) {
+        try {
+            LocalTime startTime = LocalTime.parse(start);
+            LocalTime endTime = LocalTime.parse(end);
+            return startTime.isBefore(endTime);
+        } catch (DateTimeParseException ex) {
+            errors.add("Invalid time format received for start time.");
+            return false;
+        }
     }
 
     private void handleBoatType(String boatTypeIndex, WeeklyActivityModifier modifier) {
@@ -144,7 +166,24 @@ public class UpdateWeeklyActivityServlet extends HttpServlet {
                 .replace("{startTime}", weeklyActivity.getStartTime()
                         .format(DateTimeFormatter.ofPattern("HH:mm")))
                 .replace("{endTime}", weeklyActivity.getEndTime()
-                        .format(DateTimeFormatter.ofPattern("HH:mm")));
+                        .format(DateTimeFormatter.ofPattern("HH:mm")))
+                .replace("{types}", getBoatTypes(weeklyActivity));
+
     }
 
+    private String getBoatTypes(WeeklyActivity weeklyActivity) {
+        List<Pair<Boat.eBoatType, Integer>> types = Boat.eBoatType.toList();
+        StringBuilder result = new StringBuilder();
+
+        for (Pair<Boat.eBoatType, Integer> type : types) {
+            boolean selected = type.getKey().equals(weeklyActivity.getBoatType());
+
+            result.append(String.format("<option value=\"%d\" %s>%s</option>",
+                    type.getValue(),
+                    selected ? "selected" : "",
+                    type.getKey().getTypeDescription()));
+
+        }
+        return result.toString();
+    }
 }

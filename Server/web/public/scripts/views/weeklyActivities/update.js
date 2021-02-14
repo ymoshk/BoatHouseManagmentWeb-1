@@ -1,85 +1,43 @@
 const errorListEl = document.getElementById("errors");
-const serialNumber = document.getElementById("serialNumber").value;
-const formEl = document.getElementById("updateBoatForm");
+const id = document.getElementById("id").value;
+const formEl = document.getElementById("updateWeeklyActivityForm");
 // form elements
-const optionalOwnerEl = document.getElementById("owners");
-const boatTypeEl = document.getElementById("boatType");
-const isWideEl = document.getElementById("isWide");
-const isSeaBoatEl = document.getElementById("isSeaBoat");
-const isDisabledEl = document.getElementById("isDisable");
 const nameEl = document.getElementById("name");
+const startTimeEl = document.getElementById("startTime");
+const endTimeEl = document.getElementById("endTime");
+const boatTypeEl = document.getElementById("boatType");
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    formEl.addEventListener('submit', (e) => updateBoat(e));
-    insertOptionalRowers();
-    insertOptionalTypes();
+    formEl.addEventListener('submit', (e) => updateWeeklyActivity(e));
 });
 
 
-function updateBoat(e) {
+function updateWeeklyActivity(e) {
     e.preventDefault();
 
     let data = JSON.stringify({
-        serialNumber: serialNumber,
+        id: id,
         name: nameEl.value,
-        owner: optionalOwnerEl.value,
-        boatType: boatTypeEl.value.toString(),
-        isWide: isWideEl.checked.toString(),
-        isSeaBoat: isSeaBoatEl.checked.toString(),
-        isDisabled: isDisabledEl.checked.toString(),
+        startTime: startTimeEl.value,
+        endTime: endTimeEl.value,
+        BoatTypeIndex: boatTypeEl.value
     });
 
-    fetch('/boats/update', {
+    fetch('/weekly-activities/update', {
         method: 'post',
         body: data,
         headers: getPostHeaders()
     }).then(async function (response) {
         let json = await response.json()
-
         if (json.isSuccess) {
-            showSuccess("Boat successfully updated!");
+            showSuccess("Weekly activity successfully updated!");
             setTimeout(function () {
-                window.location = '/boats/index';
+                window.location = '/weekly-activities/index';
             }, 2000);
         } else {
-            showErrorsInUnOrderedListEl(json.data, errorListEl);
+            showErrorsInUnOrderedListEl([json.data], errorListEl);
         }
     });
 }
 
-
-function insertOptionalRowers() {
-    let serial = serialNumber;
-    let foundSelected = false;
-    getRowersFromServer().then(function (rowers) {
-        if (rowers !== false && rowers.length > 0) {
-            rowers.forEach(function (rower) {
-                let selected = rower.boatsId.includes(serial)
-                if (selected) {
-                    foundSelected = true;
-                }
-                optionalOwnerEl.appendChild(buildOwnerOptionEl(rower, selected));
-            });
-            if (!foundSelected) {
-                optionalOwnerEl.selectedIndex = 0;
-            }
-        }
-    })
-}
-
-function insertOptionalTypes() {
-    getSimilarTypesFromServer(serialNumber).then(function (response) {
-        if (response !== undefined && response.types.length > 0) {
-            response.types.forEach(function (type) {
-                boatTypeEl.appendChild(buildBoatTypeOptionEl(type));
-            });
-        } else {
-            let notFoundEl = document.createElement('option');
-            notFoundEl.disabled = true;
-            notFoundEl.innerText = "Couldn't find a types";
-            notFoundEl.selected = true;
-            boatTypeEl.appendChild(notFoundEl);
-        }
-    })
-}
