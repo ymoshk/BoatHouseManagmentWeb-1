@@ -67,7 +67,7 @@ function createRequest(e) {
                     window.location = '/requests/index';
                 }, timeOutTime);
             } else {
-                showErrorsInUnOrderedListEl(json.data, errorListEl);
+                showErrorsInUnOrderedListEl(json.data, errorsEl);
             }
         });
 
