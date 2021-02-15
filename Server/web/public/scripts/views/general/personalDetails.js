@@ -20,7 +20,9 @@ function editClickEventListener(e) {
     let allElements = document.querySelectorAll("[disabled]");
 
     for (let i = 0, l = allElements.length; i < l; ++i) {
-        allElements[i].disabled = false;
+        if(allElements[i].id !== "isAdmin") {
+            allElements[i].disabled = false;
+        }
     }
 }
 

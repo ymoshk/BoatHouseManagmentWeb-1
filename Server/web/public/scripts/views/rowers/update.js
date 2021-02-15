@@ -110,7 +110,7 @@ function changePasswordClickEventHandler(e) {
             let passwordTwoVal = document.getElementById("password2").value;
 
             if (passwordOneVal.length < passwordMinLen || passwordTwoVal.length < passwordMinLen) {
-                showError("The new password must be at least " + passwordMinLen + " characters long", "Failed",);
+                showError("The new password must be at least " + passwordMinLen + " characters long", "Failed");
             } else {
                 if (passwordOneVal === passwordTwoVal) {
                     updatePassword(passwordOneVal);

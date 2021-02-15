@@ -31,6 +31,6 @@ public class RowerJson {
         this.boatsId = rower.getPrivateBoatsSerialNumbers();
         this.notes = rower.getNotes();
         this.joiningDate = rower.getFormattedJoiningDate();
-        this.expirationDate = rower.getFormattedJoiningDate();
+        this.expirationDate = rower.getFormattedExpirationDate();
     }
 }
