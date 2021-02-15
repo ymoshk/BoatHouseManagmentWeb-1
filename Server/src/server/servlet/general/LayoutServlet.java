@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "layout", urlPatterns = "/layout")
 public class LayoutServlet extends HttpServlet {
@@ -50,12 +52,16 @@ public class LayoutServlet extends HttpServlet {
                     , "fa fa-anchor", ePages.BOATS.getTitle(), "/boats/index"));
             res.add(new MenuItem(false, "navWeeklyActivities"
                     , "fa fa-clock-o", ePages.WEEKLY_ACTIVITIES.getTitle(), "/weekly-activities/index"));
-            res.add(new MenuItem(false, "navRowingActivities"
-                    , "fa fa-ship", ePages.ROWING_ACTIVITY.getTitle(), "/rowing-activities/index"));
         }
 
         res.add(new MenuItem(false, "navRequest"
                 , "fa fa-calendar", ePages.REQUESTS.getTitle(), "/requests/index"));
+
+        if (isAdmin) {
+            res.add(new MenuItem(false, "navRowingActivities"
+                    , "fa fa-ship", ePages.ROWING_ACTIVITY.getTitle(), "/rowing-activities/index"));
+        }
+
         res.add(new MenuItem(false, "navData"
                 , "fa fa-info-circle", ePages.MANAGE_DATA.getTitle(), "/manage-data"));
         res.add(new MenuItem(false, "navLogout"
@@ -68,7 +74,7 @@ public class LayoutServlet extends HttpServlet {
 
     private void setActive(List<MenuItem> menuItems) {
         for (MenuItem item : menuItems) {
-            if(item.text.equals(this.currentPage.getTitle())){
+            if (item.text.equals(this.currentPage.getTitle())) {
                 item.isActive = true;
             }
         }

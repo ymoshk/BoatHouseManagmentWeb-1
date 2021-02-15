@@ -50,7 +50,7 @@ public class UpdateWeeklyActivityServlet extends HttpServlet {
                     } else {
                         String updatePage = Utils.readHtmlPage("/public/html/views/weeklyActivities/update.html", req);
                         updatePage = prepareUpdatePage(updatePage, weeklyActivityToEdit);
-                        Utils.renderLayoutString(req, resp, updatePage, ePages.WEEKLY_ACTIVITIES);
+                        Utils.renderLayoutFromHtml(req, resp, updatePage, ePages.WEEKLY_ACTIVITIES);
                     }
                 } else {
                     resp.sendRedirect("/weekly-activities/index");

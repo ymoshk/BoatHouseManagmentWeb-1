@@ -42,7 +42,7 @@ public class UpdateBoatServlet extends HttpServlet {
                 } else {
                     String updatePage = Utils.readHtmlPage("/public/html/views/boats/update.html", req);
                     updatePage = prepareUpdatePage(updatePage, boatToEdit);
-                    Utils.renderLayoutString(req, resp, updatePage, ePages.BOATS);
+                    Utils.renderLayoutFromHtml(req, resp, updatePage, ePages.BOATS);
                 }
             }
         }

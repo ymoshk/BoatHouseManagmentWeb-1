@@ -17,18 +17,12 @@
                         </div>
                         <form id="createRequestForm">
                             <div class="row">
-                                <div class="col-md-6" style="margin-top: 5px">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="label-control">Request Name</label>
-                                        <input id="name" name="name" type="text" class="form-control" required>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
                                         <label class="label-control">Main Rower</label>
                                         <select id="mainRower" name="mainRower" class="form-control selectpicker"
                                                 data-style="btn btn-link">
-                                            <option value="-1">None</option>
+                                            <option selected disabled value="none">None</option>
                                         </select>
                                     </div>
                                 </div>
@@ -37,8 +31,9 @@
                                 <div class="col-md-4">
                                     <div class="form-group bmd-form-group">
                                         <label class="label-control">Activity Date</label>
-                                        <input id="activityDate" name="activityDate" type="text"
-                                               class="form-control datepicker2"/>
+                                        <input style="text-align: left" id="activityDate" name="activityDate"
+                                               type="text"
+                                               class="form-control datepicker2" required/>
                                     </div>
                                 </div>
                                 <div id="weeklyActivityContainer" class="col-md-8 row">
@@ -51,7 +46,7 @@
                                         <label for="boatTypes">Select Boat Types<br></label>
                                         <select id="boatTypes" class="select2El form-control"
                                                 data-style="btn btn-link"
-                                                multiple="multiple">
+                                                multiple="multiple" required>
                                         </select>
                                     </div>
                                 </div>

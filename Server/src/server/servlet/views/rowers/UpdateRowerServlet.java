@@ -43,7 +43,7 @@ public class UpdateRowerServlet extends HttpServlet {
                 } else {
                     String updatePage = Utils.readHtmlPage("/public/html/views/rowers/update.html", req);
                     updatePage = prepareUpdatePage(updatePage, rowerToEdit, req.getSession().getId());
-                    Utils.renderLayoutString(req, resp, updatePage, ePages.ROWERS);
+                    Utils.renderLayoutFromHtml(req, resp, updatePage, ePages.ROWERS);
                 }
             }
         }

@@ -41,7 +41,7 @@ function updateBoat(e) {
             showSuccess("Boat successfully updated!");
             setTimeout(function () {
                 window.location = '/boats/index';
-            }, 2000);
+            }, timeOutTime);
         } else {
             showErrorsInUnOrderedListEl(json.data, errorListEl);
         }

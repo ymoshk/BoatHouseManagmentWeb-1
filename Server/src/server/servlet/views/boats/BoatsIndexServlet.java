@@ -15,6 +15,6 @@ public class BoatsIndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Utils.renderLayout(req,resp, "/public/html/views/boats/index.html", ePages.BOATS);
+        Utils.renderLayout(req, resp, "/public/html/views/boats/index.html", ePages.BOATS);
     }
 }

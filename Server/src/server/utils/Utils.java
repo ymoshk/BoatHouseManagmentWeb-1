@@ -6,7 +6,6 @@ import server.constant.Constants;
 import server.constant.ePages;
 import server.servlet.json.template.Response;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,34 +57,28 @@ public class Utils {
 
     public static void renderLayout(HttpServletRequest req, HttpServletResponse resp, String htmlToInject, ePages activePage) throws ServletException, IOException {
         req.getServletContext().setAttribute(Constants.currentActivePagAttr, activePage);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/public/html/layoutHeader.html");
-        dispatcher.include(req, resp);
-        dispatcher = req.getRequestDispatcher(htmlToInject);
-        dispatcher.include(req, resp);
-        dispatcher = req.getRequestDispatcher("/public/html/layoutFooter.html");
-        dispatcher.include(req, resp);
-    }
-
-    public static void renderLayoutString(HttpServletRequest req, HttpServletResponse resp, String htmlToInject, ePages activePage) throws ServletException, IOException {
-        req.getServletContext().setAttribute(Constants.currentActivePagAttr, activePage);
-
-        String layoutHeader = readHtmlPage("/public/html/layoutHeader.html", req);
-        String layoutFooter = readHtmlPage("/public/html/layoutFooter.html", req);
-        String result = String.format("%s%n%s%n%s", layoutHeader, htmlToInject, layoutFooter);
+        String layout = readHtmlPage("/public/html/layout.html", req);
+        String body = readHtmlPage(htmlToInject, req);
+        layout = layout.replace("{{BODY}}", body);
 
         try (PrintWriter out = resp.getWriter()) {
-            out.println(result);
+            out.println(layout);
+        }
+
+    }
+
+    public static void renderLayoutFromHtml(HttpServletRequest req, HttpServletResponse resp, String htmlToInject, ePages activePage) throws ServletException, IOException {
+        req.getServletContext().setAttribute(Constants.currentActivePagAttr, activePage);
+        String layout = readHtmlPage("/public/html/layout.html", req);
+        layout = layout.replace("{{BODY}}", htmlToInject);
+
+        try (PrintWriter out = resp.getWriter()) {
+            out.println(layout);
         }
     }
 
     public static void errorPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().setAttribute(Constants.currentActivePagAttr, ePages.HOME);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/public/html/layoutHeader.html");
-        dispatcher.include(req, resp);
-        dispatcher = req.getRequestDispatcher("/public/html/errorPage.html");
-        dispatcher.include(req, resp);
-        dispatcher = req.getRequestDispatcher("/public/html/layoutFooter.html");
-        dispatcher.include(req, resp);
+        renderLayout(req, resp, "/public/html/errorPage.html", ePages.HOME);
     }
 
     public static HashMap<String, String> parsePostData(HttpServletRequest req) throws IOException {

@@ -33,6 +33,7 @@ public class BHMServer implements ServletContextListener, HttpSessionListener {
 
     }
 
+
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         log("SESSION CREATED");

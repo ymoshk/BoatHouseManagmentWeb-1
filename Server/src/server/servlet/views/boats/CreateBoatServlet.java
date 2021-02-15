@@ -59,7 +59,5 @@ public class CreateBoatServlet extends HttpServlet {
                 out.println(Utils.createJsonErrorsListObject(Collections.singletonList("Boat creation failed  due to unknown error")));
             }
         }
-
-
     }
 }
