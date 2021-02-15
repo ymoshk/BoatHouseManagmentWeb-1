@@ -45,14 +45,13 @@ function createRequest(e) {
 
         let data = JSON.stringify({
             mainRowerSerial: mainRowerEl.value,
-            mainRowerSerial: mainRowerEl.value,
             activityDate: activityDateEl.value,
             isNewWeeklyActivity: newWeeklyActivity.toString(),
             startTime: startTimeValue,
             endTime: endTimeValue,
             weeklyActivityId: weeklyActivityId,
-            boatTypes: selectExtractor("boatTypes"),
-            otherRowers: selectExtractor("otherRowers")
+            boatTypes: selectExtractor('boatTypes'),
+            otherRowers: selectExtractor('otherRowers')
         });
 
         fetch('/requests/create', {
@@ -84,7 +83,7 @@ function validateForm() {
         errors.push("You must select a main rower for the request.")
     }
 
-    if (selectExtractor(boatTypeSelectEl).length <= 0) {
+    if (selectExtractor('boatTypes').length <= 0) {
         errors.push("You must select at least one boat type to create the request.")
     }
 
