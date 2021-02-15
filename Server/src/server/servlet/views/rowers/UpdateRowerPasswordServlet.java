@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @WebServlet(urlPatterns = "/rowers/update/password")
 public class UpdateRowerPasswordServlet extends HttpServlet {
@@ -33,15 +31,9 @@ public class UpdateRowerPasswordServlet extends HttpServlet {
             if (rowerToUpdate == null) {
                 out.println(Utils.createJsonErrorObject("Changing password failed due to unknown error."));
             } else {
-                List<String> errors = new ArrayList<>();
-                RowerModifier modifier = eng.getRowerModifier(rowerToUpdate, errors::add);
+                RowerModifier modifier = eng.getRowerModifier(rowerToUpdate, null);
                 modifier.setRowerPassword(data.get("password"));
-
-                if (errors.isEmpty()) {
-                    out.println(Utils.createJsonSuccessObject(true));
-                } else {
-                    out.println(Utils.createJsonErrorObject(errors.get(0)));
-                }
+                out.println(Utils.createJsonSuccessObject(true));
             }
         }
     }

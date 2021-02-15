@@ -50,8 +50,8 @@ function createRequest(e) {
             startTime: startTimeValue,
             endTime: endTimeValue,
             weeklyActivityId: weeklyActivityId,
-            boatTypes: selectExtractor(boatTypeSelectEl),
-            otherRowers: selectExtractor(otherRowersEl)
+            boatTypes: selectExtractor("boatTypes"),
+            otherRowers: selectExtractor("otherRowers")
         });
 
         fetch('/requests/create', {

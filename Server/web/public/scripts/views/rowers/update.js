@@ -138,7 +138,7 @@ function updatePassword(value) {
         if (json.isSuccess) {
             showSuccess("Password successfully changed");
         } else {
-            showError("Failed!", json.error);
+            showError(json.error);
         }
     });
 }
