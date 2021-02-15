@@ -51,10 +51,11 @@ public class CreateRequestServlet extends HttpServlet {
             List<Rower> otherRowers = parseOtherRowers(reqData.get("otherRowers"), errors, weeklyActivity, activityDate);
             Rower creator = eng.getLoggedInUser(req.getRequestedSessionId());
 
-            if (!eng.getRequestsCollectionManager().isRowerAvailableForActivity(mainRower, weeklyActivity, activityDate)) {
-                errors.add("The main rower you've selected already " +
-                        "participate in other club activities at this time frame");
-            }
+            //TODO delete
+            //            if (!eng.getRequestsCollectionManager().isRowerAvailableForActivity(mainRower, weeklyActivity, activityDate)) {
+            //                errors.add("The main rower you've selected already " +
+            //                        "participate in other club activities at this time frame");
+            //            }
 
             newRequest = new Request(mainRower, creator, weeklyActivity, activityDate, otherRowers, boatTypes);
 
@@ -84,13 +85,15 @@ public class CreateRequestServlet extends HttpServlet {
                 if (temp == null) {
                     errors.add("Some of the other rowers couldn't be added to the request.");
                     break;
-                } else if (!EngineContext.getInstance().getRequestsCollectionManager()
-                        .isRowerAvailableForActivity(temp, weeklyActivity, activityDate)) {
-                    errors.add(String.format(
-                            "%s already takes a part in other club activity during the request time frame",
-                            temp.getName()));
-                    break;
                 }
+                //TODO delete
+                //                } else if (!EngineContext.getInstance().getRequestsCollectionManager()
+                //                        .isRowerAvailableForActivity(temp, weeklyActivity, activityDate)) {
+                //                    errors.add(String.format(
+                //                            "%s already takes a part in other club activity during the request time frame",
+                //                            temp.getName()));
+                //                    break;
+                //                }
                 result.add(temp);
             }
         }
