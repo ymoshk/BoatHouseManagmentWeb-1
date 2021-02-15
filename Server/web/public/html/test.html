@@ -3,50 +3,84 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header card-header-primary">
-                        <div class="col-md-10" style="text-align: left">
-                            <p style="margin-top:10px; font-size: 22px;">Information</p>
+                    <div class="card-header">
+                        <div class="col-md-10">
+                            <p style="margin-top:10px; font-size: 22px;">Request</p>
                         </div>
                         <div class="col-md-2"></div>
                         <hr>
                     </div>
                     <div class="card-body" id="tableContainer">
-                        <div class="infoCard">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="boatType">Boat Type</label>
-                                        <input id="boatType" name="boatType" type="text" class="form-control" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="name">Boat Name</label>
-                                        <input id="name" name="name" type="text" class="form-control" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="startTime">Start Time</label>
-                                        <input id="startTime" name="startTime" type="time" class="form-control"
-                                               disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="endTime">Start Time</label>
-                                        <input id="endTime" name="endTime" type="time" class="form-control" disabled>
-                                    </div>
-                                </div>
-                                <hr style="margin-top: 70px">
-                                <div class="clearfix"></div>
-                            </div>
+                        <div class="row">
+                            <ul style="color:red;" id="errors">
+                            </ul>
                         </div>
+                        <form id="createRequestForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="label-control">Main Rower</label>
+                                        <input id="mainRower" disabled name="mainRower"
+                                               class="form-control"
+                                               data-style="btn btn-link" rows="1">
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="label-control">Activity Date</label>
+                                        <input style="text-align: left" disabled id="activityDate" name="activityDate"
+                                               type="text"
+                                               class="form-control datepicker2" autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="activityDetails">Weekly Activity Details<br></label>
+                                        <textarea disabled id="activityDetails" class="form-control"
+                                                  data-style="btn btn-link"
+                                                  multiple="multiple" rows="4">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="boatTypes">Boat Types<br></label>
+                                        <textarea disabled id="boatTypes" class="form-control"
+                                                  data-style="btn btn-link"
+                                                  multiple="multiple" rows="5">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label for="otherRowers">Other Rowers<br></label>
+                                        <textarea disabled id="otherRowers" class="form-control"
+                                                  data-style="btn btn-link"
+                                                  multiple="multiple" rows="5">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="margin-top: 70px">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-dark btn-block" href="/requests/index">
+                                        Duplicate
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="/public/scripts/views/requests/infoHelper.js"></script>
 </div>

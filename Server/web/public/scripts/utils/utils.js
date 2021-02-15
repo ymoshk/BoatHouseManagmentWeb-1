@@ -3,6 +3,7 @@ const PHONE_PATTERN = "^05\\d-\\d{7}$|^05\\d{8}$";
 
 
 const timeOutTime = 1500;
+const longTimeOutTime = 2500;
 const passwordMinLen = 4;
 
 function validateEmailAddress(email) {
@@ -79,5 +80,9 @@ function selectExtractor(selectElementId) {
     list.forEach(element => result.push(element.id));
 
     return JSON.stringify(result);
+}
+
+function getRowerStringFormat(rower){
+    return rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
 }
 

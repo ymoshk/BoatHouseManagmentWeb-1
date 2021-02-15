@@ -32,7 +32,7 @@ function getBoatTypeFromNum(num) {
 
 function buildRowerOptionEl(rower, selected) {
     let res = document.createElement("option");
-    res.innerText = rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
+    res.innerText = getRowerStringFormat(rower);
     res.value = rower.serialNumber;
 
     if (selected !== undefined && selected) {
@@ -127,7 +127,7 @@ function getSimilarTypesFromServer(serialNumber) {
     return fetch("/collectors/SimilarBoatTypes", {
         body: data,
         method: 'post',
-        headers: getPostHeaders(),
+        headers: getPostHeaders()
     }).then(async function (response) {
         let types = await response.json();
 
@@ -135,8 +135,8 @@ function getSimilarTypesFromServer(serialNumber) {
     });
 }
 
-function getLoggedInUser(){
-        return fetch("/collectors/loggedInUser", {
+function getLoggedInUser() {
+    return fetch("/collectors/loggedInUser", {
         method: 'get',
         headers: getPostHeaders(),
     }).then(async function (response) {
@@ -146,7 +146,7 @@ function getLoggedInUser(){
     });
 }
 
-function getRequestsFromServer(){
+function getRequestsFromServer() {
     return fetch("/collectors/requests", {
         method: 'get',
         headers: getPostHeaders(),
@@ -154,6 +154,23 @@ function getRequestsFromServer(){
         let resAsJson = await response.json();
 
         return resAsJson.requests;
+    });
+}
+
+function duplicateRequestInServer(requestId) {
+    let data = JSON.stringify({
+        reqId: requestId
+    });
+
+    return fetch("/requests/duplicate", {
+        body: data,
+        method: 'post',
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+
+
+        return resAsJson.isSuccess ? resAsJson.data : undefined;
     });
 }
 
