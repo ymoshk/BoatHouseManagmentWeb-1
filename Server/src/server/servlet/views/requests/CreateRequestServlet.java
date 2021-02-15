@@ -50,6 +50,12 @@ public class CreateRequestServlet extends HttpServlet {
             List<Boat.eBoatType> boatTypes = parseBoatTypes(reqData.get("boatTypes"), errors);
             List<Rower> otherRowers = parseOtherRowers(reqData.get("otherRowers"), errors, weeklyActivity, activityDate);
             Rower creator = eng.getLoggedInUser(req.getRequestedSessionId());
+
+            if (!eng.getRequestsCollectionManager().isRowerAvailableForActivity(mainRower, weeklyActivity, activityDate)) {
+                errors.add("The main rower you've selected already " +
+                        "participate in other club activities at this time frame");
+            }
+
             newRequest = new Request(mainRower, creator, weeklyActivity, activityDate, otherRowers, boatTypes);
 
         } catch (Exception ex) {
