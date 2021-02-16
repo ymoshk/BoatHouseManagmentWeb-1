@@ -10,10 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -134,5 +131,20 @@ public class Utils {
         List<String> res = new ArrayList<>();
         temp.forEach(str -> res.add(str.trim()));
         return res;
+    }
+
+    public static void exportHandler(HttpServletResponse resp, String xmlAsSting, String fileName) throws IOException {
+        resp.setContentType("text/plain");
+        resp.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xml");
+        File resultFile = File.createTempFile(fileName, "xml");
+
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(resultFile))) {
+            writer.println(xmlAsSting);
+        }
+
+        try (OutputStream outputStream = resp.getOutputStream()) {
+            outputStream.write(xmlAsSting.getBytes());
+            outputStream.flush();
+        }
     }
 }
