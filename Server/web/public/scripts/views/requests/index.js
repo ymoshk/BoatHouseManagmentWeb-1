@@ -53,26 +53,44 @@ async function deleteRequest(request) {
         reqId: request.id
     });
 
-    await fetch('/requests/delete', {
+    if (await showAreYouSureMessage("Are you sure that you want to delete this request?")) {
+
+        await fetch('/requests/delete', {
+            method: 'post',
+            body: data,
+            headers: getPostHeaders()
+        }).then(async function (response) {
+            let resAsJson = await response.json();
+            if (resAsJson.isSuccess) {
+                showSuccess("Request successfully removed!");
+            } else {
+                showError("Request removed failed!");
+            }
+
+            setTimeout(function () {
+                window.location.reload();
+            }, timeOutTime);
+        });
+    }
+}
+
+function onEdit(id) {
+    let data = JSON.stringify({
+        id: id,
+    });
+
+    fetch('/requests/update/init', {
         method: 'post',
         body: data,
         headers: getPostHeaders()
     }).then(async function (response) {
         let resAsJson = await response.json();
         if (resAsJson.isSuccess) {
-            showSuccess("Request removed successfully!");
+            window.location = "/requests/update";
         } else {
-            showError("Request removed failed!");
+            showError(resAsJson.error);
         }
-
-        setTimeout(function () {
-            window.location.reload();
-        }, timeOutTime);
     });
-}
-
-function onEdit(id) {
-    alert("Edit " + id);
 }
 
 function onInfo(id) {
@@ -116,9 +134,9 @@ function handleUpdateClick(e, request) {
     e.preventDefault();
     duplicateRequestInServer(request.id).then(function (duplicated) {
         if (duplicated !== undefined) {
-            showSuccess("Request duplicated successfully! you can edit it from the table now.");
+            showSuccess("Request successfully duplicated!");
         } else {
-            showError("Request duplicate failed, try again later.");
+            showError("Duplicating request has failed.");
         }
 
         setTimeout(function () {
@@ -129,7 +147,7 @@ function handleUpdateClick(e, request) {
 
 function initOtherRowersList(otherRowers, otherRowersEl) {
     if (otherRowers === undefined || otherRowers.length === 0) {
-        otherRowersEl.value = "This request has no other rowers";
+        otherRowersEl.value = "There aren't any other rowers in this request.";
     } else {
         otherRowers.forEach(function (rower) {
             otherRowers.value += getRowerStringFormat(rower) + "\n";

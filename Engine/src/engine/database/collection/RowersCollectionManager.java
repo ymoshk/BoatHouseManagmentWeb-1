@@ -106,6 +106,11 @@ public class RowersCollectionManager extends CollectionManager<Rower> {
         return XmlConverter.convertObjectToXMLString(members);
     }
 
+    @Override
+    public Rower findByUniqueIdentifier(String uniqueString) {
+        return findRowerBySerialNumber(uniqueString);
+    }
+
     public boolean isSerialNumberAvailable(String serialNumber) {
         return serialNumber != null &&
                 !serialNumber.isEmpty() &&

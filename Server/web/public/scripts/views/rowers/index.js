@@ -40,26 +40,28 @@ async function createTable() {
 
 async function deleteRower(serialNumber, deleteRowerArgs) {
 
-    let data = JSON.stringify({
-        serialNumber: serialNumber,
-        args: JSON.stringify(deleteRowerArgs)
-    });
+    if (await showAreYouSureMessage("Are you sure that you want that rower?")) {
+        let data = JSON.stringify({
+            serialNumber: serialNumber,
+            args: JSON.stringify(deleteRowerArgs)
+        });
 
-    await fetch('/rowers/delete', {
-        method: 'post',
-        body: data,
-        headers: getPostHeaders()
-    }).then(async function (response) {
-        let resAsJson = await response.json();
-        if (resAsJson.isSuccess) {
-            showSuccess("Rower successfully removed");
-            setTimeout((function () {
-                location.reload();
-            }), timeOutTime);
-        } else {
-            showError(resAsJson.data);
-        }
-    });
+        await fetch('/rowers/delete', {
+            method: 'post',
+            body: data,
+            headers: getPostHeaders()
+        }).then(async function (response) {
+            let resAsJson = await response.json();
+            if (resAsJson.isSuccess) {
+                showSuccess("Rower successfully removed");
+                setTimeout((function () {
+                    location.reload();
+                }), timeOutTime);
+            } else {
+                showError(resAsJson.data);
+            }
+        });
+    }
 }
 
 async function onDelete(serialNumber) {

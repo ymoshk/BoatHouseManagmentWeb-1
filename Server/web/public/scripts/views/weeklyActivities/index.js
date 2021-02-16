@@ -38,26 +38,28 @@ function createTable() {
     });
 }
 
-function onDelete(id) {
+async function onDelete(id) {
     let data = JSON.stringify({
         serialNumber: id
     })
+    if (await showAreYouSureMessage("Are you sure that you want that weekly activity?")) {
 
-    fetch('/weekly-activities/delete', {
-        method: "post",
-        body: data,
-        headers: getPostHeaders()
-    }).then(async function (response) {
-        let resAsJson = await response.json();
-        if (resAsJson.isSuccess) {
-            showSuccess("Weekly activity successfully removed");
-            setTimeout((function () {
-                location.reload();
-            }), timeOutTime);
-        } else {
-            showError("Deleting weekly activity failed, try again later.");
-        }
-    });
+        fetch('/weekly-activities/delete', {
+            method: "post",
+            body: data,
+            headers: getPostHeaders()
+        }).then(async function (response) {
+            let resAsJson = await response.json();
+            if (resAsJson.isSuccess) {
+                showSuccess("Weekly activity successfully removed");
+                setTimeout((function () {
+                    location.reload();
+                }), timeOutTime);
+            } else {
+                showError("Deleting weekly activity failed, try again later.");
+            }
+        });
+    }
 }
 
 function onEdit(id) {

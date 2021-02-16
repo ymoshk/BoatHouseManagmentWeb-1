@@ -63,10 +63,12 @@ const compareTime = (time1, time2) => {
     let time2Hours = parseInt(time2[3].toString() + time2[4].toString());
 
     let t1 = new Date();
+    t1.setDate(t1.getDate() + 1);
     t1.setHours(time1Hours);
     t1.setMinutes(time1Minutes);
 
     let t2 = new Date();
+    t2.setDate(t2.getDate() + 1);
     t2.setHours(time2Hours);
     t2.setMinutes(time2Minutes);
 
@@ -82,7 +84,7 @@ function selectExtractor(selectElementId) {
     return JSON.stringify(result);
 }
 
-function getRowerStringFormat(rower){
+function getRowerStringFormat(rower) {
     return rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
 }
 

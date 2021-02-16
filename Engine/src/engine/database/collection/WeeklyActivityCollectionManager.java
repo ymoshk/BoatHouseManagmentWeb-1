@@ -99,4 +99,15 @@ public class WeeklyActivityCollectionManager extends CollectionManager<WeeklyAct
         }
         return objectToFind;
     }
+
+    @Override
+    public WeeklyActivity findByUniqueIdentifier(String uniqueString) {
+        List<WeeklyActivity> temp = this.filter(weeklyActivity -> weeklyActivity.getId().equals(uniqueString));
+
+        if (temp == null || temp.size() != 1) {
+            return null;
+        } else {
+            return temp.get(0);
+        }
+    }
 }

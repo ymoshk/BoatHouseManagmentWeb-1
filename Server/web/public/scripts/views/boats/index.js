@@ -55,7 +55,7 @@ async function deleteBoat(serialNumber) {
             showError("Error");
         } else {
             if (resAsJson.data) {
-                showSuccess("Boat successfully removed", "Success!" );
+                showSuccess("Boat successfully removed", "Success!");
                 setTimeout((function () {
                     location.reload();
                 }), timeOutTime);
@@ -65,35 +65,37 @@ async function deleteBoat(serialNumber) {
 }
 
 async function onDelete(serialNumber) {
-    let shouldBoatRemoved = true;
 
-    let data = JSON.stringify({
-        serialNumber: serialNumber
-    })
+    if (await showAreYouSureMessage("Are you sure that you want that boat?")) {
+        let shouldBoatRemoved = true;
 
-    await fetch('/boats/delete/info', {
-        method: "post",
-        body: data,
-        headers: getPostHeaders()
-    }).then(async function (response) {
-        let resAsJson = await response.json();
-        if (!resAsJson.isSuccess) {
-            showError("Error", resAsJson.data);
-        } else {
-            let data = resAsJson.data;
+        let data = JSON.stringify({
+            serialNumber: serialNumber
+        })
 
-            if (data === false) {
-                shouldBoatRemoved = await showAreYouSureMessage(
-                    "The boat that you want to delete participates in club activities. " +
-                    "Would you like to remove these activities?");
+        await fetch('/boats/delete/info', {
+            method: "post",
+            body: data,
+            headers: getPostHeaders()
+        }).then(async function (response) {
+            let resAsJson = await response.json();
+            if (!resAsJson.isSuccess) {
+                showError("Error", resAsJson.data);
+            } else {
+                let data = resAsJson.data;
+
+                if (data === false) {
+                    shouldBoatRemoved = await showAreYouSureMessage(
+                        "The boat that you want to delete participates in club activities. " +
+                        "Would you like to remove these activities?");
+                }
+
+                if (shouldBoatRemoved) {
+                    deleteBoat(serialNumber);
+                }
             }
-
-            if (shouldBoatRemoved) {
-                deleteBoat(serialNumber);
-            }
-        }
-    });
-
+        });
+    }
 }
 
 function onEdit(serialNumber) {
@@ -122,7 +124,7 @@ function onInfo(serialNumber) {
     });
 }
 
-function createInfoPage(boat){
+function createInfoPage(boat) {
     return import ("/public/scripts/views/boats/info.js").then((info) => {
         let infoEl = info.getInfoDiv();
         let serialNumberEl = infoEl.querySelector("#serialNumber");
