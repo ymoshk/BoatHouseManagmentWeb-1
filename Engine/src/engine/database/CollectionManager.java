@@ -101,13 +101,15 @@ public abstract class CollectionManager<T> implements Iterable<T>, Serializable 
         return unmarshaller;
     }
 
-    public T find(T objectToFind){
-        for(T obj : this.data){
-            if(obj.equals(objectToFind)){
+    public T find(T objectToFind) {
+        for (T obj : this.data) {
+            if (obj.equals(objectToFind)) {
                 return obj;
             }
         }
 
         return null;
     }
+
+    abstract public T findByUniqueIdentifier(String uniqueString);
 }

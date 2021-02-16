@@ -93,6 +93,11 @@ public class BoatsCollectionManager extends CollectionManager<Boat> {
         return XmlConverter.convertObjectToXMLString(boats);
     }
 
+    @Override
+    public Boat findByUniqueIdentifier(String uniqueString) {
+        return findBySerialNumber(uniqueString);
+    }
+
     public Boat findBySerialNumber(String serial) {
         for (Boat boat : this) {
             if (boat.getSerialNumber().equalsIgnoreCase(serial))

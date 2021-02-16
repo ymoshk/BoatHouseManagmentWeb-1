@@ -68,7 +68,7 @@ function buildBoatTypeOptionEl(type) {
 
 function buildWeeklyActivityOptionEl(weeklyActivity, select) {
     let res = document.createElement("option");
-    res.innerText = weeklyActivity.name;
+    res.innerText = weeklyActivity.name + ' | (' + weeklyActivity.startTime + ' - ' + weeklyActivity.endTime + ')';
     res.value = weeklyActivity.id;
 
     if (select === undefined) {

@@ -4,6 +4,7 @@ import engine.api.EngineInterface;
 import engine.database.CollectionManager;
 import engine.model.activity.request.Request;
 import engine.model.activity.request.RequestModifier;
+import engine.model.activity.rowing.RowingActivity;
 import engine.model.activity.weekly.activity.WeeklyActivity;
 import engine.model.rower.Rower;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -53,6 +54,17 @@ public class RequestsCollectionManager extends CollectionManager<Request> {
     @Override
     public String exportToXml() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public Request findByUniqueIdentifier(String uniqueString) {
+        List<Request> temp = this.filter(Request -> Request.getId().equals(uniqueString));
+
+        if (temp == null || temp.size() != 1) {
+            return null;
+        } else {
+            return temp.get(0);
+        }
     }
 
     public List<Request> getRelevantRequests(Rower loggedInRower) {

@@ -4,6 +4,7 @@ import engine.api.EngineInterface;
 import engine.database.CollectionManager;
 import engine.model.activity.request.Request;
 import engine.model.activity.rowing.RowingActivity;
+import engine.model.activity.weekly.activity.WeeklyActivity;
 import engine.model.boat.Boat;
 import engine.model.rower.Rower;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -63,6 +64,17 @@ public class RowingActivitiesCollectionManager extends CollectionManager<RowingA
     @Override
     public String exportToXml() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public RowingActivity findByUniqueIdentifier(String uniqueString) {
+        List<RowingActivity> temp = this.filter(RowingActivity -> RowingActivity.getId().equals(uniqueString));
+
+        if (temp == null || temp.size() != 1) {
+            return null;
+        } else {
+            return temp.get(0);
+        }
     }
 
     public void cloneBoatsForPastActivities() {

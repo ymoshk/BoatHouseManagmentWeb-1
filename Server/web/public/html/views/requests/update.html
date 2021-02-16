@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="col-md-10">
-                            <p style="margin-top:10px; font-size: 22px;">Create A New Request</p>
+                            <p style="margin-top:10px; font-size: 22px;">Update A Request</p>
                         </div>
                         <div class="col-md-2"></div>
                         <hr>
@@ -15,7 +15,8 @@
                             <ul style="color:red;" id="errors">
                             </ul>
                         </div>
-                        <form id="createRequestForm">
+                        <form id="updateRequestForm">
+                            <input type="hidden" id="id" value="{id}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
@@ -32,12 +33,22 @@
                                     <div class="form-group bmd-form-group">
                                         <label class="label-control">Activity Date</label>
                                         <input style="text-align: left" id="activityDate" name="activityDate"
+                                               value="{date}"
                                                type="text"
                                                class="form-control datepicker2" autocomplete="off" required/>
                                     </div>
                                 </div>
-                                <div id="weeklyActivityContainer" class="col-md-8 row">
-
+                                <div id="weeklyActivityContainer" class="col-md-8">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="abel-control">Weekly Activity</label>
+                                        <select id="weeklyActivity" name="weeklyActivity"
+                                                class="form-control selectpicker"
+                                                data-style="btn btn-link">
+                                            <option id="weeklyActivityNoneOption" value="none" disabled selected>To
+                                                update the request weekly activity you must create a new one.
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -73,7 +84,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-4">
-                                    <button id="createRequestBtn" type="submit" class="btn btn-blue btn-block">Create
+                                    <button id="updateRequestBtn" type="submit" class="btn btn-blue btn-block">Update
                                         Request
                                     </button>
                                 </div>
@@ -86,5 +97,5 @@
         </div>
     </div>
     <script src="/public/scripts/views/requests/utils.js"></script>
-    <script src="/public/scripts/views/requests/create.js"></script>
+    <script src="/public/scripts/views/requests/update.js"></script>
 </div>
