@@ -22,10 +22,10 @@ public class AdminFilter implements Filter {
         HttpSession session = ((HttpServletRequest) servletRequest).getSession(false);
         String path = ((HttpServletRequest) servletRequest).getRequestURI();
 
-        if(session != null) {
+        if (session != null) {
             Rower loggedInUser = EngineContext.getInstance().getLoggedInUser(session.getId());
 
-            if ((loggedInUser == null || !loggedInUser.isAdmin()) && path.equals("/rowers/update")) {
+            if ((loggedInUser == null || !loggedInUser.isAdmin()) && !path.equals("/rowers/update")) {
                 ((HttpServletResponse) servletResponse).sendRedirect("/unapproved");
             } else {
                 filterChain.doFilter(servletRequest, servletResponse);
