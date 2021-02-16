@@ -122,7 +122,8 @@ public class UpdateRequestServlet extends HttpServlet {
             } else if (otherRowers.contains(mainRower)) {
                 errors.add("The main rower cannot be also in the other rowers list");
             } else {
-                modifier.getObjectToEdit().getOtherRowersList().forEach(modifier::removeRowerFromOtherRowersList);
+                List<Rower> currentOtherRowers = new ArrayList<>(modifier.getObjectToEdit().getOtherRowersList());
+                currentOtherRowers.forEach(modifier::removeRowerFromOtherRowersList);
                 otherRowers.forEach(modifier::addRowerToRequest);
             }
         } catch (Exception ex) {
@@ -133,14 +134,16 @@ public class UpdateRequestServlet extends HttpServlet {
     private void handleBoatTypes(RequestModifier modifier, String boatTypes, List<String> errors) {
         try {
             String[] boatTypesIndexes = new Gson().fromJson(boatTypes, String[].class).clone();
-            List<Boat.eBoatType> types = new ArrayList<>();
+            List<Boat.eBoatType> currentTypes = new ArrayList<>(modifier.getObjectToEdit().getBoatTypesList());
+            List<Boat.eBoatType> typesAfterUpdate = new ArrayList<>();
 
             for (String index : boatTypesIndexes) {
-                types.add(Boat.eBoatType.getTypeFromInt(Integer.parseInt(index)));
+                typesAfterUpdate.add(Boat.eBoatType.getTypeFromInt(Integer.parseInt(index)));
             }
 
-            modifier.getObjectToEdit().getBoatTypesList().forEach(modifier::removeBoatType);
-            types.forEach(modifier::addBoatTypeOption);
+            currentTypes.forEach(modifier::removeBoatType);
+            typesAfterUpdate.forEach(modifier::addBoatTypeOption);
+
         } catch (Exception ex) {
             errors.add("Updating boat types failed due to an unknown error");
 
@@ -148,12 +151,14 @@ public class UpdateRequestServlet extends HttpServlet {
     }
 
     private void handleWeeklyActivity(EngineContext eng, RequestModifier modifier, String weeklyActivityId, List<String> errors) {
-        WeeklyActivity activity = eng.getWeeklyActivitiesCollectionManager().findByUniqueIdentifier(weeklyActivityId);
+        if (!weeklyActivityId.equals("none")) {
+            WeeklyActivity activity = eng.getWeeklyActivitiesCollectionManager().findByUniqueIdentifier(weeklyActivityId);
 
-        if (activity == null) {
-            errors.add("Updating failed because the weekly activity you're trying to use isn't valid.");
-        } else {
-            modifier.setWeeklyActivity(activity);
+            if (activity == null) {
+                errors.add("Updating failed because the weekly activity you're trying to use isn't valid.");
+            } else {
+                modifier.setWeeklyActivity(activity);
+            }
         }
     }
 

@@ -34,7 +34,7 @@ function updateWeeklyActivity(e) {
             showSuccess("Weekly activity successfully updated!");
             setTimeout(function () {
                 window.location = '/weekly-activities/index';
-            }, 2000);
+            }, timeOutTime);
         } else {
             showErrorsInUnOrderedListEl([json.data], errorListEl);
         }

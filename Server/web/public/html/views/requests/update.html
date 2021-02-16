@@ -16,7 +16,7 @@
                             </ul>
                         </div>
                         <form id="updateRequestForm">
-                            <input type="hidden" id="requestId" value="{id}">
+                            <input type="hidden" id="id" value="{id}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group bmd-form-group">
@@ -44,7 +44,9 @@
                                         <select id="weeklyActivity" name="weeklyActivity"
                                                 class="form-control selectpicker"
                                                 data-style="btn btn-link">
-                                            <option value="none" disabled selected>Select Weekly Activity</option>
+                                            <option id="weeklyActivityNoneOption" value="none" disabled selected>To
+                                                update the request weekly activity you must create a new one.
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -82,7 +84,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-4">
-                                    <button id="createRequestBtn" type="submit" class="btn btn-blue btn-block">Create
+                                    <button id="updateRequestBtn" type="submit" class="btn btn-blue btn-block">Update
                                         Request
                                     </button>
                                 </div>
@@ -94,5 +96,6 @@
             </div>
         </div>
     </div>
+    <script src="/public/scripts/views/requests/utils.js"></script>
     <script src="/public/scripts/views/requests/update.js"></script>
 </div>
