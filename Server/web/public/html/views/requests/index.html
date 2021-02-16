@@ -4,8 +4,27 @@
             <div class="col-12">
                 <div class="card">
                     <div class="row card-header">
-                        <div class="col-md-9"></div>
                         <div class="col-md-3">
+                            <div class="form-group bmd-form-group">
+                                <label class="label-control">Filter</label>
+                                <select id="filter" name="filter" class="form-control selectpicker"
+                                        data-style="btn btn-link">
+                                    <option selected value="all">All</option>
+                                    <option value="nextWeek">Next Week</option>
+                                    <option value="Previous Week">Previous Week</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="text-align: center">
+                            <div class="form-check">
+                                <label style="margin-top: 40px; margin-left: 20px" class="form-check-label">
+                                    <input id="onlyApproved" class="form-check-input" type="checkbox" value="">
+                                    Only Approved Requests
+                                    <span class="form-check-sign"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="margin-top: 25px">
                             <a style="margin-top: 10px;" class="btn btn-blue btn-block pull-right"
                                href="/requests/create">
                                 Create Request

@@ -1,4 +1,5 @@
 const editBtnEl = document.getElementById("editBtn");
+let loggedInUserIsAdmin;
 
 function initElements(loggedInUser) {
     changePasswordEl.value = loggedInUser
@@ -20,7 +21,9 @@ function editClickEventListener(e) {
     let allElements = document.querySelectorAll("[disabled]");
 
     for (let i = 0, l = allElements.length; i < l; ++i) {
-        if(allElements[i].id !== "isAdmin") {
+        if (allElements[i].id !== "isAdmin" && allElements[i].id !== "privateBoats" && allElements[i].id !== "expirationDate") {
+            allElements[i].disabled = false;
+        } else if ((allElements[i].id === "privateBoats" || allElements[i].id === "expirationDate") && loggedInUserIsAdmin) {
             allElements[i].disabled = false;
         }
     }
@@ -30,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     getLoggedInUser().then(loggedInUser => {
         if (loggedInUser !== undefined) {
             initElements(loggedInUser);
+            loggedInUserIsAdmin = loggedInUser.isAdmin;
             insertPrivateBoats();
             editBtnEl.addEventListener('click', (e) => editClickEventListener(e));
         } else {

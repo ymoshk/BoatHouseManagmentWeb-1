@@ -3,84 +3,54 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="col-md-10">
-                            <p style="margin-top:10px; font-size: 22px;">Request</p>
-                        </div>
-                        <div class="col-md-2"></div>
-                        <hr>
-                    </div>
                     <div class="card-body" id="tableContainer">
+                        <div class="row" style="height: 150px"></div>
                         <div class="row">
-                            <ul style="color:red;" id="errors">
-                            </ul>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <button class="btn btn-blue btn-block pull-right">
+                                    Import Rowers
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-blue btn-block pull-right">
+                                    Export Rowers
+                                </button>
+                            </div>
                         </div>
-                        <form id="createRequestForm">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="label-control">Main Rower</label>
-                                        <input id="mainRower" disabled name="mainRower"
-                                               class="form-control"
-                                               data-style="btn btn-link" rows="1">
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="label-control">Activity Date</label>
-                                        <input style="text-align: left" disabled id="activityDate" name="activityDate"
-                                               type="text"
-                                               class="form-control datepicker2" autocomplete="off"/>
-                                    </div>
-                                </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <button class="btn btn-blue btn-block pull-right">
+                                    Import Boats
+                                </button>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="activityDetails">Weekly Activity Details<br></label>
-                                        <textarea disabled id="activityDetails" class="form-control"
-                                                  data-style="btn btn-link"
-                                                  multiple="multiple" rows="4">
-                                        </textarea>
-                                    </div>
-                                </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-blue btn-block pull-right">
+                                    Export Boats
+                                </button>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="boatTypes">Boat Types<br></label>
-                                        <textarea disabled id="boatTypes" class="form-control"
-                                                  data-style="btn btn-link"
-                                                  multiple="multiple" rows="5">
-                                        </textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label for="otherRowers">Other Rowers<br></label>
-                                        <textarea disabled id="otherRowers" class="form-control"
-                                                  data-style="btn btn-link"
-                                                  multiple="multiple" rows="5">
-                                        </textarea>
-                                    </div>
-                                </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <button class="btn btn-blue btn-block pull-right">
+                                    Import Weekly Activities
+                                </button>
                             </div>
-                            <hr style="margin-top: 70px">
-                            <div class="row">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-dark btn-block" href="/requests/index">
-                                        Duplicate
-                                    </button>
-                                </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-blue btn-block pull-right">
+                                    Export Weekly Activities
+                                </button>
                             </div>
-                            <div class="clearfix"></div>
-                        </form>
+                        </div>
+                        <div class="row" style="height: 150px"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/public/scripts/views/requests/infoHelper.js"></script>
+    <script type="application/javascript" src="/public/scripts/views/manageData/index.js"></script>
 </div>

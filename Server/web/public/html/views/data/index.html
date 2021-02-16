@@ -1,1 +1,67 @@
-Manage Data Page
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body" id="tableContainer">
+                        <div class="row" style="height: 150px"></div>
+                        <div class="row">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-3">
+                                <form id="importRowersForm">
+                                    <input type="file" id="rowerFileInput" hidden accept=".xml">
+                                    <button id="importRowersBtn" type="submit"
+                                            class="btn btn-blue btn-block pull-right">
+                                        Import Rowers
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="exportRowersBtn" class="btn btn-blue btn-block pull-right">
+                                    Export Rowers
+                                </button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <form id="importBoatsForm" enctype="multipart/form-data" method="post">
+                                    <input type="file" id="boatsFileInput" hidden accept=".xml">
+                                    <button id="importBoatsBtn" class="btn btn-blue btn-block pull-right">
+                                        Import Boats
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="exportBoatsBtn" class="btn btn-blue btn-block pull-right">
+                                    Export Boats
+                                </button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <form id="importWeeklyActivitiesForm" enctype="multipart/form-data" method="post">
+                                    <input type="file" id="weeklyActivitiesFileInput" hidden accept=".xml">
+                                    <button id="importWeeklyActivitiesBtn" class="btn btn-blue btn-block pull-right">
+                                        Import Weekly Activities
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="exportWeeklyActivitiesBtn" class="btn btn-blue btn-block pull-right">
+                                    Export Weekly Activities
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" style="height: 150px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript" src="/public/scripts/views/manageData/index.js"></script>
+</div>

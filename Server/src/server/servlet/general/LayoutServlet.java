@@ -63,7 +63,7 @@ public class LayoutServlet extends HttpServlet {
         }
 
         res.add(new MenuItem(false, "navData"
-                , "fa fa-info-circle", ePages.MANAGE_DATA.getTitle(), "/manage-data"));
+                , "fa fa-info-circle", ePages.MANAGE_DATA.getTitle(), "/data/index"));
         res.add(new MenuItem(false, "navLogout"
                 , "fa fa-sign-out", "Logout", "/logout"));
 

@@ -33,7 +33,7 @@ function getUnCheckedIcon() {
 }
 
 function handleErrors() {
-    showError("Error", "Action failed due to an unknown reason");
+    showError("Action failed due to an unknown reason", "Error");
     setTimeout(() => window.location = "/home", timeOutTime)
 }
 
@@ -84,5 +84,24 @@ function selectExtractor(selectElementId) {
 
 function getRowerStringFormat(rower){
     return rower.name + ' (' + rower.email + ', ' + rower.phone + ')';
+}
+
+//dateAsString = "dd/mm/yyyy"
+function getDateObjectFromString(dateAsString){
+    let dateArray = dateAsString.split("/");
+    let day = dateArray[0];
+    let month = dateArray[1];
+    let year = dateArray[2];
+    let res = new Date(month + "/" + day + "/" + year);
+
+    return res;
+}
+
+function addDaysToDate(date, days){
+    date.setDate(date.getDate() + days);
+}
+
+function minusDaysToDate(date, days){
+    date.setDate(date.getDate() - days);
 }
 
