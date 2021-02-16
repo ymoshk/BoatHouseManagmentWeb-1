@@ -33,13 +33,13 @@ async function importRowersClickEventHandler(e) {
 }
 
 function rowersFileInputChangeEventHandler() {
-    let data = new FormData()
-    data.append('file', rowersFileInputEl.files[0])
-    data.append('deleteAll', deleteAllRowers.toString())
+    // let data = new FormData()
+    // data.append('file', rowersFileInputEl.files[0])
+    // data.append('deleteAll', deleteAllRowers.toString())
 
     fetch('/data/import/rowers', {
         method: 'post',
-        body: data,
+        body: rowersFileInputEl.files[0],
         headers: new Headers({'Content-Type': 'multipart/form-data'})
     }).then(function (response) {
         let resAsJson = response.json();
