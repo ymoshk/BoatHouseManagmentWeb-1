@@ -62,6 +62,7 @@ public class LayoutServlet extends HttpServlet {
                     , "fa fa-ship", ePages.ROWING_ACTIVITY.getTitle(), "/rowing-activities/index"));
         }
 
+
         res.add(new MenuItem(false, "navData"
                 , "fa fa-info-circle", ePages.MANAGE_DATA.getTitle(), "/data/index"));
         res.add(new MenuItem(false, "navLogout"

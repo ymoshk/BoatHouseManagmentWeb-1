@@ -33,8 +33,6 @@ async function importRowersClickEventHandler(e) {
 }
 
 function rowersFileInputChangeEventHandler() {
-    alert(rowersFileInputEl.files[0]);
-
     let data = new FormData()
     data.append('file', rowersFileInputEl.files[0])
     data.append('deleteAll', deleteAllRowers.toString())
