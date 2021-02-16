@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -146,5 +147,17 @@ public class Utils {
             outputStream.write(xmlAsSting.getBytes());
             outputStream.flush();
         }
+    }
+
+    public static String readFileParts(Collection<Part> parts) throws IOException {
+        StringBuilder xml = new StringBuilder();
+        for (Part part : parts) {
+            try (Scanner scanner = new Scanner(part.getInputStream())) {
+                while (scanner.hasNextLine()) {
+                    xml.append(scanner.nextLine());
+                }
+            }
+        }
+        return xml.toString();
     }
 }
