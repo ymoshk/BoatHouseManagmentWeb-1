@@ -12,7 +12,16 @@
                                     <option selected value="all">All</option>
                                     <option value="nextWeek">Next Week</option>
                                     <option value="Previous Week">Previous Week</option>
+                                    <option>By Specific Date</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div style="display: none" id="specificDayFilterContainer" class="col-md-3">
+                            <div class="form-group bmd-form-group">
+                                <label class="label-control">By Day</label>
+                                <input style="text-align: left;" id="bySpecificDay" name="bySpecificDay"
+                                       type="text"
+                                       class="form-control datepicker2" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-3" style="text-align: center">
@@ -22,14 +31,6 @@
                                     Only Approved Requests
                                     <span class="form-check-sign"><span class="check"></span></span>
                                 </label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group bmd-form-group">
-                                <label class="label-control">By Day</label>
-                                <input style="text-align: left;"  id="bySpecificDay" name="bySpecificDay"
-                                       type="text"
-                                       class="form-control datepicker2" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-3" style="margin-top: 25px">

@@ -3,8 +3,11 @@ const filterEl = document.getElementById("filter");
 const onlyApprovedEl = document.getElementById("onlyApproved");
 
 let loggedInUser;
+let bySpecificDayEl;
 let requestsList;
 let currentTimeFilter;
+
+let currentSpecificDay = "";
 
 document.addEventListener("DOMContentLoaded", function () {
     getLoggedInUser().then(function (user) {
@@ -13,7 +16,28 @@ document.addEventListener("DOMContentLoaded", function () {
         filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
         onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
     });
+    createTable(undefined, onlyApprovedFilter);
+    filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
+    onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
+    bySpecificDayEl = $("#bySpecificDay");
+    bySpecificDayEl.on('change', applySpecificDayFilter);
 });
+
+function specificDayFilter(req) {
+    if (bySpecificDayEl.val() !== "") {
+        return req.trainingDate === bySpecificDayEl.val();
+    } else {
+        return true;
+    }
+}
+
+function applySpecificDayFilter() {
+    if (bySpecificDayEl.val() !== currentSpecificDay) {
+        currentSpecificDay = bySpecificDayEl.val();
+        tableContainer.innerHTML = "";
+        createTable(specificDayFilter, onlyApprovedFilter);
+    }
+}
 
 function onlyApprovedClickEventHandler() {
     tableContainer.innerHTML = "";
@@ -22,17 +46,21 @@ function onlyApprovedClickEventHandler() {
 
 
 function filterElSelectionChangeEventHandler() {
-    let filterToInvoke = getFilterFromSelectedIndex(filterEl.selectedIndex);
-    tableContainer.innerHTML = "";
+    if (filterEl.selectedIndex !== 3) {
+        document.getElementById('specificDayFilterContainer').style.display = "none";
+        let filterToInvoke = getFilterFromSelectedIndex(filterEl.selectedIndex);
+        tableContainer.innerHTML = "";
 
-    createTable(filterToInvoke, onlyApprovedFilter);
+        createTable(filterToInvoke, onlyApprovedFilter);
+    } else {
+        document.getElementById('specificDayFilterContainer').style.display = "block";
+    }
 }
 
 function onlyApprovedFilter(req) {
     if (onlyApprovedEl.checked) {
         return req.isApproved;
     }
-
     return true;
 }
 
