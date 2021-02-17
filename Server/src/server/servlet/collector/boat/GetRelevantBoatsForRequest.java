@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet(urlPatterns = "collectors/boats/getRelevantBoatsForRequest")
+@WebServlet(urlPatterns = "/collectors/boats/getRelevantBoatsForRequest")
 public class GetRelevantBoatsForRequest extends HttpServlet {
 
 

@@ -15,12 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
         createTable(undefined, onlyApprovedFilter);
         filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
         onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
+        bySpecificDayEl = $("#bySpecificDay");
+        bySpecificDayEl.on('change', applySpecificDayFilter);
     });
-    createTable(undefined, onlyApprovedFilter);
-    filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
-    onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
-    bySpecificDayEl = $("#bySpecificDay");
-    bySpecificDayEl.on('change', applySpecificDayFilter);
 });
 
 function specificDayFilter(req) {
@@ -48,12 +45,14 @@ function onlyApprovedClickEventHandler() {
 function filterElSelectionChangeEventHandler() {
     if (filterEl.selectedIndex !== 3) {
         document.getElementById('specificDayFilterContainer').style.display = "none";
+        document.getElementById('spaceDiv').style.display = "block";
         let filterToInvoke = getFilterFromSelectedIndex(filterEl.selectedIndex);
         tableContainer.innerHTML = "";
 
         createTable(filterToInvoke, onlyApprovedFilter);
     } else {
         document.getElementById('specificDayFilterContainer').style.display = "block";
+        document.getElementById('spaceDiv').style.display = "none";
     }
 }
 

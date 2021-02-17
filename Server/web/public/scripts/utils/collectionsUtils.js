@@ -146,14 +146,22 @@ function getLoggedInUser() {
     });
 }
 
-function getRequestsFromServer() {
+function getRequestsFromServer(id) {
     return fetch("/collectors/requests", {
         method: 'get',
         headers: getPostHeaders(),
     }).then(async function (response) {
         let resAsJson = await response.json();
 
-        return resAsJson.requests;
+        if (id === undefined) {
+            return resAsJson.requests;
+        } else {
+            resAsJson.requests.forEach(function (request) {
+                if (request.id === id) {
+                    return request;
+                }
+            })
+        }
     });
 }
 

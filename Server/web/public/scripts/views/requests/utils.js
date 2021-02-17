@@ -37,6 +37,10 @@ function validateForm(checkWeeklyActivity) {
             "select more rowers than the biggest selected boat type can contain");
     }
 
+    if (getDateObjectFromString(activityDateEl.value) <= new Date()) {
+        errors.push("Activity date must be greater then today.");
+    }
+
     if (!newWeeklyActivity) {
         let value = document.getElementById("weeklyActivity").value;
 

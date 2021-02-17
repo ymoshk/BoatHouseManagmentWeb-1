@@ -4,53 +4,71 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body" id="tableContainer">
-                        <div class="row" style="height: 150px"></div>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                <button class="btn btn-blue btn-block pull-right">
-                                    Import Rowers
-                                </button>
+                        <div class="card card-nav-tabs card-plain">
+                            <div class="card-body">
+                                <input type="hidden" id="requestId">
+                                <div>
+                                    <div class="progress">
+                                        <div id="progressBar" class="progress-bar bg-info" role="progressbar"
+                                             style="width: 25%"
+                                             aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="tab-content text-center">
+                                    <!--step one div-->
+                                    <div class="tab-pane active" id="selectBoatTab">
+                                        <div style="margin-top:50px; text-align: center">
+                                            <h3 style='font-family: "Arial", sans-serif'>SELECT A BOAT TYPE FOR THE
+                                                ROWING ACTIVITY</h3>
+                                            <br>
+                                            <div style="margin-bottom: 50px;" class="row col-md-12">
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-8">
+                                                    <select id="boatSelection" class="select2El form-control"
+                                                            data-style="btn btn-link">
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--stepTwoDiv-->
+                                    <div class="tab-pane" id="addRowersTab">
+                                        step 2.1
+                                    </div>
+
+                                    <div class="tab-pane" id="removeRowersTab">
+                                        step 2.2
+                                    </div>
+
+                                    <div class="tab-pane" id="infoTab">
+                                        step 3
+                                    </div>
+                                    <div class="row" style="text-align: center; margin-bottom: 20px;">
+                                        <div class="col-md-2"></div>
+                                        <ul id="errors" style="color: red">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-blue btn-block pull-right">
-                                    Export Rowers
-                                </button>
+                            <hr>
+                            <div class="card-footer">
+                                <div class="row col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-3">
+                                        <button disabled class="btn btn-block btn-dark" id="backStepBtn">Back</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-block btn-blue" id="nextStepBtn">Next</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                <button class="btn btn-blue btn-block pull-right">
-                                    Import Boats
-                                </button>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-blue btn-block pull-right">
-                                    Export Boats
-                                </button>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                <button class="btn btn-blue btn-block pull-right">
-                                    Import Weekly Activities
-                                </button>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-blue btn-block pull-right">
-                                    Export Weekly Activities
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row" style="height: 150px"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script type="application/javascript" src="/public/scripts/views/manageData/index.js"></script>
+    <script type="application/javascript" src="/public/scripts/views/rowing-activity/approve.js"></script>
 </div>
