@@ -80,7 +80,7 @@ public class BoatsCollectionManager extends CollectionManager<Boat> {
     }
 
     private Boats deserializeBoats(InputStream inputStream) throws JAXBException {
-        Unmarshaller unmarshaller = initializeJAXB(Boats.class, "boats.xsd");
+        Unmarshaller unmarshaller = initializeJAXB(Boats.class, "/jaxb/schema/engine/generated/boat/boats.xsd");
         return (Boats) unmarshaller.unmarshal(inputStream);
     }
 

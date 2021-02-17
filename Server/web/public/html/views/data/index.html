@@ -3,65 +3,170 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body" id="tableContainer">
-                        <div class="row" style="height: 150px"></div>
-                        <div class="row">
-                            <div class="col-md-3">
+                    <div class="card-body" id="bodyContainer">
+                        <div class="card card-nav-tabs card-plain">
+                            <div class="card-header card-header-primary">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                                <button id="rowersBtn" style="outline: 0; cursor: pointer"
+                                                        class="nav-link active"
+                                                        data-toggle="tab">
+                                                    Rowers
+                                                </button>
+                                            </li>
+                                            <li class="nav-item">
+                                                <button id="boatsBtn" style="outline: 0; cursor: pointer"
+                                                        class="nav-link"
+                                                        data-toggle="tab">Boats
+                                                </button>
+                                            </li>
+                                            <li class="nav-item">
+                                                <button id="weeklyActivitiesBtn" style="outline: 0; cursor: pointer"
+                                                        class="nav-link"
+                                                        data-toggle="tab">Weekly
+                                                    Activities
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <form id="importRowersForm">
-                                    <input type="file" id="rowerFileInput" hidden accept=".xml">
-                                    <button id="importRowersBtn" type="submit"
-                                            class="btn btn-blue btn-block pull-right">
-                                        Import Rowers
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-md-3">
-                                <button id="exportRowersBtn" class="btn btn-blue btn-block pull-right">
-                                    Export Rowers
-                                </button>
+                            <div class="card-body">
+                                <div class="tab-content text-center">
+                                    <div class="tab-pane active" id="rowersTab">
+                                        <br>
+                                        <div>
+                                            <h6>Select a file of rowers to import and click "Import Rowers". </h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-4">
+                                                <span id="inputRowersContainer"
+                                                      class="btn btn-raised btn-block btn-default btn-file">
+                                                    <input name="rowerFileInput" style="display: none" type="file"
+                                                           id="rowerFileInput"
+                                                           accept=".xml" required>
+                                                    <span id="selectRowersFileBtnText">Select A File</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button id="importRowersBtn" class="btn btn-blue btn-block">
+                                                    Import Rowers
+                                                </button>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div>
+                                        <div style="margin-top: 30px;">
+                                            <h6> Download a file with all the rowers in the system. </h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4">
+                                                <button id="exportRowersBtn" class="btn btn-blue btn-block">
+                                                    Export Rowers
+                                                </button>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="boatsTab">
+                                        <br>
+                                        <div>
+                                            <h6>Select a file of boats to import and click "Import Boats". </h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-4">
+                                                <span id="inputBoatsContainer"
+                                                      class="btn btn-raised btn-block btn-default btn-file">
+                                                    <input name="boatsFileInput" style="display: none" type="file"
+                                                           id="boatsFileInput"
+                                                           accept=".xml" required>
+                                                    <span id="selectBoatsFileBtnText">Select A File</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button id="importBoatsBtn" class="btn btn-blue btn-block">
+                                                    Import Boats
+                                                </button>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div>
+                                        <div style="margin-top: 30px;">
+                                            <h6> Download a file with all the boats in the system. </h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4">
+                                                <button id="exportBoatsBtn" class="btn btn-blue btn-block">
+                                                    Export Boats
+                                                </button>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div class="tab-pane" id="weeklyActivitiesTab">
+                                        <br>
+                                        <div>
+                                            <h6>Select a file of weekly activities to import and click "Import Weekly
+                                                Activities". </h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-4">
+                                                <span id="inputWeeklyActivitiesContainer"
+                                                      class="btn btn-raised btn-block btn-default btn-file">
+                                                    <input name="weeklyActivitiesFileInput" style="display: none"
+                                                           type="file"
+                                                           id="weeklyActivitiesFileInput"
+                                                           accept=".xml" required>
+                                                    <span id="selectWeeklyActivitiesFileBtnText">Select A File</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button id="importWeeklyActivitiesBtn" class="btn btn-blue btn-block">
+                                                    Import Weekly Activities
+                                                </button>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div>
+                                        <div style="margin-top: 30px;">
+                                            <h6> Download a file with all the weekly activities in the system. </h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4">
+                                                <button id="exportWeeklyActivitiesBtn" class="btn btn-blue btn-block">
+                                                    Export Weekly Activities
+                                                </button>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                <form id="importBoatsForm" enctype="multipart/form-data" method="post">
-                                    <input type="file" id="boatsFileInput" hidden accept=".xml">
-                                    <button id="importBoatsBtn" class="btn btn-blue btn-block pull-right">
-                                        Import Boats
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-md-3">
-                                <button id="exportBoatsBtn" class="btn btn-blue btn-block pull-right">
-                                    Export Boats
-                                </button>
-                            </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="display: none" class="card-body" id="resultsCard">
+                        <div class="col-md-12">
+                            <h2>IMPORT RESULTS </h2>
+                            <h5 id="resultTitle"></h5>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                <form id="importWeeklyActivitiesForm" enctype="multipart/form-data" method="post">
-                                    <input type="file" id="weeklyActivitiesFileInput" hidden accept=".xml">
-                                    <button id="importWeeklyActivitiesBtn" class="btn btn-blue btn-block pull-right">
-                                        Import Weekly Activities
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="col-md-3">
-                                <button id="exportWeeklyActivitiesBtn" class="btn btn-blue btn-block pull-right">
-                                    Export Weekly Activities
-                                </button>
-                            </div>
+                        <br>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <h6 id="resultContainer"></h6>
                         </div>
-                        <div class="row" style="height: 150px"></div>
+                        <div class="col-md-1"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script type="application/javascript" src="/public/scripts/views/manageData/index.js"></script>
+    <script type="application/javascript" src="/public/scripts/views/data/index.js"></script>
 </div>

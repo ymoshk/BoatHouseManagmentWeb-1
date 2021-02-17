@@ -93,8 +93,9 @@ public class RowersCollectionManager extends CollectionManager<Rower> {
                 .append(" rowers out of ").append(members.getMember().size()).append(" rowers.\n");
     }
 
+    //"members.xsd"
     private Members deserializeMember(InputStream inputStream) throws JAXBException {
-        Unmarshaller unmarshaller = initializeJAXB(Members.class, "members.xsd");
+        Unmarshaller unmarshaller = initializeJAXB(Members.class, "/jaxb/schema/engine/generated/member/members.xsd");
         return (Members) unmarshaller.unmarshal(inputStream);
     }
 

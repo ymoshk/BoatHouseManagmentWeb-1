@@ -14,21 +14,21 @@ function showError(message, title) {
     Swal.fire(title, message, "error")
 }
 
-function showInfoPopup(divToInject){
+function showInfoPopup(divToInject) {
     Swal.fire({
         html: divToInject,
         showConfirmButton: false,
         showCancelButton: true,
         focusConfirm: false,
         padding: "0px",
-        width : "85%" ,
+        width: "85%",
         cancelButtonText:
             '<i class="fa fa-close"></i> Exit',
         cancelButtonAriaLabel: 'Exit'
     })
 }
 
-function showAreYouSureMessage(message, title) {
+async function showAreYouSureMessage(message, title) {
     if (title === undefined) {
         title = "Are you sure?";
     }

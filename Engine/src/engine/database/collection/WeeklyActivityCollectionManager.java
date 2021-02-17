@@ -74,7 +74,8 @@ public class WeeklyActivityCollectionManager extends CollectionManager<WeeklyAct
     }
 
     private Activities deserializeTimeframe(InputStream inputStream) throws JAXBException {
-        Unmarshaller unmarshaller = initializeJAXB(Activities.class, "activities.xsd");
+        Unmarshaller unmarshaller = initializeJAXB(Activities.class,
+                "/jaxb/schema/engine/generated/activity/activities.xsd");
         return (Activities) unmarshaller.unmarshal(inputStream);
     }
 

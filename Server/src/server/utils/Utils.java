@@ -2,6 +2,7 @@ package server.utils;
 
 import com.google.gson.Gson;
 import engine.api.EngineContext;
+import javafx.util.Pair;
 import server.constant.Constants;
 import server.constant.ePages;
 import server.servlet.json.template.Response;
@@ -135,7 +136,7 @@ public class Utils {
     }
 
     public static void exportHandler(HttpServletResponse resp, String xmlAsSting, String fileName) throws IOException {
-        resp.setContentType("text/plain");
+        resp.setContentType("APPLICATION/OCTET-STREAM");
         resp.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xml");
         File resultFile = File.createTempFile(fileName, "xml");
 
@@ -159,5 +160,25 @@ public class Utils {
             }
         }
         return xml.toString();
+    }
+
+    public static Pair<Boolean, String> parsePartsRequest(HttpServletRequest req) throws IOException, ServletException {
+        Collection<Part> parts = req.getParts();
+        StringBuilder xml = new StringBuilder();
+        Boolean deleteAll = null;
+
+        for (Part part : parts) {
+            try (Scanner scanner = new Scanner(part.getInputStream())) {
+                if (part.getName().equals(Constants.deleteAllAtt)) {
+                    deleteAll = Boolean.parseBoolean(scanner.nextLine());
+                } else {
+                    while (scanner.hasNextLine()) {
+                        xml.append(scanner.nextLine());
+                    }
+                }
+            }
+        }
+
+        return new Pair<>(deleteAll, xml.toString());
     }
 }

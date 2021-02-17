@@ -1,6 +1,7 @@
 package server.servlet.data.imprt;
 
 import engine.api.EngineContext;
+import javafx.util.Pair;
 import server.utils.Utils;
 
 import javax.servlet.ServletException;
@@ -21,18 +22,20 @@ public class ImportWeeklyActivitiesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-        Collection<Part> parts = req.getParts();
-        String xml = Utils.readFileParts(parts);
+        Pair<Boolean, String> data = Utils.parsePartsRequest(req);
 
         try (PrintWriter out = resp.getWriter()) {
-            StringBuilder result = new StringBuilder();
-            Map<String, String> data = Utils.parsePostData(req);
-            boolean deleteAll = Boolean.parseBoolean(data.get("deleteAll"));
-            EngineContext.getInstance().getWeeklyActivitiesCollectionManager().importFromXml(xml, deleteAll, result);
-            out.println(Utils.createJsonSuccessObject(result.toString()));
-        } catch (Exception ex) {
-            try (PrintWriter out = resp.getWriter()) {
-                out.println(Utils.createJsonErrorObject("Importing file failed due to an unknown error."));
+            if (data.getKey() == null || data.getValue().isEmpty()) {
+                out.println(Utils.createJsonErrorObject("Importing weekly activities failed due to an unknown error."));
+            } else {
+                StringBuilder result = new StringBuilder();
+                try {
+                    EngineContext.getInstance().getWeeklyActivitiesCollectionManager()
+                            .importFromXml(data.getValue(), data.getKey(), result);
+                    out.println(Utils.createJsonSuccessObject(result.toString()));
+                } catch (Exception e) {
+                    out.println(Utils.createJsonErrorObject("Importing weekly activities failed due to an unknown error."));
+                }
             }
         }
     }
