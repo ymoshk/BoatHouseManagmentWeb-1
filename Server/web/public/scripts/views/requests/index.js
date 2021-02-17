@@ -1,19 +1,18 @@
 const tableContainer = document.getElementById("tableContainer");
 const filterEl = document.getElementById("filter");
 const onlyApprovedEl = document.getElementById("onlyApproved");
-const bySpecificDayEl = document.getElementById("bySpecificDay");
+
+let loggedInUser;
 let requestsList;
 let currentTimeFilter;
 
-function test() {
-    alert("Change");
-}
-
 document.addEventListener("DOMContentLoaded", function () {
-    createTable(undefined, onlyApprovedFilter);
-    filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
-    onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
-    bySpecificDayEl.addEventListener("change", test)
+    getLoggedInUser().then(function (user) {
+        loggedInUser = user;
+        createTable(undefined, onlyApprovedFilter);
+        filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
+        onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
+    });
 });
 
 function onlyApprovedClickEventHandler() {
@@ -76,7 +75,42 @@ function buildRequestTableRow(req) {
     res.push(document.createTextNode(req.weeklyActivity.endTime));
     res.push(!req.isApproved ? getUnCheckedIcon() : getCheckedIcon());
 
+    if(loggedInUser.isAdmin){
+         res.push(getApproveBtn(req));
+    }
+
     return res;
+}
+
+function approveBtnClickEventHandler(id) {
+    alert("approve " + id);
+}
+
+function getApproveBtn(req){
+    let approveBtn = document.createElement("button");
+    approveBtn.className += "btn-sm btn-success";
+    approveBtn.style.padding
+    approveBtn.style.textAlign = "center";
+    approveBtn.style.paddingBottom = "5px";
+    approveBtn.style.paddingTop = "5px";
+    approveBtn.style.paddingRight = "10px";
+    approveBtn.style.paddingLeft = "10px";
+    approveBtn.style.fontSize = "15px";
+    approveBtn.style.marginTop = "5px";
+    approveBtn.style.marginBottom = "5px";
+    let icon = document.createElement("i");
+    approveBtn.disabled = req.isApproved;
+    icon.className += "fa fa-check-circle-o";
+    approveBtn.appendChild(icon);
+    approveBtn.setAttribute("title", "Approve Request");
+    approveBtn.setAttribute("data-toggle", "tooltip");
+    approveBtn.setAttribute("data-placement", "top");
+    approveBtn.addEventListener("click",function (e) {
+        e.preventDefault();
+        approveBtnClickEventHandler(req.id)
+    })
+
+    return approveBtn;
 }
 
 async function createTable(timeFilterToInvoke, isApprovedFilterToInvoke) {
@@ -88,6 +122,11 @@ async function createTable(timeFilterToInvoke, isApprovedFilterToInvoke) {
 
             if (requestsList.length !== 0) {
                 let names = ["Creation Date", "Activity Date", "Creator", "Start Time", "End Time", "Is Approved"];
+
+                if(loggedInUser.isAdmin){
+                    names.push("Approve Request");
+                }
+
                 let table = tables.createEmptyTable(names);
                 tableContainer.appendChild(table);
                 let i = 1;
@@ -174,23 +213,19 @@ function createInfoPage(request) {
         let otherRowersEl = infoEl.querySelector("#otherRowers");
         let boatTypesEl = infoEl.querySelector("#boatTypes");
 
+        mainRowerEl.value = getRowerStringFormat(request.mainRower);
+        activityDateEl.value = request.trainingDate;
+        weeklyActivityDetailsEl.value = getWeeklyActivityInfoString(request.weeklyActivity);
+        initOtherRowersList(request.otherRowersList, otherRowersEl);
+        initBoatTypes(request.boatTypesList, boatTypesEl);
 
-        getLoggedInUser().then(loggedInUser => {
-            mainRowerEl.value = getRowerStringFormat(request.mainRower);
+        let duplicateBtn = infoEl.querySelector("#duplicateBtn");
+        if (loggedInUser.isAdmin) {
+            duplicateBtn.addEventListener("click", e => handleUpdateClick(e, request))
+        } else {
+            duplicateBtn.hidden = true;
+        }
 
-            activityDateEl.value = request.trainingDate;
-            weeklyActivityDetailsEl.value = getWeeklyActivityInfoString(request.weeklyActivity);
-            initOtherRowersList(request.otherRowersList, otherRowersEl);
-            initBoatTypes(request.boatTypesList, boatTypesEl);
-
-            let duplicateBtn = infoEl.querySelector("#duplicateBtn");
-            if (loggedInUser.isAdmin) {
-                duplicateBtn.addEventListener("click", e => handleUpdateClick(e, request))
-            } else {
-                duplicateBtn.hidden = true;
-            }
-
-        });
 
         return infoEl;
     });
@@ -198,7 +233,7 @@ function createInfoPage(request) {
 
 function initBoatTypes(boatTypes, boatTypesEl) {
     boatTypesEl.value = "";
-    
+
     if (boatTypes === undefined || boatTypes.length === 0) {
         boatTypesEl.value = "There aren't any other rowers in this request.";
     } else {
