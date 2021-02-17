@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     createTable(undefined, onlyApprovedFilter);
     filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
     onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
-    // bySpecificDayEl.addEventListener("change", test)
+    bySpecificDayEl.addEventListener("change", test)
 });
 
 function onlyApprovedClickEventHandler() {
@@ -197,7 +197,8 @@ function createInfoPage(request) {
 }
 
 function initBoatTypes(boatTypes, boatTypesEl) {
-
+    boatTypesEl.value = "";
+    
     if (boatTypes === undefined || boatTypes.length === 0) {
         boatTypesEl.value = "There aren't any other rowers in this request.";
     } else {
@@ -223,6 +224,8 @@ function handleUpdateClick(e, request) {
 }
 
 function initOtherRowersList(otherRowers, otherRowersEl) {
+    otherRowersEl.value = "";
+
     if (otherRowers === undefined || otherRowers.length === 0) {
         otherRowersEl.value = "There aren't any other rowers in this request.";
     } else {
