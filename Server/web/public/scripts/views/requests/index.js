@@ -75,8 +75,8 @@ function buildRequestTableRow(req) {
     res.push(document.createTextNode(req.weeklyActivity.endTime));
     res.push(!req.isApproved ? getUnCheckedIcon() : getCheckedIcon());
 
-    if(loggedInUser.isAdmin){
-         res.push(getApproveBtn(req));
+    if (loggedInUser.isAdmin) {
+        res.push(getApproveBtn(req));
     }
 
     return res;
@@ -86,7 +86,7 @@ function approveBtnClickEventHandler(id) {
     alert("approve " + id);
 }
 
-function getApproveBtn(req){
+function getApproveBtn(req) {
     let approveBtn = document.createElement("button");
     approveBtn.className += "btn-sm btn-success";
     approveBtn.style.padding
@@ -99,18 +99,27 @@ function getApproveBtn(req){
     approveBtn.style.marginTop = "5px";
     approveBtn.style.marginBottom = "5px";
     let icon = document.createElement("i");
-    approveBtn.disabled = req.isApproved;
+    if (req.isApproved || getDateObjectFromString(req.trainingDate) < new Date(Date.now())) {
+        disableBtn(approveBtn);
+    }
+
     icon.className += "fa fa-check-circle-o";
     approveBtn.appendChild(icon);
     approveBtn.setAttribute("title", "Approve Request");
     approveBtn.setAttribute("data-toggle", "tooltip");
     approveBtn.setAttribute("data-placement", "top");
-    approveBtn.addEventListener("click",function (e) {
+    approveBtn.addEventListener("click", function (e) {
         e.preventDefault();
         approveBtnClickEventHandler(req.id)
     })
 
     return approveBtn;
+}
+
+function disableBtn(button) {
+    button.disabled = true;
+    button.style.opacity = "0.5";
+    button.style.cursor = "not-allowed";
 }
 
 async function createTable(timeFilterToInvoke, isApprovedFilterToInvoke) {
@@ -123,7 +132,7 @@ async function createTable(timeFilterToInvoke, isApprovedFilterToInvoke) {
             if (requestsList.length !== 0) {
                 let names = ["Creation Date", "Activity Date", "Creator", "Start Time", "End Time", "Is Approved"];
 
-                if(loggedInUser.isAdmin){
+                if (loggedInUser.isAdmin) {
                     names.push("Approve Request");
                 }
 
@@ -132,8 +141,10 @@ async function createTable(timeFilterToInvoke, isApprovedFilterToInvoke) {
                 let i = 1;
                 requestsList.forEach((req) => {
                     let requestsTableRow = buildRequestTableRow(req);
+                    let reqRow = tables.getRowInTable(req.id, requestsTableRow, i++, onDelete, onEdit, onInfo)
                     table.querySelector("#tableBody")
-                        .appendChild(tables.getRowInTable(req.id, requestsTableRow, i++, onDelete, onEdit, onInfo));
+                        .appendChild(reqRow);
+
                 });
             } else {
                 tableContainer.appendChild(tables.getNoDataEl());
@@ -142,9 +153,15 @@ async function createTable(timeFilterToInvoke, isApprovedFilterToInvoke) {
     });
 }
 
+function requestTrainingDateInFuture(request) {
+    let trainingDate = getDateObjectFromString(request.trainingDate);
+
+    return trainingDate >= new Date();
+}
+
 function onDelete(id) {
     const request = requestsList.filter(req => req.id === id)[0];
-    if (request.isApproved) {
+    if (request.isApproved && requestTrainingDateInFuture(request)) {
         showError("You can't to delete an approved request");
     } else {
         deleteRequest(request);
@@ -178,22 +195,27 @@ async function deleteRequest(request) {
 }
 
 function onEdit(id) {
-    let data = JSON.stringify({
-        id: id,
-    });
+    const request = requestsList.filter(req => req.id === id)[0];
+    if (request.isApproved) {
+        showError("You can't to edit an approved request");
+    } else {
+        let data = JSON.stringify({
+            id: id,
+        });
 
-    fetch('/requests/update/init', {
-        method: 'post',
-        body: data,
-        headers: getPostHeaders()
-    }).then(async function (response) {
-        let resAsJson = await response.json();
-        if (resAsJson.isSuccess) {
-            window.location = "/requests/update";
-        } else {
-            showError(resAsJson.error);
-        }
-    });
+        fetch('/requests/update/init', {
+            method: 'post',
+            body: data,
+            headers: getPostHeaders()
+        }).then(async function (response) {
+            let resAsJson = await response.json();
+            if (resAsJson.isSuccess) {
+                window.location = "/requests/update";
+            } else {
+                showError(resAsJson.error);
+            }
+        });
+    }
 }
 
 function onInfo(id) {
