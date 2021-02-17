@@ -46,7 +46,7 @@ public class UpdateRequestServlet extends HttpServlet {
                 if (tempList != null && tempList.size() == 1) {
                     String updatePage = Utils.readHtmlPage("/public/html/views/requests/update.html", req);
                     updatePage = prepareUpdatePage(updatePage, tempList.get(0));
-                    Utils.renderLayoutFromHtml(req, resp, updatePage, ePages.ROWERS);
+                    Utils.renderLayoutFromHtml(req, resp, updatePage, ePages.REQUESTS);
 
                 } else {
                     out.println(Utils.createJsonErrorObject("Updating request failed due to an unknown error."));

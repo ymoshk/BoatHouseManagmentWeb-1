@@ -1,13 +1,19 @@
 const tableContainer = document.getElementById("tableContainer");
 const filterEl = document.getElementById("filter");
 const onlyApprovedEl = document.getElementById("onlyApproved");
+const bySpecificDayEl = document.getElementById("bySpecificDay");
 let requestsList;
 let currentTimeFilter;
+
+function test() {
+    alert("Change");
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     createTable(undefined, onlyApprovedFilter);
     filterEl.addEventListener("change", filterElSelectionChangeEventHandler);
     onlyApprovedEl.addEventListener("click", onlyApprovedClickEventHandler);
+    // bySpecificDayEl.addEventListener("change", test)
 });
 
 function onlyApprovedClickEventHandler() {
@@ -21,7 +27,6 @@ function filterElSelectionChangeEventHandler() {
     tableContainer.innerHTML = "";
 
     createTable(filterToInvoke, onlyApprovedFilter);
-
 }
 
 function onlyApprovedFilter(req) {
@@ -167,6 +172,7 @@ function createInfoPage(request) {
         let activityDateEl = infoEl.querySelector("#activityDate");
         let weeklyActivityDetailsEl = infoEl.querySelector("#activityDetails");
         let otherRowersEl = infoEl.querySelector("#otherRowers");
+        let boatTypesEl = infoEl.querySelector("#boatTypes");
 
 
         getLoggedInUser().then(loggedInUser => {
@@ -175,6 +181,7 @@ function createInfoPage(request) {
             activityDateEl.value = request.trainingDate;
             weeklyActivityDetailsEl.value = getWeeklyActivityInfoString(request.weeklyActivity);
             initOtherRowersList(request.otherRowersList, otherRowersEl);
+            initBoatTypes(request.boatTypesList, boatTypesEl);
 
             let duplicateBtn = infoEl.querySelector("#duplicateBtn");
             if (loggedInUser.isAdmin) {
@@ -187,6 +194,17 @@ function createInfoPage(request) {
 
         return infoEl;
     });
+}
+
+function initBoatTypes(boatTypes, boatTypesEl) {
+
+    if (boatTypes === undefined || boatTypes.length === 0) {
+        boatTypesEl.value = "There aren't any other rowers in this request.";
+    } else {
+        boatTypes.forEach(function (type) {
+            boatTypesEl.value += getBoatTypeFromNum(type) + "\n";
+        });
+    }
 }
 
 function handleUpdateClick(e, request) {
@@ -209,7 +227,7 @@ function initOtherRowersList(otherRowers, otherRowersEl) {
         otherRowersEl.value = "There aren't any other rowers in this request.";
     } else {
         otherRowers.forEach(function (rower) {
-            otherRowers.value += getRowerStringFormat(rower) + "\n";
+            otherRowersEl.value += getRowerStringFormat(rower) + "\n";
         });
     }
 }
