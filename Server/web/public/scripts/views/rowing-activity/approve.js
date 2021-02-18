@@ -10,12 +10,16 @@ const boatListStepOne = document.getElementById('boatSelection');
 // let id = document.getElementById("requestId").value;
 let id = "181ba131-b9ee-462a-8bd5-8e423920460a";
 let currentStep = 0;
-handleElementsByStep();
+
+document.addEventListener("DOMContentLoaded", function () {
+    //TODO delete
+    handleElementsByStep();
+})
 
 
 // Tabs functionality
 nextStepBtn.addEventListener('click', function () {
-    if (validateCurrentStep() && currentStep < 3) {
+    if (validateCurrentStep() && currentStep <= 3) {
         currentStep++;
         findMiddleStep();
         handleElementsByStep();
@@ -73,10 +77,14 @@ function handleElementsByStep() {
                 });
             }
         });
-    } else if (currentStep === 2) {
+    } else if (currentStep === 1) {
+        // too many
 
+    } else if (currentStep === 2) {
+        // not enough
 
     } else if (currentStep === 3) {
+        // finish
 
     } else {
 
@@ -86,8 +94,38 @@ function handleElementsByStep() {
 }
 
 function findMiddleStep() {
-    getRequestsFromServer(id).then(function (req) {
-        alert(req);
+    checkRowersCountStatus().then(function (result) {
+            if (result === 0) {
+                currentStep = 3;
+            } else if (result > 0) {
+                currentStep = 1;
+            } else {
+                currentStep = 2;
+            }
+        }
+    )
+}
+
+function checkRowersCountStatus() {
+    let data = JSON.stringify({
+        id: id,
+        boatId: boatListStepOne.value
+    })
+
+    return fetch("/requests/find-rowers-status", {
+        method: 'post',
+        body: data,
+        headers: getPostHeaders()
+    }).then(async function (response) {
+        let resAsJson = await response.json();
+        if (resAsJson.isSuccess) {
+            return await resAsJson.data;
+        } else {
+            showError(resAsJson.data);
+            setTimeout(function () {
+                location.reload();
+            }, longTimeOutTime);
+        }
     });
 }
 
@@ -115,6 +153,7 @@ function removeUnavailableRowers() {
 }
 
 function changeTabs() {
+    alert(currentStep);
     if (currentStep === 0) {
         selectBoatTab.classList.add("active");
         addRowersTab.classList.remove("active");

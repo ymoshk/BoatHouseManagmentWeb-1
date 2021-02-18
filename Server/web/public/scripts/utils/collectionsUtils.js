@@ -147,6 +147,7 @@ function getLoggedInUser() {
 }
 
 function getRequestsFromServer(id) {
+    let req;
     return fetch("/collectors/requests", {
         method: 'get',
         headers: getPostHeaders(),
@@ -158,9 +159,10 @@ function getRequestsFromServer(id) {
         } else {
             resAsJson.requests.forEach(function (request) {
                 if (request.id === id) {
-                    return request;
+                    req = request;
                 }
             })
+            return req;
         }
     });
 }
