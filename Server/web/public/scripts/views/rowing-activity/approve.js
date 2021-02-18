@@ -19,13 +19,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Tabs functionality
 nextStepBtn.addEventListener('click', function () {
-    if (validateCurrentStep() && currentStep <= 3) {
-        currentStep++;
-        findMiddleStep();
-        handleElementsByStep();
-    }
+    validateCurrentStep().then(function (result) {
+        if (result) {
+            changeStep();
+            handleElementsByStep();
+        }
+    })
 })
 
+function changeStep() {
+    if (currentStep === 0) {
+        findMiddleStep();
+    } else {
+        currentStep = 3;
+    }
+}
 
 backStepBtn.addEventListener('click', function () {
     if (currentStep > 0) {
@@ -90,7 +98,7 @@ function handleElementsByStep() {
 
     }
 
-    changeTabs()
+    changeTabs();
 }
 
 function findMiddleStep() {
@@ -153,7 +161,7 @@ function removeUnavailableRowers() {
 }
 
 function changeTabs() {
-    alert(currentStep);
+    alert("in change tabs " + currentStep);
     if (currentStep === 0) {
         selectBoatTab.classList.add("active");
         addRowersTab.classList.remove("active");
