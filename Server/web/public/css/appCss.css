@@ -79,3 +79,8 @@
 .select2 {
     width: 100% !important;
 }
+
+.rowersSelect {
+    overflow: hidden;
+    width: 100%;
+}

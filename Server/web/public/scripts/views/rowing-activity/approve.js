@@ -8,7 +8,7 @@ const progressBar = document.getElementById('progressBar');
 const errors = document.getElementById('errors');
 const boatListStepOne = document.getElementById('boatSelection');
 // let id = document.getElementById("requestId").value;
-let id = "181ba131-b9ee-462a-8bd5-8e423920460a";
+let id = "e07753de-1668-4979-8e59-981243b31bac";
 let currentStep = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -22,17 +22,18 @@ nextStepBtn.addEventListener('click', function () {
     validateCurrentStep().then(function (result) {
         if (result) {
             changeStep();
-            handleElementsByStep();
         }
-    })
+    });
 })
 
-function changeStep() {
+async function changeStep() {
     if (currentStep === 0) {
         findMiddleStep();
     } else {
         currentStep = 3;
+        handleElementsByStep();
     }
+
 }
 
 backStepBtn.addEventListener('click', function () {
@@ -43,7 +44,6 @@ backStepBtn.addEventListener('click', function () {
         close();
     }
 })
-
 
 async function validateCurrentStep() {
     let result = false;
@@ -62,6 +62,8 @@ async function validateCurrentStep() {
                 }
             });
         }
+    } else {
+        result = true;
     }
 
     return result;
@@ -70,6 +72,10 @@ async function validateCurrentStep() {
 function close() {
     alert("exit function")
     //TODO
+}
+
+function handleTooManyRowers() {
+
 }
 
 function handleElementsByStep() {
@@ -86,7 +92,7 @@ function handleElementsByStep() {
             }
         });
     } else if (currentStep === 1) {
-        // too many
+        handleTooManyRowers();
 
     } else if (currentStep === 2) {
         // not enough
@@ -103,15 +109,16 @@ function handleElementsByStep() {
 
 function findMiddleStep() {
     checkRowersCountStatus().then(function (result) {
-            if (result === 0) {
-                currentStep = 3;
-            } else if (result > 0) {
-                currentStep = 1;
-            } else {
-                currentStep = 2;
-            }
+        if (result === 0) {
+            currentStep = 3;
+        } else if (result > 0) {
+            currentStep = 1;
+        } else {
+            currentStep = 2;
         }
-    )
+
+        handleElementsByStep();
+    });
 }
 
 function checkRowersCountStatus() {
@@ -161,7 +168,6 @@ function removeUnavailableRowers() {
 }
 
 function changeTabs() {
-    alert("in change tabs " + currentStep);
     if (currentStep === 0) {
         selectBoatTab.classList.add("active");
         addRowersTab.classList.remove("active");
