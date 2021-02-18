@@ -84,3 +84,20 @@
     overflow: hidden;
     width: 100%;
 }
+
+@media only screen and (min-device-width: 576px) {
+    .approveRequestRightButton {
+        margin-top: 20px;
+    }
+}
+
+@media only screen and (max-device-width: 576px) {
+
+    #deleteFromRequestBtn img {
+        transform: rotate(90deg);
+    }
+
+    #addToRequestBtn img {
+        transform: rotate(90deg);
+    }
+}
