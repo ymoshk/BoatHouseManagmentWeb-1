@@ -81,7 +81,8 @@
 }
 
 .rowersSelect {
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: auto;
     width: 100%;
 }
 
