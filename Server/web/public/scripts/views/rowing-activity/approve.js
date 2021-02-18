@@ -6,10 +6,21 @@ const nextStepBtn = document.getElementById('nextStepBtn');
 const backStepBtn = document.getElementById('backStepBtn');
 const progressBar = document.getElementById('progressBar');
 const errors = document.getElementById('errors');
+// step 1 elements
 const boatListStepOne = document.getElementById('boatSelection');
+
+//step 2 elements
+const requestRowersSelectEl = document.getElementById("requestRowersSelect");
+const deletedRowersSelectEl = document.getElementById("deleteRowersSelect");
+const deleteRowerBtn = document.getElementById("deleteFromRequestBtn");
+const addToRequestBtn = document.getElementById("addToRequestBtn");
+const howManyLeftToRemoveTextEl = document.getElementById("howManyLeftText");
+
 // let id = document.getElementById("requestId").value;
 let id = "e07753de-1668-4979-8e59-981243b31bac";
 let currentStep = 0;
+let relevantBoats;
+let theBoat;
 
 document.addEventListener("DOMContentLoaded", function () {
     //TODO delete
@@ -48,9 +59,10 @@ backStepBtn.addEventListener('click', function () {
 async function validateCurrentStep() {
     let result = false;
     if (currentStep === 0) {
-        let selectedBoat = document.getElementById('boatSelection').value;
+        let selectedBoatId = document.getElementById('boatSelection').value;
+        theBoat = boatsList.filter(boat => boat.serialNumber === selectedBoatId)[0];
 
-        if (selectedBoat === "") {
+        if (selectedBoatId === "") {
             showErrorsInUnOrderedListEl(["You must select a boat to move next."], errors)
             setTimeout(function () {
                 errors.innerHTML = "";
@@ -74,8 +86,21 @@ function close() {
     //TODO
 }
 
-function handleTooManyRowers() {
+function initSelectList() {
 
+}
+
+function changeHowManyLeft(howManyLeft) {
+
+}
+
+function handleTooManyRowers() {
+    getRequestsFromServer(id).then(function (request) {
+        alert(JSON.stringify(theBoat));
+        // let howManyLeft = request.otherRowers.length + 1;
+        // changeHowManyLeft(howManyLeft);
+        // initSelectList();
+    });
 }
 
 function handleElementsByStep() {
@@ -83,6 +108,7 @@ function handleElementsByStep() {
 
     if (currentStep === 0) {
         getBoatsForRequestFromServer(id).then(function (boats) {
+            boatsList = boats;
             if (boats.length === 0) {
                 showErrorsInUnOrderedListEl(["Couldn't find any boat that can be used for this request"], errors);
             } else {

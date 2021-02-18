@@ -10,6 +10,7 @@ public class BoatJson {
     public final boolean isSeaBoat;
     public final String name;
     public final String description;
+    public final int maxNumberOfRowers;
     public final String code;
     public final boolean isDisable;
     public final RowerJson owner;
@@ -24,5 +25,6 @@ public class BoatJson {
         this.description = boat.getBoatType().getTypeDescription();
         this.code = boat.getCode();
         this.owner = boat.getOwner() != null ? new RowerJson(boat.getOwner()) : null;
+        this.maxNumberOfRowers = boat.getBoatType().getNumOfRowers();
     }
 }
